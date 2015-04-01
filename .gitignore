@@ -4,3 +4,4 @@
 node_modules/
 public/images/memes/temp/
 config/devConfig.js
+*.iml
