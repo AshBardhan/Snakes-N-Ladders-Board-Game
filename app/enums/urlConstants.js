@@ -38,5 +38,4 @@ exports.urls = {
     SHOW_MODEL: '/test/show-model',
     GET_LIST: '/test/get'
   }
-}
-
+};
