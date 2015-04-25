@@ -1,23 +1,23 @@
 extends layouts/default
 
 block head
-  title Snakes and Ladders
-  include modals/memeModal
+	title Snakes and Ladders
+	include modals/memeModal
 
 block content
-  include includes/gameTitle
-  include includes/gameMode
-  include includes/gameSelect
-  include includes/gameBox
+	include includes/gameTitle
+	include includes/gameMode
+	include includes/gameSelect
+	include includes/gameBox
 
 block js
-  script(src='js/jquery.min.js')
-  script(src='js/bootstrap.min.js')
-  script(src='js/jquery-ui.min.js')
-  script(src='js/general.js')
-  script(src='js/game.js')
-  script(src='/socket.io/socket.io.js')
-  script(type='text/javascript').
-    $(document).ready(function(){
-      gamePlay.initSnakeLadderGame();
-    });
+	script(src='js/jquery.min.js')
+	script(src='js/bootstrap.min.js')
+	script(src='js/jquery-ui.min.js')
+	script(src='js/general.js')
+	script(src='js/game.js')
+	script(src='/socket.io/socket.io.js')
+	script(type='text/javascript').
+		$(document).ready(function () {
+			gamePlay.initSnakeLadderGame();
+		});
