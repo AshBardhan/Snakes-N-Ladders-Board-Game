@@ -7,12 +7,8 @@ Installation
 ===========================
 1. Clone the complete codebase into your preferred location.
 2. Download and Install latest versions of NodeJS and MongoDB.
-3. (Optional) Import this project into "IntelliJ IDEA" IDE as Node ExpressJS project. This will add some standard NodeJS packages inside "node_modules" folder.
-4. Use the following commands on the location of your project
-  - "npm install" (Optional for IDEA developers)
-  - "npm install mongoose"
-  - "npm install cloudinary"
-  - "npm install socket.io"
+3. (Optional) Import this project into "IntelliJ IDEA" IDE as Node ExpressJS project. This will add some standard NodeJS packages (as mentioned in 'package.json' file) inside "node_modules" folder.
+4. Open Command Prompt (Windows) or Terminal (Linux/Mac) from the location of your project and type the command "npm install" on it as it will download the latest NodeJS packages.
 5. For IDEA developers, proceed the following steps
   - Create/Edit the NodeJS configuration settings.
   - Fill up the location of your node.exe file in "Node Interpreter" section.
