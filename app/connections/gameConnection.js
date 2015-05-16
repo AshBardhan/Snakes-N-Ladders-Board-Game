@@ -7,7 +7,7 @@ exports.fetchGamePlayers = function (query, projection, successCallback, errCall
 			.setOptions({sort: 'id'})
 			.exec(function (err, players) {
 				if (err) {
-					errCallback;
+					errCallback();
 				} else {
 					successCallback(players);
 				}
@@ -18,7 +18,7 @@ exports.fetchMemeMessages = function (query, projection, successCallback, errCal
 	adminSchema.memeMessageSchema.find(query, projection)
 			.exec(function (err, memeMessages) {
 				if (err) {
-					errCallback;
+					errCallback();
 				} else {
 					successCallback(memeMessages);
 				}
@@ -29,7 +29,7 @@ exports.fetchGameList = function (query, projection, successCallback, errCallbac
 	adminSchema.gameSchema.find(query, projection).sort({'dateCreated': -1})
 			.exec(function (err, gameList) {
 				if (err) {
-					errCallback;
+					errCallback();
 				} else {
 					successCallback(gameList);
 				}
@@ -40,7 +40,7 @@ exports.addNewGame = function (successCallback, errCallback, gameData) {
 	var record = new adminSchema.gameSchema(gameModel(gameData).getInformation());
 	record.save(function (err) {
 		if (err) {
-			errCallback;
+			errCallback();
 		}
 	});
 	successCallback({status: 0});
@@ -50,7 +50,7 @@ exports.updatePlayer = function (query, incParameter, successCallback, errCallba
 	adminSchema.playerSchema.find(query)
 			.update({$inc: incParameter}, function (err) {
 				if (err) {
-					errCallback;
+					errCallback();
 				} else {
 					successCallback({status: 0});
 				}
@@ -61,7 +61,7 @@ exports.updateGame = function (query, incParameter, setParameter, successCallbac
 	adminSchema.gameSchema.find(query)
 			.update({$inc: incParameter, $set: setParameter}, function (err) {
 				if (err) {
-					errCallback;
+					errCallback();
 				} else {
 					successCallback({status: 0});
 				}
@@ -72,7 +72,7 @@ exports.addPlayerToGame = function (successCallback, errCallback, gamePlayerData
 	var record = new adminSchema.gamePlayerSchema(gamePlayerModel(gamePlayerData).getInformation());
 	record.save(function (err) {
 		if (err) {
-			errCallback;
+			errCallback();
 		}
 	});
 	successCallback({status: 'Adding Done'});
@@ -81,7 +81,7 @@ exports.addPlayerToGame = function (successCallback, errCallback, gamePlayerData
 exports.removePlayerFromGame = function (query, successCallback, errCallback) {
 	adminSchema.gamePlayerSchema.findOne(query, function (err, result) {
 		if (err) {
-			errCallback;
+			errCallback();
 		} else {
 			if (result !== null) {
 				result.remove();
@@ -95,7 +95,7 @@ exports.fetchPlayersInGame = function (query, projection, successCallback, errCa
 	adminSchema.gamePlayerSchema.find(query, projection)
 			.exec(function (err, gamePlayers) {
 				if (err) {
-					errCallback;
+					errCallback();
 				} else {
 					successCallback(gamePlayers);
 				}
