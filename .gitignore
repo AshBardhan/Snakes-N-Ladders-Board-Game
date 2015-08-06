@@ -1,7 +1,19 @@
 # Created by .gitignore support plugin (hsz.mobi)
 
+### OSX ###
+.DS_Store
+
+### PhPStorm / IntellJ IDEA ###
 .idea/
-node_modules/
+*.iml
+
+### Build Related ###
 public/images/memes/temp/
 config/devConfig.js
-*.iml
+public/js/interaction*.js
+public/css/style*.css
+
+### Node/Grunt/npm Related ###
+node_modules/
+npm-debug.log
+.grunt
