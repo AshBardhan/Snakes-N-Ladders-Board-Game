@@ -1,7 +1,7 @@
-Board-Games
-===========
+Snakes-N-Ladders-Board-Game
+============================
 
-> This is a Web Project on Board Games developed in NodeJS Express Framework. So far, the "Snakes N' Ladders" Game has been created inside this Project.
+> This is a Web Project on **Snakes-N-Ladders** Board Game developed in NodeJS Express Framework.
 
 Installation
 ===========================
