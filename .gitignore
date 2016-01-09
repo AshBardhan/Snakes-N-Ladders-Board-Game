@@ -9,7 +9,6 @@
 
 ### Build Related ###
 public/images/memes/temp/
-config/devConfig.js
 public/js/interaction*.js
 public/css/style*.css
 
