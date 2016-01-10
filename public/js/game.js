@@ -58,12 +58,12 @@ var gamePlay = {
 		var toX = to % 10;
 		var distY = toY - fromY;
 		var distX;
-		if (distY % 2 == 0) {
+		if (distY % 2 === 0) {
 			distX = toX - fromX;
 		} else {
 			distX = 9 - toX - fromX;
 		}
-		if (fromY % 2 == 1)
+		if (fromY % 2 === 1)
 			distX = -distX;
 		distY = (distY < 0 ? '-' : '+') + '=' + (54 * (distY > 0 ? distY : -distY)) + 'px';
 		distX = (distX < 0 ? '-' : '+') + '=' + (56 * (distX > 0 ? distX : -distX)) + 'px';
@@ -81,7 +81,7 @@ var gamePlay = {
 		}
 		var length = snakeBody.length - 1;
 		for (var i = 1; i <= length; i++)
-			gamePlay.moveAvatar(player, snakeBody[i - 1], snakeBody[i], 800, (i == length) ? callback : null);
+			gamePlay.moveAvatar(player, snakeBody[i - 1], snakeBody[i], 800, (i === length) ? callback : null);
 		players[player].position = snakeBody[length];
 	},
 	ladderHit: function (player, ladder) {
@@ -118,14 +118,14 @@ var gamePlay = {
 		setTimeout(function () {
 			diceMsgElement.addClass('message bkgrnd-' + player).html(dice).fadeIn();
 			$('.dice-show').removeClass('animate');
-			$('.js-rollDice').attr('player', (dice == 6) ? player : player2);
+			$('.js-rollDice').attr('player', (dice === 6) ? player : player2);
 			gamePlay.diceMoveAvatar(player, dice);
 			if (dice != 6) {
 				$('.player-message.text-color-' + player).fadeOut();
 				$('.player-message.text-color-' + player2).fadeIn();
 			}
 			$('.js-rollDice').removeClass('selected').attr('disabled', false);
-			if (players[player].position == 99) {
+			if (players[player].position === 99) {
 				count = -1;
 				if (players[player].isYours) {
 					gamePlay.updatePlayerWin(player);
@@ -155,7 +155,7 @@ var gamePlay = {
 					gamePlay.initGameTitle();
 				}, playerCount * 4000);
 			} else {
-				count = players[(dice == 6) ? player : player2].isYours ? 10 : -1;
+				count = players[(dice === 6) ? player : player2].isYours ? 10 : -1;
 				gamePlay.setGamePlayCountdown();
 			}
 		}, 2000);
@@ -186,7 +186,7 @@ var gamePlay = {
 	},
 	checkLadderHit: function (player) {
 		for (var i in ladders) {
-			if (ladders[i][0] == players[player].position) {
+			if (ladders[i][0] === players[player].position) {
 				gamePlay.ladderHit(player, ladders[i]);
 				return;
 			}
@@ -195,7 +195,7 @@ var gamePlay = {
 	},
 	checkSnakeBite: function (player) {
 		for (var i in snakes) {
-			if (snakes[i][0] == players[player].position) {
+			if (snakes[i][0] === players[player].position) {
 				gamePlay.snakeBite(player, snakes[i]);
 				return;
 			}
@@ -206,7 +206,7 @@ var gamePlay = {
 		$('.meme-image .game-player').remove();
 		$.each(playerList, function (i, player) {
 			var playerIcon = '<div class="game-player p' + (i + 1) + '" type="' + player + '">' +
-					'<div class="player-avatar" type="' + ((imageCase == 'loser' || (imageCase == 'result' && i == 1)) ? 'sad' : 'happy') + '"></div>' +
+					'<div class="player-avatar" type="' + ((imageCase === 'loser' || (imageCase === 'result' && i === 1)) ? 'sad' : 'happy') + '"></div>' +
 					'</div>';
 			$('.meme-image').append(playerIcon);
 		});
@@ -342,7 +342,7 @@ var gamePlay = {
 	},
 	findCompetitors: function () {
 		$.each(players, function (i, obj) {
-			if (obj.selected == true) {
+			if (obj.selected === true) {
 				competitors.push(i);
 			}
 		});
@@ -467,7 +467,7 @@ var gamePlay = {
 			if (name.length >= 3) {
 				var success = function (data) {
 					nameEle.removeClass('loading');
-					if (data.status == 1) {
+					if (data.status === 1) {
 						displayAlertMessage('.alert-msg', data.errMsg)
 					} else {
 						nameEle.val('');
@@ -586,7 +586,7 @@ var gamePlay = {
 		$('#game-mode').on('click', '.game-row .js-joinGame', function () {
 			var gameID = $(this).attr('type');
 			var success = function (data) {
-				if (data.status == 0) {
+				if (data.status === 0) {
 					$('#game-mode').fadeOut();
 					setTimeout(function () {
 						$('#game-select .continue-button').hide();
@@ -640,12 +640,12 @@ var gamePlay = {
 			}
 		});
 		socket.on('selectCountdown', function (data) {
-			if (data.gameID == yourGameID) {
+			if (data.gameID === yourGameID) {
 				count = 20;
 			}
 		});
 		socket.on('removeSelectedRival', function (data) {
-			if (data.gameID == yourGameID && $('#game-select').is(':visible') && players[data.playerID].selected && (!players[data.playerID].isYours)) {
+			if (data.gameID === yourGameID && $('#game-select').is(':visible') && players[data.playerID].selected && (!players[data.playerID].isYours)) {
 				$('.select-box[type=' + data.playerID + ']').removeClass('selected');
 				$('.select-box[type=' + data.playerID + ']').find('.player-name').removeClass('text-color-' + data.playerID);
 				$('.select-box[type=' + data.playerID + ']').find('.player-who').html('').hide();
@@ -654,7 +654,7 @@ var gamePlay = {
 			}
 		});
 		socket.on('removePlayRival', function (data) {
-			if (data.gameID == yourGameID && $('#game-box').is(':visible') && players[data.playerID].selected && (!players[data.playerID].isYours)) {
+			if (data.gameID === yourGameID && $('#game-box').is(':visible') && players[data.playerID].selected && (!players[data.playerID].isYours)) {
 				$.each(competitors, function (i, rival) {
 					if (rival === data.playerID) {
 						competitors.splice(i, 1);
@@ -669,7 +669,7 @@ var gamePlay = {
 						return false;
 					}
 				});
-				if ($('.score-box').length == 1) {
+				if ($('.score-box').length === 1) {
 					userReload = false;
 					if (yourGameID !== -1) {
 						gamePlay.updatePlayerWin(yourPlayers[0]);
@@ -721,7 +721,7 @@ var gamePlay = {
 			if (count > 0) {
 				count -= 1;
 				setTimeout(loop, 1000);
-			} else if (count == 0) {
+			} else if (count === 0) {
 				$('.js-rollDice').trigger('click');
 			} else {
 				return false;
