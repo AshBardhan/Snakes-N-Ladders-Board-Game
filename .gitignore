@@ -10,9 +10,11 @@
 ### Build Related ###
 public/images/memes/temp/
 public/js/interaction*.js
-public/css/style*.css
+public/css/**/*.css
+public/js/utils/
 
-### Node/Grunt/npm Related ###
+### Dependencies ###
 node_modules/
+bower_components/
 npm-debug.log
 .grunt
