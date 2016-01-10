@@ -1,6 +1,6 @@
 module.exports = function (grunt) {
 	grunt.initConfig({
-		less: {
+		'less': {
 			development: {
 				src: ['public/less/style.less'],
 				dest: 'public/css/style.css'
@@ -10,21 +10,31 @@ module.exports = function (grunt) {
 			options: {
 				separator: '\n'
 			},
-			js: {
+			'js': {
 				src: ['public/js/general.js',  'public/js/game.js'],
 				dest: 'public/js/interaction.js'
 			}
 		},
 		uglify: {
-			js: {
+			'js': {
 				src: ['public/js/interaction.js'],
 				dest: 'public/js/interaction.min.js'
 			}
 		},
 		cssmin: {
-			css: {
+			'css': {
 				src: ['public/css/style.css'],
 				dest: 'public/css/style.min.css'
+			}
+		},
+		watch: {
+			'js' : {
+				files: ['public/js/**/*.js', '!public/js/interaction*.js'],
+				tasks: ['concat:js', 'uglify:js']
+			},
+			'css' : {
+				files: ['public/less/**/*.less'],
+				tasks: ['less', 'cssmin']
 			}
 		}
 	});
@@ -33,6 +43,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	grunt.registerTask('default', ['less', 'concat', 'uglify', 'cssmin']);
 };
