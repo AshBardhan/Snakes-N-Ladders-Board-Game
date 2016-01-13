@@ -1,6 +1,7 @@
 extends layouts/default
 
 block head
+	link(rel='stylesheet', href='/css/style#{fileExtn}.css')
 	title Snakes and Ladders
 	include modals/memeModal
 
@@ -11,10 +12,10 @@ block content
 	include includes/gameBox
 
 block js
-	script(src='js/utils/jquery.min.js')
-	script(src='js/utils/bootstrap.min.js')
-	script(src='js/utils/jquery-ui.min.js')
-	script(src='js/interaction.js')
+	script(src='js/utils/jquery#{fileExtn}.js')
+	script(src='js/utils/bootstrap#{fileExtn}.js')
+	script(src='js/utils/jquery-ui#{fileExtn}.js')
+	script(src='js/interaction#{fileExtn}.js')
 	script(src='/socket.io/socket.io.js')
 	script(type='text/javascript').
 		$(document).ready(function () {

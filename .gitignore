@@ -8,7 +8,6 @@
 *.iml
 
 ### Build Related ###
-public/images/memes/temp/
 public/js/interaction*.js
 public/css/**/*.css
 public/js/utils/

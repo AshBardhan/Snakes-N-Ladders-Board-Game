@@ -4,7 +4,9 @@
 
 var adminSchema = require('../schemas/adminSchema'),
 		gameService = require('../services/gameService'),
-		cheatCodes = require('../dataSamples/codeDataSample');
+		cheatCodes = require('../dataSamples/codeDataSample'),
+		env = process.env.NODE_ENV || 'dev';
+
 
 exports.showSnakeAndLadders = function (req, res) {
 	adminSchema.playerSchema.find()
@@ -14,7 +16,8 @@ exports.showSnakeAndLadders = function (req, res) {
 					res.status(500).json({status: 'failure'});
 				} else {
 					res.render('home', {
-						players: players
+						players: players,
+						fileExtn: env === 'prod' ? '.min' : ''
 					});
 				}
 			});
