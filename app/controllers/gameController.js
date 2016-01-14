@@ -8,19 +8,25 @@ var adminSchema = require('../schemas/adminSchema'),
 		env = process.env.NODE_ENV || 'dev';
 
 
-exports.showSnakeAndLadders = function (req, res) {
-	adminSchema.playerSchema.find()
-			.setOptions({sort: 'id'})
-			.exec(function (err, players) {
-				if (err) {
-					res.status(500).json({status: 'failure'});
-				} else {
-					res.render('home', {
-						players: players,
-						fileExtn: env === 'prod' ? '.min' : ''
-					});
-				}
-			});
+exports.showSnakeAndLaddersGame = function (req, res) {
+	res.render('home', { fileExtn: env === 'prod' ? '.min' : '' });
+	//adminSchema.playerSchema.find()
+	//		.setOptions({sort: 'id'})
+	//		.exec(function (err, players) {
+	//			if (err) {
+	//				res.status(500).json({status: 'failure'});
+	//			} else {
+	//				res.render('home', {
+	//					players: players,
+	//					fileExtn: env === 'prod' ? '.min' : ''
+	//				});
+	//			}
+	//		});
+};
+
+exports.getGamePartialView = function (req, res) {
+	var name = req.params.name;
+	res.render('partials/' + name);
 };
 
 exports.fetchGamePlayers = function (req, res) {

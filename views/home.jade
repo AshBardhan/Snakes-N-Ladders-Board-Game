@@ -1,4 +1,4 @@
-extends layouts/default
+extends layouts/defaultGame
 
 block head
 	link(rel='stylesheet', href='/css/style#{fileExtn}.css')
@@ -6,18 +6,15 @@ block head
 	include modals/memeModal
 
 block content
-	include includes/gameTitle
-	include includes/gameMode
-	include includes/gameSelect
-	include includes/gameBox
+	.main-content(ng-controller='appController')
+		h2 {{intro}}
+		a(ui-sref='home') Home
+		.game-layout(ui-view)
 
 block js
-	script(src='js/utils/jquery#{fileExtn}.js')
-	script(src='js/utils/bootstrap#{fileExtn}.js')
-	script(src='js/utils/jquery-ui#{fileExtn}.js')
-	script(src='js/interaction#{fileExtn}.js')
-	script(src='/socket.io/socket.io.js')
-	script(type='text/javascript').
+	script(src='/js/gameApp.js')
+	script(src='/js/gameAppController.js')
+	//script(type='text/javascript').
 		$(document).ready(function () {
 			gamePlay.initSnakeLadderGame();
 		});

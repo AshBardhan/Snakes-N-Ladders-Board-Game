@@ -44,7 +44,8 @@ module.exports = function (grunt) {
 							'jquery/dist/jquery.js',
 							'jquery-ui/jquery-ui.js',
 							'angular/angular.js',
-							'angular-ui/build/angular-ui.js'],
+							'angular-ui-router/release/angular-ui-router.js'
+						],
 						dest: 'public/js/utils'
 					}
 				]
@@ -70,7 +71,8 @@ module.exports = function (grunt) {
 							'jquery/dist/jquery.min.js',
 							'jquery-ui/jquery-ui.min.js',
 							'angular/angular.min.js',
-							'angular-ui/build/angular-ui.min.js'],
+							'angular-ui-router/release/angular-ui-router.min.js'
+						],
 						dest: 'public/js/utils'
 					}
 				]
