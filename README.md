@@ -19,6 +19,6 @@ Installation
 	- Fill up `server.js` in the `JavaScript File` location.
 6. Set up an `Environment Variable` named `NODE_ENV` with value `dev` or `prod` for developer/production purposes.
 7. To run the app, IDEA developers can launch the server which was configured in Step 4. Otherwise, use the command `node server.js` in your project location.
-8. **(Additional step)**If you want to create your own local `database`, Visit the following links (only one) in order to fetch initial data into your `MongoDB` database.
+8. **(Additional step)** If you want to create your own local `database`, Visit the following links (only one) in order to fetch initial data into your `MongoDB` database.
 	- `http://localhost:3000/admin/player/save-model-schema-test`, it stores Player data.
 	- `http://localhost:3000/admin/meme/save-model-schema-test`, it stores Game Meme Message.
