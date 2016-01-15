@@ -95,7 +95,7 @@ module.exports = function (grunt) {
 			},
 			'css' : {
 				files: ['public/less/**/*.less'],
-				tasks: ['less', 'cssmin']
+				tasks: ['less']
 			}
 		}
 	});
