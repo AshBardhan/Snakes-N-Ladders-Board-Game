@@ -6,15 +6,12 @@ block head
 	include modals/memeModal
 
 block content
-	.main-content(ng-controller='appController')
-		h2 {{intro}}
-		a(ui-sref='home') Home
-		.game-layout(ui-view)
+	.game-layout(class="{{gameLayoutBackGround}}" ng-controller='appController')
+		.back-button.hide(ng-show="settings.isBackEnabled")
+			.button.js-goBack(ng-click="onBackClick()") Go Back
+		div(ui-view)
 
 block js
+	script(src='/js/general.js')
 	script(src='/js/gameApp.js')
 	script(src='/js/gameAppController.js')
-	//script(type='text/javascript').
-		$(document).ready(function () {
-			gamePlay.initSnakeLadderGame();
-		});

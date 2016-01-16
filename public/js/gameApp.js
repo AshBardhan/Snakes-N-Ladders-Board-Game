@@ -17,19 +17,16 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			controller: 'gameAboutController'
 		})
 		.state('mode', {
-			url: '/battle',
 			name: 'mode',
 			templateUrl: 'partial/game-mode',
 			controller: 'gameModeController'
 		})
 		.state('select', {
-			url: '/select-player',
 			name: 'select',
 			templateUrl: 'partial/game-select',
 			controller: 'gameSelectController'
 		})
 		.state('play', {
-			url: '/play-game',
 			name: 'play',
 			templateUrl: 'partial/game-box',
 			controller: 'gameBoxController'

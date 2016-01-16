@@ -1,6 +1,7 @@
 .game-layout {
 	border-radius: 25px;
 	padding: @padding-large;
+	margin: @margin-base;
 }
 
 #game-title {
@@ -97,15 +98,6 @@
 			}
 		}
 	}
-	#noGameList {
-		padding: @margin-large;
-		border: @border-width-thick @border-style-base @border-color-white;
-		border-radius: 5px;
-		width: 80%;
-		margin: 0 auto;
-		.text-white;
-		font-size: 25px;
-	}
 }
 
 #game-select {
@@ -191,7 +183,7 @@
 	font-size: 25px;
 	height: 30px;
 	margin: 0 @margin-base -2*@margin-xlarge;
-	.text-white;
+	.text-button;
 	cursor: pointer;
 	.button {
 		.display-inline;
@@ -203,7 +195,7 @@
 
 .continue-button {
 	.text-center;
-	color: #fafafa;
+	.text-button;
 	margin: @margin-xlarge*2 0;
 	font-size: 75px;
 	.button {
@@ -344,7 +336,7 @@
 	}
 	.dice-button {
 		font-size: 40px;
-		.text-white;
+		.text-button;
 		.text-center;
 		.button {
 			.display-inline;
@@ -434,4 +426,14 @@
 
 .mini-score-box {
 	.hide;
+}
+
+#noPlayerList, #noGameList {
+	padding: @margin-large;
+	border: @border-width-thick @border-style-base @border-color-white;
+	border-radius: 5px;
+	width: 80%;
+	margin: 0 auto;
+	.text-white;
+	font-size: 30px;
 }
