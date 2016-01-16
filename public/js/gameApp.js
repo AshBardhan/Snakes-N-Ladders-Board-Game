@@ -7,29 +7,29 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 		.state('home', {
 			url: '/',
 			name: 'home',
-			templateUrl: 'partial/game-title',
+			templateUrl: 'partial/title',
 			controller: 'gameTitleController'
 		})
 		.state('about', {
 			url: '/about',
 			name: 'about',
-			templateUrl: 'partial/game-about',
+			templateUrl: 'partial/about',
 			controller: 'gameAboutController'
 		})
-		.state('mode', {
-			name: 'mode',
-			templateUrl: 'partial/game-mode',
-			controller: 'gameModeController'
-		})
-		.state('select', {
-			name: 'select',
+		.state('game-select', {
+			name: 'game-select',
 			templateUrl: 'partial/game-select',
 			controller: 'gameSelectController'
 		})
-		.state('play', {
-			name: 'play',
-			templateUrl: 'partial/game-box',
-			controller: 'gameBoxController'
+		.state('player-select', {
+			name: 'player-select',
+			templateUrl: 'partial/player-select',
+			controller: 'gamePlayerSelectController'
+		})
+		.state('play-game', {
+			name: 'play-game',
+			templateUrl: 'partial/play-game',
+			controller: 'gamePlayController'
 		});
 	$urlRouterProvider.otherwise('/');
 }]);

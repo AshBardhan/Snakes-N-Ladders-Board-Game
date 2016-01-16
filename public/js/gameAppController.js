@@ -22,13 +22,13 @@ angular.module('gameAppController', [])
 		};
 
 		$scope.onGameSelect = function (playMode) {
-			$state.go(playMode === 'local' ? 'select' : 'mode');
+			$state.go(playMode === 'local' ? 'player-select' : 'game-select');
 		};
 	}])
 	.controller('gameAboutController', ['$scope', function ($scope) {
 		$scope.settings.isBackEnabled = true;
 	}])
-	.controller('gameModeController', ['$scope', '$http', function ($scope, $http) {
+	.controller('gameSelectController', ['$scope', '$http', function ($scope, $http) {
 		$scope.settings.isBackEnabled = true;
 		$scope.hasGamesFetched = false;
 		$scope.isGameLoading = false;
@@ -78,7 +78,7 @@ angular.module('gameAppController', [])
 
 		$scope.searchGameList();
 	}])
-	.controller('gameSelectController', ['$scope', '$http', function ($scope, $http) {
+	.controller('gamePlayerSelectController', ['$scope', '$http', function ($scope, $http) {
 		$scope.settings.isBackEnabled = true;
 		$scope.hasPlayersFetched = false;
 		$scope.players = [];
@@ -93,6 +93,6 @@ angular.module('gameAppController', [])
 			});
 
 	}])
-	.controller('gameBoxController', ['$scope', function ($scope) {
+	.controller('gamePlayController', ['$scope', function ($scope) {
 		$scope.settings.isBackEnabled = false;
 	}]);

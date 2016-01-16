@@ -1,16 +1,20 @@
 #game-select
-	.section-title Select Players
-		.time-count
-	div(ng-show="!hasPlayersFetched") Loading Players....
-	#playerList(ng-show="hasPlayersFetched && players.length")
-		.select-box(ng-repeat="player in players" type="{{player.id}}", ng-hide="player.isHidden")
-			.game-player(type="{{player.id}}")
-				.player-who
-				.player-record
-					.rec {{ player.played > 0 ? (player.won / player.played * 100).toFixed(2) : '0.00%' }} %
-					.title WINS
-				.player-avatar
-			.player-name(class="text-color-{{player.id}}") {{player.name}}
-		.continue-button.hide
-			.button Start The Game
-	#noPlayerList(ng-show="hasPlayersFetched && !players.length") No players being fetched. Please come back after some time.
+	.game-select-box
+		.section-title Create New Battle
+		.create-game-box
+			input(type="text", ng-model="gameName" name="gameName", placeholder="Enter an unique name" maxlength=20  ng-class="{'loading' : isGameLoading}")
+			.continue-button.display-inline
+				.button(ng-click="onSubmitButton()") Submit
+			.alert-msg(ng-show="alertMessage.length") {{ alertMessage }}
+	.game-select-box
+		.section-title Join Other Battle
+		.join-game-box
+			.continue-button.text-right
+			table#gameList(ng-show="hasGamesFetched && games.length")
+				tr.game-row(ng-repeat="game in games")
+					td {{ game.name }}
+					td {{ game.playerCount }}/4 playing
+					td
+						.continue-button
+							.button(ng-click="joinGame(game._id)") Join
+			#noGameList(ng-show="!hasGamesFetched || !games.length") No game currently available. Please create a new game or come back after some time.
