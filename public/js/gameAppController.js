@@ -2,7 +2,9 @@
 angular.module('gameAppController', [])
 	.controller('appController', ['$scope', '$state', function ($scope, $state) {
 		$scope.settings = {
-			isBackEnabled: false
+			isBackEnabled: false,
+			yourGameID: -1,
+			maximumSelectedPlayers: 4
 		};
 		$scope.gameLayoutBackGround = 'bkgrnd-game-' + Math.floor((Math.random() * 6) + 1);
 
@@ -78,9 +80,11 @@ angular.module('gameAppController', [])
 
 		$scope.searchGameList();
 	}])
-	.controller('gamePlayerSelectController', ['$scope', '$http', function ($scope, $http) {
+	.controller('gamePlayerSelectController', ['$scope', '$http', '$state', function ($scope, $http, $state) {
 		$scope.settings.isBackEnabled = true;
 		$scope.hasPlayersFetched = false;
+		$scope.canStartGame = false;
+		$scope.selectedPlayerCount = 0;
 		$scope.players = [];
 
 		$http.get(urls.fetchPlayerList).
@@ -92,6 +96,27 @@ angular.module('gameAppController', [])
 				$scope.hasPlayersFetched = true;
 			});
 
+		$scope.setGamePlayer = function (index) {
+			if (!$scope.players[index].selected) {
+				if ($scope.selectedPlayerCount < $scope.settings.maximumSelectedPlayers) {
+					$scope.players[index].selected = true;
+					$scope.selectedPlayerCount += 1;
+					if ($scope.selectedPlayerCount >= 2) {
+						$scope.canStartGame = true;
+					}
+				}
+			} else {
+				$scope.players[index].selected = false;
+				$scope.selectedPlayerCount -= 1;
+				if ($scope.selectedPlayerCount < 2) {
+					$scope.canStartGame = false;
+				}
+			}
+		};
+
+		$scope.startGame = function () {
+			$state.go('play-game');
+		};
 	}])
 	.controller('gamePlayController', ['$scope', function ($scope) {
 		$scope.settings.isBackEnabled = false;
