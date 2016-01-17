@@ -301,12 +301,12 @@
 	color: #fff;
 	border-radius: 10px;
 	font-size: 30px;
-	margin: @margin-xxlarge 0 @margin-xxlarge @margin-medium;
+	margin: 0 0 2*@margin-xxlarge @margin-medium;
 	.game-player {
-		width: 150px;
-		height: 150px;
+		width: 140px;
+		height: 140px;
 		border: 6px solid;
-		top: -55px;
+		top: -45px;
 		.player-avatar {
 			background-position-y: 60% !important;
 		}
@@ -350,8 +350,8 @@
 
 .score-box {
 	margin-top: @margin-large;
-	&:nth-child(2n+2) {
-		.score-board {
+	.score-board {
+		&:nth-of-type(odd) {
 			.text-right;
 			.game-player {
 				left: 5px;
@@ -360,9 +360,7 @@
 				left: 155px;
 			}
 		}
-	}
-	&:nth-child(2n+1) {
-		.score-board {
+		&:nth-of-type(even) {
 			.text-left;
 			.game-player {
 				right: 5px;

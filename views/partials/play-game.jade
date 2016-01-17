@@ -1,17 +1,28 @@
 #game-box
 	.boxes
 		.box.half-box
-			.mini-score-box
 			.dice-box
 				.dice-show
 					.message
-				.js-rollDice.dice-button
+				.js-rollDice.dice-button(ng-click="rollDice()")
 					.button Roll Dice
+			.mini-score-box
+				.mini-score-board(ng-repeat="player in settings.players", class="bkgrnd-p-{{$index + 1}}", type="p-{{$index + 1}}", ng-if="player.selected") {{ player.name }}
+					.game-player(type="p-{{$index + 1}}")
+						.player-avatar
+					.player-message(class="text-color-p-{{$index + 1}}")
 			.game-board
 				img(src='../images/boards/snakes-and-ladders-board.jpg')
+				.game-player(ng-repeat="player in settings.players", type="p-{{$index + 1}}", ng-if="player.selected")
+					.player-avatar
 		.game-score.box.half-box
 			.dice-box
 				.dice-show
 					.message
-				.js-rollDice.dice-button
+				.js-rollDice.dice-button(ng-click="rollDice()")
 					.button Roll Dice
+			.score-box
+				.score-board(ng-repeat="player in settings.players", class="bkgrnd-p-{{$index + 1}}", type="p-{{$index + 1}}", ng-if="player.selected") {{ player.name }}
+					.game-player(type="p-{{$index + 1}}")
+						.player-avatar
+					.player-message(class="text-color-p-{{$index + 1}}")

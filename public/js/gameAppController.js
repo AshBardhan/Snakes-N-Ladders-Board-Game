@@ -6,6 +6,9 @@ angular.module('gameAppController', [])
 			yourGameID: -1,
 			maximumSelectedPlayers: 4
 		};
+		$scope.settings.players = [];
+		$scope.settings.selectedPlayerCount = 0;
+
 		$scope.gameLayoutBackGround = 'bkgrnd-game-' + Math.floor((Math.random() * 6) + 1);
 
 		$scope.onBackClick = function () {
@@ -84,31 +87,29 @@ angular.module('gameAppController', [])
 		$scope.settings.isBackEnabled = true;
 		$scope.hasPlayersFetched = false;
 		$scope.canStartGame = false;
-		$scope.selectedPlayerCount = 0;
-		$scope.players = [];
 
 		$http.get(urls.fetchPlayerList).
 			success(function (data) {
 				$scope.hasPlayersFetched = true;
-				$scope.players = data;
+				$scope.settings.players = data;
 			}).
 			error(function () {
 				$scope.hasPlayersFetched = true;
 			});
 
 		$scope.setGamePlayer = function (index) {
-			if (!$scope.players[index].selected) {
-				if ($scope.selectedPlayerCount < $scope.settings.maximumSelectedPlayers) {
-					$scope.players[index].selected = true;
-					$scope.selectedPlayerCount += 1;
-					if ($scope.selectedPlayerCount >= 2) {
+			if (!$scope.settings.players[index].selected) {
+				if ($scope.settings.selectedPlayerCount < $scope.settings.maximumSelectedPlayers) {
+					$scope.settings.players[index].selected = true;
+					$scope.settings.selectedPlayerCount += 1;
+					if ($scope.settings.selectedPlayerCount >= 2) {
 						$scope.canStartGame = true;
 					}
 				}
 			} else {
-				$scope.players[index].selected = false;
-				$scope.selectedPlayerCount -= 1;
-				if ($scope.selectedPlayerCount < 2) {
+				$scope.settings.players[index].selected = false;
+				$scope.settings.selectedPlayerCount -= 1;
+				if ($scope.settings.selectedPlayerCount < 2) {
 					$scope.canStartGame = false;
 				}
 			}
@@ -118,6 +119,13 @@ angular.module('gameAppController', [])
 			$state.go('play-game');
 		};
 	}])
-	.controller('gamePlayController', ['$scope', function ($scope) {
+	.controller('gamePlayController', ['$scope', '$state', function ($scope, $state) {
 		$scope.settings.isBackEnabled = false;
+		if ($scope.settings.players.length === 0 && $scope.settings.selectedPlayerCount >= 2) {
+			$state.go('home');
+		}
+
+		$scope.rollDice = function () {
+
+		};
 	}]);
