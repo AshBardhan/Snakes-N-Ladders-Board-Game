@@ -119,13 +119,44 @@ angular.module('gameAppController', [])
 			$state.go('play-game');
 		};
 	}])
-	.controller('gamePlayController', ['$scope', '$state', function ($scope, $state) {
+	.controller('gamePlayController', ['$scope', '$state', '$timeout', function ($scope, $state, $timeout) {
 		$scope.settings.isBackEnabled = false;
-		if ($scope.settings.players.length === 0 && $scope.settings.selectedPlayerCount >= 2) {
+		$scope.isDiceRolling = false;
+		$scope.currentPlayer = 0;
+		$scope.competitors = [];
+
+		if ($scope.settings.players.length === 0 || $scope.settings.selectedPlayerCount < 2) {
 			$state.go('home');
 		}
 
-		$scope.rollDice = function () {
+		$scope.movePlayer = function () {
+			var index = $scope.currentPlayer;
+			if ($scope.competitors[index].position + $scope.dice <= 99) {
 
+			}
 		};
+
+		$scope.rollDice = function () {
+			$scope.dice = Math.floor((Math.random() * 6) + 1);
+			$scope.previousPlayer = $scope.currentPlayer;
+			$scope.isDiceRolling = true;
+			$timeout(function () {
+				$scope.isDiceRolling = false;
+			}, 2000);
+
+			$scope.movePlayer();
+			if ($scope.dice !== 6) {
+				$scope.currentPlayer = ($scope.currentPlayer + 1) % $scope.competitors.length;
+			}
+		};
+
+		$scope.findCompetitors = function () {
+			$.each($scope.settings.players, function (i, obj) {
+				if (obj.selected === true) {
+					$scope.competitors.push(obj);
+				}
+			});
+		};
+
+		$scope.findCompetitors();
 	}]);
