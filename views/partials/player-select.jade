@@ -7,7 +7,7 @@
 			.game-player(type="{{player.id}}")
 				.player-who(ng-show="player.selected") YOUR CHOICE
 				.player-record
-					.rec {{ player.played > 0 ? (player.won / player.played * 100).toFixed(2) : '0.00%' }} %
+					.rec {{ player.played > 0 ? (player.won / player.played * 100).toFixed(2) : '0.00' }} %
 					.title WINS
 				.player-avatar
 			.player-name(class="text-color-{{player.id}}") {{player.name}}
