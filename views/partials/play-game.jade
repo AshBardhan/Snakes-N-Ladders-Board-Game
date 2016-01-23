@@ -13,7 +13,7 @@
 					.player-message(class="text-color-{{ player.id }}")
 			.game-board
 				img(src='../images/boards/snakes-and-ladders-board.jpg')
-				.game-player(ng-repeat="player in competitors", type="{{ player.id }}", ng-if="player.selected")
+				.game-player(ng-repeat="player in competitors", type="{{ player.id }}", ng-if="player.selected" ng-style="setPlayerPosition($index)")
 					.player-avatar
 		.game-score.box.half-box
 			.dice-box

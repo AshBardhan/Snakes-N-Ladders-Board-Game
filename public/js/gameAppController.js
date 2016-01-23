@@ -129,10 +129,26 @@ angular.module('gameAppController', [])
 			$state.go('home');
 		}
 
+		$scope.setPlayerPosition = function (index) {
+			var position = $scope.competitors[index].position,
+				positionY = parseInt(position / 10),
+				positionX = parseInt(position % 10);
+
+			if(positionY % 2 !== 0) {
+				positionX = 9 - positionX;
+			}
+			return {
+				'left': 58 * positionX + 25,
+				'bottom': 56 * positionY + 35
+			};
+		};
+
 		$scope.movePlayer = function () {
 			var index = $scope.currentPlayer;
-			if ($scope.competitors[index].position + $scope.dice <= 99) {
-
+			var source = $scope.competitors[index].position;
+			var sourceX = parseInt(source % 10);
+			if (source + $scope.dice <= 99) {
+				$scope.competitors[index].position = $scope.competitors[index].position + $scope.dice;
 			}
 		};
 
@@ -142,12 +158,11 @@ angular.module('gameAppController', [])
 			$scope.isDiceRolling = true;
 			$timeout(function () {
 				$scope.isDiceRolling = false;
+				$scope.movePlayer();
+				if ($scope.dice !== 6) {
+					$scope.currentPlayer = ($scope.currentPlayer + 1) % $scope.competitors.length;
+				}
 			}, 2000);
-
-			$scope.movePlayer();
-			if ($scope.dice !== 6) {
-				$scope.currentPlayer = ($scope.currentPlayer + 1) % $scope.competitors.length;
-			}
 		};
 
 		$scope.findCompetitors = function () {
