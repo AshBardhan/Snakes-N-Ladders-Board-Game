@@ -317,7 +317,7 @@
 	height: 130px;
 	.dice-show {
 		width: 100px;
-		min-height: 65px;
+		height: 70px;
 		margin: @margin-medium auto;
 		border: 2px solid;
 		border-radius: 5px;
@@ -329,6 +329,7 @@
 		}
 		.message {
 			font-size: 40px;
+			line-height: 50px;
 			padding: @padding-medium;
 			.text-white;
 			.text-center;
@@ -341,8 +342,17 @@
 		.button {
 			.display-inline;
 			cursor: pointer;
-			&:hover {
+		}
+
+		&:not([disabled]) {
+			.button:hover {
 				.zoom-text;
+			}
+		}
+
+		&[disabled] {
+			.button {
+				color: @text-color-button-disabled;
 			}
 		}
 	}
