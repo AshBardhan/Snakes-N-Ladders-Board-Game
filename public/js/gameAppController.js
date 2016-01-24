@@ -125,6 +125,20 @@ angular.module('gameAppController', [])
 		$scope.isPlayerMoving = false;
 		$scope.currentPlayer = 0;
 		$scope.competitors = [];
+		$scope.snakes = [
+			[31, 32, 27, 13, 14, 5],
+			[73, 74, 75, 64, 54, 45, 34, 35, 36, 37, 21],
+			[85, 86, 72, 68, 50],
+			[98, 82, 77, 78, 79, 60, 59, 58, 41, 38]
+		];
+		$scope.ladders = [
+			[8, 30],
+			[15, 44],
+			[17, 63],
+			[47, 65],
+			[49, 92],
+			[62, 80]
+		];
 
 		if ($scope.settings.players.length === 0 || $scope.settings.selectedPlayerCount < 2) {
 			$state.go('home');
@@ -144,15 +158,54 @@ angular.module('gameAppController', [])
 			};
 		};
 
+		$scope.checkObjectHit = function (object, index) {
+			var playerPosition = $scope.competitors[index].position;
+			for (var i in $scope[object]) {
+				if ($scope[object][i][0] == playerPosition) {
+					return i;
+				}
+			}
+			return -1;
+		};
+
+		$scope.snakeBite = function (index) {
+			var snakeIndex =  $scope.checkObjectHit('snakes', index);
+			if(snakeIndex !== -1) {
+				$interval(function (i) {
+					$scope.isPlayerMoving = true;
+					$scope.competitors[index].position = $scope.snakes[snakeIndex][i + 1];
+				}, 300, $scope.snakes[snakeIndex].length - 1).then(function () {
+					$scope.isPlayerMoving = false;
+				});
+			} else {
+				$scope.isPlayerMoving = false;
+			}
+		};
+
+		$scope.ladderHit = function (index) {
+			var ladderIndex =  $scope.checkObjectHit('ladders', index);
+			if(ladderIndex !== -1) {
+				$timeout(function () {
+					$scope.isPlayerMoving = true;
+					$scope.competitors[index].position = $scope.ladders[ladderIndex][1];
+				}, 300).then(function () {
+					$scope.isPlayerMoving = false;
+				});
+			} else {
+				$scope.isPlayerMoving = false;
+			}
+		};
+
 		$scope.movePlayer = function () {
-			var index = $scope.currentPlayer;
-			var source = $scope.competitors[index].position;
+			var index = $scope.currentPlayer,
+				source = $scope.competitors[index].position;
 			if (source + $scope.dice <= 99) {
-				$scope.isPlayerMoving = true;
 				$interval(function () {
+					$scope.isPlayerMoving = true;
 					++$scope.competitors[index].position;
 				}, 300, $scope.dice).then(function () {
-						$scope.isPlayerMoving = false;
+						$scope.ladderHit(index);
+						$scope.snakeBite(index);
 					});
 			}
 		};
