@@ -119,9 +119,10 @@ angular.module('gameAppController', [])
 			$state.go('play-game');
 		};
 	}])
-	.controller('gamePlayController', ['$scope', '$state', '$timeout', function ($scope, $state, $timeout) {
+	.controller('gamePlayController', ['$scope', '$state', '$timeout', '$interval', function ($scope, $state, $timeout, $interval) {
 		$scope.settings.isBackEnabled = false;
 		$scope.isDiceRolling = false;
+		$scope.isPlayerMoving = false;
 		$scope.currentPlayer = 0;
 		$scope.competitors = [];
 
@@ -134,7 +135,7 @@ angular.module('gameAppController', [])
 				positionY = parseInt(position / 10),
 				positionX = parseInt(position % 10);
 
-			if(positionY % 2 !== 0) {
+			if (positionY % 2 !== 0) {
 				positionX = 9 - positionX;
 			}
 			return {
@@ -146,9 +147,13 @@ angular.module('gameAppController', [])
 		$scope.movePlayer = function () {
 			var index = $scope.currentPlayer;
 			var source = $scope.competitors[index].position;
-			var sourceX = parseInt(source % 10);
 			if (source + $scope.dice <= 99) {
-				$scope.competitors[index].position = $scope.competitors[index].position + $scope.dice;
+				$scope.isPlayerMoving = true;
+				$interval(function () {
+					++$scope.competitors[index].position;
+				}, 300, $scope.dice).then(function () {
+						$scope.isPlayerMoving = false;
+					});
 			}
 		};
 

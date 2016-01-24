@@ -3,8 +3,8 @@
 		.box.half-box
 			.dice-box
 				.dice-show(ng-class="{'animate' : isDiceRolling}")
-					.message(ng-hide="isDiceRolling" class="bkgrnd-{{ competitors[previousPlayer].id }}")  {{ dice || '' }}
-				.js-rollDice.dice-button(ng-click="rollDice()")
+					.message(ng-hide="isDiceRolling", class="bkgrnd-{{ competitors[previousPlayer].id }}")  {{ dice || '' }}
+				.js-rollDice.dice-button(ng-click="isPlayerMoving || isDiceRolling || rollDice()", ng-disabled="isPlayerMoving || isDiceRolling")
 					.button Roll Dice
 			.mini-score-box
 				.mini-score-board(ng-repeat="player in competitors", class="bkgrnd-{{ player.id }}", type="{{ player.id }}") {{ player.name }}
@@ -13,16 +13,16 @@
 					.player-message(class="text-color-{{ player.id }}")
 			.game-board
 				img(src='../images/boards/snakes-and-ladders-board.jpg')
-				.game-player(ng-repeat="player in competitors", type="{{ player.id }}", ng-if="player.selected" ng-style="setPlayerPosition($index)")
+				.game-player(ng-repeat="player in competitors", type="{{ player.id }}", ng-style="setPlayerPosition($index)")
 					.player-avatar
 		.game-score.box.half-box
 			.dice-box
 				.dice-show(ng-class="{'animate' : isDiceRolling}")
-					.message(ng-hide="isDiceRolling" class="bkgrnd-{{ competitors[previousPlayer].id }}")  {{ dice || '' }}
-				.js-rollDice.dice-button(ng-click="rollDice()")
+					.message(ng-hide="isDiceRolling", class="bkgrnd-{{ competitors[previousPlayer].id }}")  {{ dice || '' }}
+				.js-rollDice.dice-button(ng-click="isPlayerMoving || isDiceRolling || rollDice()", ng-disabled="isPlayerMoving || isDiceRolling")
 					.button Roll Dice
 			.score-box
-				.score-board(ng-repeat="player in competitors", class="bkgrnd-{{ player.id }}", type="{{ player.id }}", ng-if="player.selected") {{ player.name }}
+				.score-board(ng-repeat="player in competitors", class="bkgrnd-{{ player.id }}", type="{{ player.id }}") {{ player.name }}
 					.game-player(type="{{ player.id }}")
 						.player-avatar
 					.player-message(class="text-color-{{ player.id }}")
