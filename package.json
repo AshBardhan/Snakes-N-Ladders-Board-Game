@@ -4,9 +4,10 @@
 	"private": true,
 	"scripts": {
 		"start": "NODE_ENV=prod node server.js",
-		"postinstall" : "bower install && grunt build-prod"
+		"postinstall": "bower install && grunt build-prod"
 	},
 	"dependencies": {
+		"bower": "^1.7.2",
 		"cloudinary": "1.1.0",
 		"express": "3.5.1",
 		"jade": "*",
