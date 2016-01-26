@@ -124,6 +124,9 @@ angular.module('gameAppController', [])
 		$scope.isDiceRolling = false;
 		$scope.isPlayerMoving = false;
 		$scope.currentPlayer = 0;
+		$scope.interactedPlayer = -1;
+		$scope.isLadderHit = false;
+		$scope.isSnakeBite = false;
 		$scope.competitors = [];
 		$scope.snakes = [
 			[31, 32, 27, 13, 14, 5],
@@ -158,6 +161,17 @@ angular.module('gameAppController', [])
 			};
 		};
 
+		$scope.playerEmotion = function (index) {
+			var isInteractedPlayer = ($scope.interactedPlayer === index);
+			if ($scope.isSnakeBite) {
+				return isInteractedPlayer ? 'sad' : 'happy';
+			}
+			if ($scope.isLadderHit) {
+				return isInteractedPlayer ? 'happy' : 'angry';
+			}
+			return 'normal';
+		};
+
 		$scope.checkObjectHit = function (object, index) {
 			var playerPosition = $scope.competitors[index].position;
 			for (var i in $scope[object]) {
@@ -171,11 +185,15 @@ angular.module('gameAppController', [])
 		$scope.snakeBite = function (index) {
 			var snakeIndex =  $scope.checkObjectHit('snakes', index);
 			if(snakeIndex !== -1) {
+				$scope.interactedPlayer = index;
+				$scope.isSnakeBite = true;
 				$interval(function (i) {
 					$scope.isPlayerMoving = true;
 					$scope.competitors[index].position = $scope.snakes[snakeIndex][i + 1];
 				}, 300, $scope.snakes[snakeIndex].length - 1).then(function () {
 					$scope.isPlayerMoving = false;
+					$scope.isSnakeBite = false;
+					$scope.interactedPlayer = -1;
 				});
 			} else {
 				$scope.isPlayerMoving = false;
@@ -185,11 +203,15 @@ angular.module('gameAppController', [])
 		$scope.ladderHit = function (index) {
 			var ladderIndex =  $scope.checkObjectHit('ladders', index);
 			if(ladderIndex !== -1) {
+				$scope.interactedPlayer = index;
+				$scope.isLadderHit = true;
 				$timeout(function () {
 					$scope.isPlayerMoving = true;
 					$scope.competitors[index].position = $scope.ladders[ladderIndex][1];
 				}, 300).then(function () {
 					$scope.isPlayerMoving = false;
+					$scope.isLadderHit = false;
+					$scope.interactedPlayer = -1;
 				});
 			} else {
 				$scope.isPlayerMoving = false;
