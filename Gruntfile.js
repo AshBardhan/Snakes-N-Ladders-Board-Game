@@ -18,7 +18,7 @@ module.exports = function (grunt) {
 				separator: '\n'
 			},
 			'js': {
-				src: ['public/js/general.js',  'public/js/game.js'],
+				src: ['public/js/gameApp.js',  'public/js/gameAppController.js'],
 				dest: 'public/js/interaction.js'
 			}
 		},
