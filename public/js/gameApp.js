@@ -23,6 +23,9 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 		})
 		.state('player-select', {
 			name: 'player-select',
+			params: {
+				gameID: null
+			},
 			templateUrl: 'partial/player-select',
 			controller: 'gamePlayerSelectController'
 		})

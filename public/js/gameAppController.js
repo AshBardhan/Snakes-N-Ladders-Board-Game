@@ -33,7 +33,7 @@ angular.module('gameAppController', [])
 	.controller('gameAboutController', ['$scope', function ($scope) {
 		$scope.settings.isBackEnabled = true;
 	}])
-	.controller('gameSelectController', ['$scope', '$http', function ($scope, $http) {
+	.controller('gameSelectController', ['$scope', '$http', '$state', function ($scope, $http, $state) {
 		$scope.settings.isBackEnabled = true;
 		$scope.hasGamesFetched = false;
 		$scope.isGameLoading = false;
@@ -78,7 +78,10 @@ angular.module('gameAppController', [])
 		};
 
 		$scope.joinGame = function (gameId) {
-
+			var gameID = gameId;
+			$state.go('player-select', {
+				gameID: gameID
+			});
 		};
 
 		$scope.searchGameList();
