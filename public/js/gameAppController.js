@@ -236,13 +236,16 @@ angular.module('gameAppController', [])
 			$scope.dice = Math.floor((Math.random() * 6) + 1);
 			$scope.previousPlayer = $scope.currentPlayer;
 			$scope.isDiceRolling = true;
+			$scope.count = -1;
 			$timeout(function () {
 				$scope.isDiceRolling = false;
 				$scope.movePlayer();
+			}, 2000).then(function () {
 				if ($scope.dice !== 6) {
 					$scope.currentPlayer = ($scope.currentPlayer + 1) % $scope.competitors.length;
 				}
-			}, 2000);
+				$scope.setGamePlayCountdown();
+			});
 		};
 
 		$scope.findCompetitors = function () {
@@ -253,5 +256,20 @@ angular.module('gameAppController', [])
 			});
 		};
 
+		$scope.setGamePlayCountdown = function() {
+			$scope.count = 10;
+			(function loop() {
+				if ($scope.count > 0) {
+					$scope.count -= 1;
+					$timeout(loop, 1000);
+				} else if ($scope.count === 0) {
+					$scope.rollDice();
+				} else {
+					return false;
+				}
+			})();
+		};
+
 		$scope.findCompetitors();
+		$scope.setGamePlayCountdown();
 	}]);
