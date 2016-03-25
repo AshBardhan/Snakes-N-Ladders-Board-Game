@@ -3,9 +3,9 @@
 		.time-count
 	div(ng-show="!hasPlayersFetched") Loading Players....
 	#playerList(ng-show="hasPlayersFetched && settings.players.length")
-		.player-select-box(ng-repeat="player in settings.players" ng-click="selectGamePlayer($index)" ng-hide="player.isHidden" ng-class="{'selected' : player.selected}")
+		.player-select-box(ng-repeat="player in settings.players" ng-click="selectGamePlayer($index)" ng-hide="player.isHidden" ng-class="{'selected' : player.selected, 'disabled' : isNotYourPlayer(player)}")
 			.game-player(type="{{player.id}}")
-				.player-who(ng-show="player.selected") YOUR CHOICE
+				.player-who(ng-show="player.selected") {{ player.isYours ? 'YOUR ' : 'RIVAL ' }} CHOICE
 				.player-record
 					.rec {{ player.played > 0 ? (player.won / player.played * 100).toFixed(2) : '0.00' }} %
 					.title WINS

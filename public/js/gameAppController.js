@@ -119,16 +119,23 @@ angular.module('gameAppController', [])
 			success(function (data) {
 				$scope.hasPlayersFetched = true;
 				$scope.settings.players = data;
+				for (var i in $scope.settings.players) {
+					delete $scope.settings.players[i].isYours;
+				}
 			}).
 			error(function () {
 				$scope.hasPlayersFetched = true;
 			});
 
+		$scope.isNotYourPlayer = function(player) {
+			return player.isYours === false && $scope.settings.yourGameID;
+		};
+
 		$scope.checkCanStartGame = function() {
 			$scope.canStartGame = ($scope.settings.selectedPlayerCount >= 2);
 		};
 
-		$scope.setGamePlayer = function (index, selection) {
+		$scope.setGamePlayer = function (index, selection, isYours) {
 			if (selection) {
 				if ($scope.settings.selectedPlayerCount < $scope.settings.maximumSelectedPlayers) {
 					$scope.settings.players[index].selected = true;
@@ -138,12 +145,13 @@ angular.module('gameAppController', [])
 				$scope.settings.players[index].selected = false;
 				$scope.settings.selectedPlayerCount -= 1;
 			}
+			$scope.settings.players[index].isYours = isYours;
 			$scope.checkCanStartGame();
 		};
 
 		$scope.selectGamePlayer = function (index) {
 			var selection = !$scope.settings.players[index].selected;
-			$scope.setGamePlayer(index, selection);
+			$scope.setGamePlayer(index, selection, true);
 			if ($scope.settings.yourGameID) {
 				$scope.emitSocket('selection', {
 					index: index,
@@ -159,7 +167,7 @@ angular.module('gameAppController', [])
 
 		socket.on('selection', function (data) {
 			if(data.gameID === $scope.settings.yourGameID && $scope.settings.players[data.index].selected !== data.selection) {
-				$scope.setGamePlayer(data.index, data.selection);
+				$scope.setGamePlayer(data.index, data.selection, false);
 			}
 		});
 
