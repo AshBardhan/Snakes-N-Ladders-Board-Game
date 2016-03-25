@@ -100,22 +100,21 @@ angular.module('gameAppController', [])
 				$scope.hasPlayersFetched = true;
 			});
 
+		$scope.checkCanStartGame = function() {
+			$scope.canStartGame = ($scope.settings.selectedPlayerCount >= 2);
+		};
+
 		$scope.setGamePlayer = function (index) {
 			if (!$scope.settings.players[index].selected) {
 				if ($scope.settings.selectedPlayerCount < $scope.settings.maximumSelectedPlayers) {
 					$scope.settings.players[index].selected = true;
 					$scope.settings.selectedPlayerCount += 1;
-					if ($scope.settings.selectedPlayerCount >= 2) {
-						$scope.canStartGame = true;
-					}
 				}
 			} else {
 				$scope.settings.players[index].selected = false;
 				$scope.settings.selectedPlayerCount -= 1;
-				if ($scope.settings.selectedPlayerCount < 2) {
-					$scope.canStartGame = false;
-				}
 			}
+			$scope.checkCanStartGame();
 		};
 
 		$scope.startGame = function () {
