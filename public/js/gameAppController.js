@@ -1,20 +1,43 @@
 /* Creating Angular App Controller for Items and handling some behavioral events */
 angular.module('gameAppController', [])
+	.factory('socket', function ($rootScope) {
+		var socket = io.connect();
+		return {
+			on: function (eventName, callback) {
+				socket.on(eventName, function () {
+					var args = arguments;
+					$rootScope.$apply(function () {
+						callback.apply(socket, args);
+					});
+				});
+			},
+			emit: function (eventName, data, callback) {
+				socket.emit(eventName, data, function () {
+					var args = arguments;
+					$rootScope.$apply(function () {
+						if (callback) {
+							callback.apply(socket, args);
+						}
+					});
+				})
+			}
+		};
+	})
 	.controller('appController', ['$scope', '$state', function ($scope, $state) {
 		$scope.settings = {
 			isBackEnabled: false,
-			yourGameID: -1,
+			yourGameID: undefined,
 			maximumSelectedPlayers: 4
 		};
 		$scope.settings.players = [];
 		$scope.settings.selectedPlayerCount = 0;
-
 		$scope.gameLayoutBackGround = 'bkgrnd-game-' + Math.floor((Math.random() * 6) + 1);
 
 		$scope.onBackClick = function () {
 			var fromStateName = $state.current.name,
 				toStateName = 'home';
 
+			delete $scope.settings.yourGameID;
 			$state.go('home');
 		};
 	}])
@@ -86,8 +109,9 @@ angular.module('gameAppController', [])
 
 		$scope.searchGameList();
 	}])
-	.controller('gamePlayerSelectController', ['$scope', '$http', '$state', function ($scope, $http, $state) {
+	.controller('gamePlayerSelectController', ['$scope', '$http', '$state', 'socket', function ($scope, $http, $state, socket) {
 		$scope.settings.isBackEnabled = true;
+		$scope.settings.yourGameID = $state.params.gameID;
 		$scope.hasPlayersFetched = false;
 		$scope.canStartGame = false;
 
@@ -104,8 +128,8 @@ angular.module('gameAppController', [])
 			$scope.canStartGame = ($scope.settings.selectedPlayerCount >= 2);
 		};
 
-		$scope.setGamePlayer = function (index) {
-			if (!$scope.settings.players[index].selected) {
+		$scope.setGamePlayer = function (index, selection) {
+			if (selection) {
 				if ($scope.settings.selectedPlayerCount < $scope.settings.maximumSelectedPlayers) {
 					$scope.settings.players[index].selected = true;
 					$scope.settings.selectedPlayerCount += 1;
@@ -116,6 +140,30 @@ angular.module('gameAppController', [])
 			}
 			$scope.checkCanStartGame();
 		};
+
+		$scope.selectGamePlayer = function (index) {
+			var selection = !$scope.settings.players[index].selected;
+			$scope.setGamePlayer(index, selection);
+			if ($scope.settings.yourGameID) {
+				$scope.emitSocket('selection', {
+					index: index,
+					gameID: $scope.settings.yourGameID,
+					selection: selection
+				});
+			}
+		};
+
+		$scope.emitSocket = function (name, params) {
+			socket.emit(name, params);
+		};
+
+		socket.on('selection', function (data) {
+			if(data.gameID === $scope.settings.yourGameID && $scope.settings.players[data.index].selected !== data.selection) {
+				$scope.setGamePlayer(data.index, data.selection);
+			}
+		});
+
+		//$scope.readSockets();
 
 		$scope.startGame = function () {
 			$state.go('play-game');

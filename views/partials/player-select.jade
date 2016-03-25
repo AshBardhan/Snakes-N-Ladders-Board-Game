@@ -3,7 +3,7 @@
 		.time-count
 	div(ng-show="!hasPlayersFetched") Loading Players....
 	#playerList(ng-show="hasPlayersFetched && settings.players.length")
-		.player-select-box(ng-repeat="player in settings.players" ng-click="setGamePlayer($index)" ng-hide="player.isHidden" ng-class="{'selected' : player.selected}")
+		.player-select-box(ng-repeat="player in settings.players" ng-click="selectGamePlayer($index)" ng-hide="player.isHidden" ng-class="{'selected' : player.selected}")
 			.game-player(type="{{player.id}}")
 				.player-who(ng-show="player.selected") YOUR CHOICE
 				.player-record

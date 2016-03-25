@@ -2,29 +2,29 @@ module.exports = function (io) {
 	io.on('connection', function (socket) {
 		socket.on('disconnect', function () {
 		});
-		socket.on('selection', function (msg) {
-			io.emit('selection', msg);
+		socket.on('selection', function (dataObj) {
+			io.emit('selection', dataObj);
 		});
-		socket.on('dice', function (msg) {
-			io.emit('dice', msg);
+		socket.on('dice', function (dataObj) {
+			io.emit('dice', dataObj);
 		});
-		socket.on('playerWin', function (msg) {
-			io.emit('playerWin', msg);
+		socket.on('playerWin', function (dataObj) {
+			io.emit('playerWin', dataObj);
 		});
-		socket.on('unlockPlayers', function (msg) {
-			io.emit('unlockPlayers', msg);
+		socket.on('unlockPlayers', function (dataObj) {
+			io.emit('unlockPlayers', dataObj);
 		});
-		socket.on('newGame', function (msg) {
-			io.emit('newGame', msg);
+		socket.on('newGame', function (dataObj) {
+			io.emit('newGame', dataObj);
 		});
-		socket.on('selectCountdown', function (msg) {
-			io.emit('selectCountdown', msg);
+		socket.on('selectCountdown', function (dataObj) {
+			io.emit('selectCountdown', dataObj);
 		});
-		socket.on('removeSelectedRival', function (msg) {
-			io.emit('removeSelectedRival', msg);
+		socket.on('removeSelectedRival', function (dataObj) {
+			io.emit('removeSelectedRival', dataObj);
 		});
-		socket.on('removePlayRival', function (msg) {
-			io.emit('removePlayRival', msg);
+		socket.on('removePlayRival', function (dataObj) {
+			io.emit('removePlayRival', dataObj);
 		});
 	});
-}
+};
