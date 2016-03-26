@@ -153,16 +153,12 @@ angular.module('gameAppController', [])
 			var selection = !$scope.settings.players[index].selected;
 			$scope.setGamePlayer(index, selection, true);
 			if ($scope.settings.yourGameID) {
-				$scope.emitSocket('selection', {
+				socket.emit('selection', {
 					index: index,
 					gameID: $scope.settings.yourGameID,
 					selection: selection
 				});
 			}
-		};
-
-		$scope.emitSocket = function (name, params) {
-			socket.emit(name, params);
 		};
 
 		socket.on('selection', function (data) {
@@ -171,13 +167,11 @@ angular.module('gameAppController', [])
 			}
 		});
 
-		//$scope.readSockets();
-
 		$scope.startGame = function () {
 			$state.go('play-game');
 		};
 	}])
-	.controller('gamePlayController', ['$scope', '$state', '$timeout', '$interval', function ($scope, $state, $timeout, $interval) {
+	.controller('gamePlayController', ['$scope', '$state', '$timeout', '$interval', 'socket', function ($scope, $state, $timeout, $interval, socket) {
 		$scope.settings.isBackEnabled = false;
 		$scope.isDiceRolling = false;
 		$scope.isPlayerMoving = false;

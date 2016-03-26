@@ -10,7 +10,7 @@
 				.mini-score-board(ng-repeat="player in competitors", class="bkgrnd-{{ player.id }}", type="{{ player.id }}") {{ player.name }}
 					.game-player(type="{{ player.id }}")
 						.player-avatar(type="{{ playerEmotion($index) }}")
-					.player-message(class="text-color-{{ player.id }}")
+					.player-message(class="text-color-{{ player.id }}" ng-show="currentPlayer === $index") {{ player.isYours ? 'Your ' : 'Rival ' }} Turn
 			.game-board
 				img(src='../images/boards/snakes-and-ladders-board.jpg')
 				.game-player(ng-repeat="player in competitors", type="{{ player.id }}", ng-style="setPlayerPosition($index)")
@@ -25,4 +25,4 @@
 				.score-board(ng-repeat="player in competitors", class="bkgrnd-{{ player.id }}", type="{{ player.id }}") {{ player.name }}
 					.game-player(type="{{ player.id }}")
 						.player-avatar(type="{{ playerEmotion($index) }}")
-					.player-message(class="text-color-{{ player.id }}")
+					.player-message(class="text-color-{{ player.id }}" ng-show="currentPlayer === $index") {{ player.isYours ? 'Your ' : 'Rival ' }} Turn
