@@ -27,6 +27,7 @@ angular.module('gameAppController', [])
 		$scope.settings = {
 			isBackEnabled: false,
 			yourGameID: undefined,
+			minimumSelectedPlayers: 2,
 			maximumSelectedPlayers: 4
 		};
 		$scope.settings.players = [];
@@ -109,11 +110,12 @@ angular.module('gameAppController', [])
 
 		$scope.searchGameList();
 	}])
-	.controller('gamePlayerSelectController', ['$scope', '$http', '$state', 'socket', function ($scope, $http, $state, socket) {
+	.controller('gamePlayerSelectController', ['$scope', '$http', '$state', 'socket', '$timeout', function ($scope, $http, $state, socket, $timeout) {
 		$scope.settings.isBackEnabled = true;
 		$scope.settings.yourGameID = $state.params.gameID;
 		$scope.hasPlayersFetched = false;
 		$scope.canStartGame = false;
+		$scope.timeCountMessage = '';
 
 		$http.get(urls.fetchPlayerList).
 			success(function (data) {
@@ -127,15 +129,16 @@ angular.module('gameAppController', [])
 				$scope.hasPlayersFetched = true;
 			});
 
-		$scope.isNotYourPlayer = function(player) {
+		$scope.isNotYourPlayer = function (player) {
 			return player.isYours === false && $scope.settings.yourGameID;
 		};
 
-		$scope.checkCanStartGame = function() {
-			$scope.canStartGame = ($scope.settings.selectedPlayerCount >= 2);
+		$scope.checkCanStartGame = function () {
+			$scope.canStartGame = ($scope.settings.selectedPlayerCount >= $scope.settings.minimumSelectedPlayers);
 		};
 
 		$scope.setGamePlayer = function (index, selection, isYours) {
+			$scope.count = 10;
 			if (selection) {
 				if ($scope.settings.selectedPlayerCount < $scope.settings.maximumSelectedPlayers) {
 					$scope.settings.players[index].selected = true;
@@ -162,7 +165,7 @@ angular.module('gameAppController', [])
 		};
 
 		socket.on('selection', function (data) {
-			if(data.gameID === $scope.settings.yourGameID && $scope.settings.players[data.index].selected !== data.selection) {
+			if (data.gameID === $scope.settings.yourGameID && $scope.settings.players[data.index].selected !== data.selection) {
 				$scope.setGamePlayer(data.index, data.selection, false);
 			}
 		});
@@ -170,6 +173,53 @@ angular.module('gameAppController', [])
 		$scope.startGame = function () {
 			$state.go('play-game');
 		};
+
+		$scope.getSelectedPlayersCount = function () {
+			var count = {
+				yours: 0,
+				rivals: 0,
+				total: 0
+			};
+			$.each($scope.settings.players, function (i, obj) {
+				if (obj.selected === true) {
+					if (obj.isYours === true) {
+						++count.yours;
+					} else {
+						++count.rivals;
+					}
+					++count.total;
+				}
+			});
+			return count;
+		};
+
+		$scope.setGameSelectCountdown = function () {
+			$scope.count = 10;
+			(function loop() {
+				$scope.timeCountMessage = 'Time Left : ' + $scope.count + ' seconds';
+				if ($scope.count > 0) {
+					$scope.count -= 1;
+					$timeout(loop, 1000);
+				} else {
+					var playerCount = $scope.getSelectedPlayersCount();
+					if (playerCount.yours >= 1 && playerCount.total >= $scope.settings.minimumSelectedPlayers) {
+						$scope.timeCountMessage = 'Launching the game...';
+						$timeout(function () {
+							$scope.startGame();
+						}, 1000);
+					} else {
+						$scope.timeCountMessage = 'Cancelling the game...';
+						$timeout(function () {
+							$scope.onBackClick();
+						}, 1000);
+					}
+				}
+			})();
+		};
+
+		if ($scope.settings.yourGameID) {
+			$scope.setGameSelectCountdown();
+		}
 	}])
 	.controller('gamePlayController', ['$scope', '$state', '$timeout', '$interval', 'socket', function ($scope, $state, $timeout, $interval, socket) {
 		$scope.settings.isBackEnabled = false;
@@ -195,7 +245,7 @@ angular.module('gameAppController', [])
 			[62, 80]
 		];
 
-		if ($scope.settings.players.length === 0 || $scope.settings.selectedPlayerCount < 2) {
+		if ($scope.settings.players.length === 0 || $scope.settings.selectedPlayerCount < $scope.settings.minimumSelectedPlayers) {
 			$state.go('home');
 		}
 
@@ -235,8 +285,8 @@ angular.module('gameAppController', [])
 		};
 
 		$scope.snakeBite = function (index) {
-			var snakeIndex =  $scope.checkObjectHit('snakes', index);
-			if(snakeIndex !== -1) {
+			var snakeIndex = $scope.checkObjectHit('snakes', index);
+			if (snakeIndex !== -1) {
 				$scope.interactedPlayer = index;
 				$scope.isSnakeBite = true;
 				$interval(function (i) {
@@ -253,8 +303,8 @@ angular.module('gameAppController', [])
 		};
 
 		$scope.ladderHit = function (index) {
-			var ladderIndex =  $scope.checkObjectHit('ladders', index);
-			if(ladderIndex !== -1) {
+			var ladderIndex = $scope.checkObjectHit('ladders', index);
+			if (ladderIndex !== -1) {
 				$scope.interactedPlayer = index;
 				$scope.isLadderHit = true;
 				$timeout(function () {
@@ -278,9 +328,9 @@ angular.module('gameAppController', [])
 					$scope.isPlayerMoving = true;
 					++$scope.competitors[index].position;
 				}, 300, $scope.dice).then(function () {
-						$scope.ladderHit(index);
-						$scope.snakeBite(index);
-					});
+					$scope.ladderHit(index);
+					$scope.snakeBite(index);
+				});
 			}
 		};
 
@@ -312,7 +362,7 @@ angular.module('gameAppController', [])
 		};
 
 		socket.on('dice', function (data) {
-			if(data.gameID === $scope.settings.yourGameID && !$scope.competitors[data.index].isYours) {
+			if (data.gameID === $scope.settings.yourGameID && !$scope.competitors[data.index].isYours) {
 				$scope.dice = data.dice;
 				$scope.diceMove();
 			}
@@ -326,14 +376,14 @@ angular.module('gameAppController', [])
 			});
 		};
 
-		$scope.setGamePlayCountdown = function() {
+		$scope.setGamePlayCountdown = function () {
 			$scope.count = 10;
 			(function loop() {
 				if ($scope.count > 0) {
 					$scope.count -= 1;
 					$timeout(loop, 1000);
 				} else if ($scope.count === 0) {
-					if($scope.competitors[$scope.currentPlayer].isYours) {
+					if ($scope.competitors[$scope.currentPlayer].isYours) {
 						$scope.rollDice();
 					}
 				} else {

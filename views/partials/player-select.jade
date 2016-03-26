@@ -1,6 +1,6 @@
 #player-select
 	.section-title Select Players
-		.time-count
+		.time-count(ng-hide="!settings.yourGameID") {{ timeCountMessage }}
 	div(ng-show="!hasPlayersFetched") Loading Players....
 	#playerList(ng-show="hasPlayersFetched && settings.players.length")
 		.player-select-box(ng-repeat="player in settings.players" ng-click="selectGamePlayer($index)" ng-hide="player.isHidden" ng-class="{'selected' : player.selected, 'disabled' : isNotYourPlayer(player)}")
@@ -11,6 +11,6 @@
 					.title WINS
 				.player-avatar
 			.player-name(class="text-color-{{player.id}}") {{player.name}}
-		.continue-button(ng-show="canStartGame" ng-click="startGame()")
+		.continue-button(ng-show="canStartGame && !settings.yourGameID" ng-click="startGame()")
 			.button Start The Game
 	#noPlayerList(ng-show="hasPlayersFetched && !settings.players.length") No players being fetched. Please come back after some time.
