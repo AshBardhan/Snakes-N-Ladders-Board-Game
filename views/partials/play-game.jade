@@ -4,7 +4,7 @@
 			.dice-box
 				.dice-show(ng-class="{'animate' : isDiceRolling}")
 					.message(ng-hide="isDiceRolling", class="bkgrnd-{{ competitors[previousPlayer].id }}")  {{ dice || '' }}
-				.dice-button(ng-click="isPlayerMoving || isDiceRolling || rollDice()", ng-disabled="isPlayerMoving || isDiceRolling")
+				.dice-button(ng-click="isPlayerMoving || isDiceRolling || rollDice()", ng-disabled="isPlayerMoving || isDiceRolling", ng-class="{'disabled' : !competitors[currentPlayer].isYours}")
 					.button Roll Dice
 			.mini-score-box
 				.mini-score-board(ng-repeat="player in competitors", class="bkgrnd-{{ player.id }}", type="{{ player.id }}") {{ player.name }}
@@ -19,7 +19,7 @@
 			.dice-box
 				.dice-show(ng-class="{'animate' : isDiceRolling}")
 					.message(ng-hide="isDiceRolling", class="bkgrnd-{{ competitors[previousPlayer].id }}")  {{ dice || '' }}
-				.dice-button(ng-click="isPlayerMoving || isDiceRolling || rollDice()", ng-disabled="isPlayerMoving || isDiceRolling")
+				.dice-button(ng-click="isPlayerMoving || isDiceRolling || rollDice()", ng-disabled="isPlayerMoving || isDiceRolling", ng-class="{'disabled' : !competitors[currentPlayer].isYours}")
 					.button Roll Dice
 			.score-box
 				.score-board(ng-repeat="player in competitors", class="bkgrnd-{{ player.id }}", type="{{ player.id }}") {{ player.name }}

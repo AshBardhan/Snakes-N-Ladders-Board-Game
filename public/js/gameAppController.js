@@ -284,8 +284,7 @@ angular.module('gameAppController', [])
 			}
 		};
 
-		$scope.rollDice = function () {
-			$scope.dice = Math.floor((Math.random() * 6) + 1);
+		$scope.diceMove = function () {
 			$scope.previousPlayer = $scope.currentPlayer;
 			$scope.isDiceRolling = true;
 			$scope.count = -1;
@@ -299,6 +298,25 @@ angular.module('gameAppController', [])
 				$scope.setGamePlayCountdown();
 			});
 		};
+
+		$scope.rollDice = function () {
+			$scope.dice = Math.floor((Math.random() * 6) + 1);
+			$scope.diceMove();
+			if ($scope.settings.yourGameID) {
+				socket.emit('dice', {
+					index: $scope.currentPlayer,
+					dice: $scope.dice,
+					gameID: $scope.settings.yourGameID
+				});
+			}
+		};
+
+		socket.on('dice', function (data) {
+			if(data.gameID === $scope.settings.yourGameID && !$scope.competitors[data.index].isYours) {
+				$scope.dice = data.dice;
+				$scope.diceMove();
+			}
+		});
 
 		$scope.findCompetitors = function () {
 			$.each($scope.settings.players, function (i, obj) {
@@ -315,7 +333,9 @@ angular.module('gameAppController', [])
 					$scope.count -= 1;
 					$timeout(loop, 1000);
 				} else if ($scope.count === 0) {
-					$scope.rollDice();
+					if($scope.competitors[$scope.currentPlayer].isYours) {
+						$scope.rollDice();
+					}
 				} else {
 					return false;
 				}
