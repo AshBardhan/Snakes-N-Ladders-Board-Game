@@ -1,6 +1,6 @@
 /* Creating Angular App Controller for Items and handling some behavioral events */
 angular.module('gameAppController', [])
-	.factory('socket', function ($rootScope) {
+	.factory('socket', ['$rootScope', function ($rootScope) {
 		var socket = io.connect();
 		return {
 			on: function (eventName, callback) {
@@ -22,7 +22,7 @@ angular.module('gameAppController', [])
 				})
 			}
 		};
-	})
+	}])
 	.controller('appController', ['$scope', '$state', function ($scope, $state) {
 		$scope.settings = {
 			isBackEnabled: false,
