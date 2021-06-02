@@ -27,7 +27,7 @@ module.exports = function (grunt) {
 				files: [
 					{
 						expand: true,
-						cwd: 'bower_components/bootstrap/dist/css/',
+						cwd: 'node_modules/bootstrap/dist/css/',
 						src: ['*.css', '!*.min.css'],
 						dest: 'public/css/utils'
 					}
@@ -38,7 +38,7 @@ module.exports = function (grunt) {
 					{
 						flatten: true,
 						expand: true,
-						cwd: 'bower_components/',
+						cwd: 'node_modules/',
 						src: [
 							'bootstrap/dist/js/bootstrap.js',
 							'jquery/dist/jquery.js',
@@ -54,7 +54,7 @@ module.exports = function (grunt) {
 				files: [
 					{
 						expand: true,
-						cwd: 'bower_components/bootstrap/dist/css/',
+						cwd: 'node_modules/bootstrap/dist/css/',
 						src: ['*.min.css'],
 						dest: 'public/css/utils'
 					}
@@ -65,7 +65,7 @@ module.exports = function (grunt) {
 					{
 						flatten: true,
 						expand: true,
-						cwd: 'bower_components/',
+						cwd: 'node_modules/',
 						src: [
 							'bootstrap/dist/js/bootstrap.min.js',
 							'jquery/dist/jquery.min.js',
