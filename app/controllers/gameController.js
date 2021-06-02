@@ -9,7 +9,7 @@ var adminSchema = require('../schemas/adminSchema'),
 
 
 exports.showSnakeAndLaddersGame = function (req, res) {
-	res.render('home', { fileExtn: env === 'prod' ? '.min' : '' });
+	res.render('home', { 'fileExtn': env === 'prod' ? '.min' : '' });
 	//adminSchema.playerSchema.find()
 	//		.setOptions({sort: 'id'})
 	//		.exec(function (err, players) {
