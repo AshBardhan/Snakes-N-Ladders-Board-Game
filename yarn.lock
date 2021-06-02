@@ -59,6 +59,23 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
 
+angular-ui-router@~0.2.15:
+  version "0.2.18"
+  resolved "https://registry.yarnpkg.com/angular-ui-router/-/angular-ui-router-0.2.18.tgz#1dad70415c73d7046fd2e130df03d62fb7464360"
+  integrity sha1-Ha1wQVxz1wRv0uEw3wPWL7dGQ2A=
+  dependencies:
+    angular "^1.0.8"
+
+angular@^1.0.8:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/angular/-/angular-1.8.2.tgz#5983bbb5a9fa63e213cb7749199e0d352de3a2f1"
+  integrity sha512-IauMOej2xEe7/7Ennahkbb5qd/HFADiNuLSESz9Q27inmi32zB0lnAsFeLEWcox3Gd1F6YhNd1CP7/9IukJ0Gw==
+
+angular@~1.4.8:
+  version "1.4.14"
+  resolved "https://registry.yarnpkg.com/angular/-/angular-1.4.14.tgz#9d0feaf60ce6e52ce50f49ee328656d1e1875c37"
+  integrity sha1-nQ/q9gzm5SzlD0nuMoZW0eGHXDc=
+
 ansi-regex@^0.2.0, ansi-regex@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-0.2.1.tgz#0d8e946967a3d8143f93e24e298525fc1b2235f9"
@@ -219,10 +236,10 @@ boom@2.x.x:
   dependencies:
     hoek "2.x.x"
 
-bower@^1.7.2:
-  version "1.8.12"
-  resolved "https://registry.yarnpkg.com/bower/-/bower-1.8.12.tgz#44cfca2a5e04b8d9a066621e24c8b179d8ac321e"
-  integrity sha512-u1xy9SrwwoPlgjuHNjhV+YUPVdqyBj2ALBxuzeIUKXaPI2i2xypGgxqXkuHcITGdi5yBj5JuXgyMvgiWiS1S3Q==
+bootstrap@~3.3.6:
+  version "3.3.7"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.3.7.tgz#5a389394549f23330875a3b150656574f8a9eb71"
+  integrity sha1-WjiTlFSfIzMIdaOxUGVldPip63E=
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -1148,6 +1165,16 @@ jade@*:
     uglify-js "^2.4.19"
     void-elements "~2.0.1"
     with "~4.0.0"
+
+jquery-ui@~1.11.4:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/jquery-ui/-/jquery-ui-1.12.0.tgz#59c6037a2d9c57e9a2521a9b7a497116d41b4246"
+  integrity sha1-WcYDei2cV+miUhqbeklxFtQbQkY=
+
+jquery@~2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-2.1.4.tgz#228bde698a0c61431dc2630a6a154f15890d2317"
+  integrity sha1-IoveaYoMYUMdwmMKahVPFYkNIxc=
 
 js-yaml@~2.0.5:
   version "2.0.5"
