@@ -1,9 +1,16 @@
 module.exports = function (grunt) {
 	grunt.initConfig({
 		'less': {
-			development: {
+			'dev': {
 				src: ['public/less/style.less'],
 				dest: 'public/css/style.css'
+			},
+			'prod': {
+				options: {
+					compress: true
+				},
+				src: ['public/less/style.less'],
+				dest: 'public/css/style.min.css'
 			}
 		},
 		concat: {
@@ -11,60 +18,74 @@ module.exports = function (grunt) {
 				separator: '\n'
 			},
 			'js': {
-				src: ['public/js/general.js',  'public/js/game.js'],
+				src: ['public/js/gameApp.js',  'public/js/gameAppController.js'],
 				dest: 'public/js/interaction.js'
 			}
 		},
 		copy: {
-			'css': {
+			'dev-css': {
 				files: [
 					{
 						expand: true,
-						cwd: 'bower_components/bootstrap/dist/css/',
-						src: ['*.css'],
+						cwd: 'node_modules/bootstrap/dist/css/',
+						src: ['*.css', '!*.min.css'],
 						dest: 'public/css/utils'
 					}
 				]
 			},
-			'js': {
+			'dev-js': {
+				files: [
+					{
+						flatten: true,
+						expand: true,
+						cwd: 'node_modules/',
+						src: [
+							'bootstrap/dist/js/bootstrap.js',
+							'jquery/dist/jquery.js',
+							'jquery-ui/jquery-ui.js',
+							'angular/angular.js',
+							'angular-ui-router/release/angular-ui-router.js'
+						],
+						dest: 'public/js/utils'
+					}
+				]
+			},
+			'prod-css': {
 				files: [
 					{
 						expand: true,
-						cwd: 'bower_components/bootstrap/dist/js/',
-						src: ['*.min.js'],
-						dest: 'public/js/utils'
-					},
+						cwd: 'node_modules/bootstrap/dist/css/',
+						src: ['*.min.css'],
+						dest: 'public/css/utils'
+					}
+				]
+			},
+			'prod-js': {
+				files: [
 					{
+						flatten: true,
 						expand: true,
-						cwd: 'bower_components/jquery/dist/',
-						src: ['*.min.js'],
-						dest: 'public/js/utils'
-					},
-					{
-						expand: true,
-						cwd: 'bower_components/jquery-ui/',
-						src: ['*.min.js'],
-						dest: 'public/js/utils'
-					},
-					{
-						expand: true,
-						cwd: 'bower_components/socket.io-client/',
-						src: ['*.js'],
+						cwd: 'node_modules/',
+						src: [
+							'bootstrap/dist/js/bootstrap.min.js',
+							'jquery/dist/jquery.min.js',
+							'jquery-ui/jquery-ui.min.js',
+							'angular/angular.min.js',
+							'angular-ui-router/release/angular-ui-router.min.js'
+						],
 						dest: 'public/js/utils'
 					}
 				]
 			}
+		},
+		clean: {
+			'css': ['public/css/'],
+			'js': ['public/js/utils/']
 		},
 		uglify: {
 			'js': {
 				src: ['public/js/interaction.js'],
 				dest: 'public/js/interaction.min.js'
-			}
-		},
-		cssmin: {
-			'css': {
-				src: ['public/css/style.css'],
-				dest: 'public/css/style.min.css'
 			}
 		},
 		watch: {
@@ -74,7 +95,7 @@ module.exports = function (grunt) {
 			},
 			'css' : {
 				files: ['public/less/**/*.less'],
-				tasks: ['less', 'cssmin']
+				tasks: ['less']
 			}
 		}
 	});
@@ -83,8 +104,9 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
-	grunt.registerTask('default', ['less', 'concat', 'uglify', 'cssmin']);
+	grunt.registerTask('build-dev', ['clean', 'less:dev', 'copy:dev-css', 'copy:dev-js', 'concat']);
+	grunt.registerTask('build-prod', ['clean', 'less:prod', 'copy:prod-css', 'copy:prod-js', 'concat', 'uglify']);
 };

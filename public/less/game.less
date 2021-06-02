@@ -1,6 +1,7 @@
 .game-layout {
 	border-radius: 25px;
 	padding: @padding-large;
+	margin: @margin-base;
 }
 
 #game-title {
@@ -20,12 +21,11 @@
 
 .time-count {
 	.text-center;
-	.hide;
 	font-size: 30px;
-	.text-white;
+	.text-button;
 }
 
-.game-mode-box {
+.game-select-box {
 	padding: @padding-medium;
 	margin-bottom: @margin-xxlarge;
 	.text-center;
@@ -97,20 +97,11 @@
 			}
 		}
 	}
-	#noGameList {
-		padding: @margin-large;
-		border: @border-width-thick @border-style-base @border-color-white;
-		border-radius: 5px;
-		width: 80%;
-		margin: 0 auto;
-		.text-white;
-		font-size: 25px;
-	}
 }
 
-#game-select {
+#player-select {
 	.text-center;
-	.select-box {
+	.player-select-box {
 		.display-inline;
 		height: 320px;
 		width: 250px;
@@ -152,7 +143,7 @@
 			}
 			.player-who {
 				position: absolute;
-				padding: 70px 0;
+				padding: 40px 0;
 				.text-center;
 				width: inherit;
 				font-size: 50px;
@@ -191,7 +182,7 @@
 	font-size: 25px;
 	height: 30px;
 	margin: 0 @margin-base -2*@margin-xlarge;
-	.text-white;
+	.text-button;
 	cursor: pointer;
 	.button {
 		.display-inline;
@@ -203,7 +194,7 @@
 
 .continue-button {
 	.text-center;
-	color: #fafafa;
+	.text-button;
 	margin: @margin-xlarge*2 0;
 	font-size: 75px;
 	.button {
@@ -245,7 +236,7 @@
 
 .player-message {
 	position: absolute;
-	top: 75px;
+	top: 65px;
 }
 
 .game-player {
@@ -309,12 +300,12 @@
 	color: #fff;
 	border-radius: 10px;
 	font-size: 30px;
-	margin: @margin-xxlarge 0 @margin-xxlarge @margin-medium;
+	margin: 0 0 2*@margin-xxlarge @margin-medium;
 	.game-player {
-		width: 150px;
-		height: 150px;
+		width: 140px;
+		height: 140px;
 		border: 6px solid;
-		top: -55px;
+		top: -45px;
 		.player-avatar {
 			background-position-y: 60% !important;
 		}
@@ -325,18 +316,19 @@
 	height: 130px;
 	.dice-show {
 		width: 100px;
-		min-height: 65px;
+		height: 70px;
 		margin: @margin-medium auto;
 		border: 2px solid;
 		border-radius: 5px;
-		background-color: #ffffff;
+		background-color: @bg-color-white;
 		&.animate {
 			background: url('../images/gifs/rolling-dice.gif') no-repeat center;
 			background-size: contain;
-			background-color: #ffffff;
+			background-color: @bg-color-white;
 		}
 		.message {
 			font-size: 40px;
+			line-height: 50px;
 			padding: @padding-medium;
 			.text-white;
 			.text-center;
@@ -344,13 +336,22 @@
 	}
 	.dice-button {
 		font-size: 40px;
-		.text-white;
+		.text-button;
 		.text-center;
 		.button {
 			.display-inline;
 			cursor: pointer;
-			&:hover {
+		}
+
+		&:not([disabled]) {
+			.button:hover {
 				.zoom-text;
+			}
+		}
+
+		&[disabled], &.disabled {
+			.button {
+				color: @text-color-button-disabled;
 			}
 		}
 	}
@@ -358,8 +359,8 @@
 
 .score-box {
 	margin-top: @margin-large;
-	&:nth-child(2n+2) {
-		.score-board {
+	.score-board {
+		&:nth-of-type(odd) {
 			.text-right;
 			.game-player {
 				left: 5px;
@@ -368,9 +369,7 @@
 				left: 155px;
 			}
 		}
-	}
-	&:nth-child(2n+1) {
-		.score-board {
+		&:nth-of-type(even) {
 			.text-left;
 			.game-player {
 				right: 5px;
@@ -387,24 +386,7 @@
 	.game-player {
 		width: 40px;
 		height: 40px;
-		bottom: 30px;
-		left: 20px;
-		/*&:nth-child(2){
-		  bottom: 20px;
-		  left: 10px;
-		}
-		&:nth-child(3){
-		  bottom: 40px;
-		  left: 30px;
-		}
-		&:nth-child(4){
-		  bottom: 20px;
-		  left: 30px;
-		}
-		&:nth-child(5){
-		  bottom: 40px;
-		  left: 10px;
-		}*/
+		transition: left 0.3s linear, bottom 0.3s linear;
 		.player-avatar {
 			background-position-y: 60% !important;
 		}
@@ -434,4 +416,14 @@
 
 .mini-score-box {
 	.hide;
+}
+
+#noPlayerList, #noGameList {
+	padding: @margin-large;
+	border: @border-width-thick @border-style-base @border-color-white;
+	border-radius: 5px;
+	width: 80%;
+	margin: 0 auto;
+	.text-white;
+	font-size: 30px;
 }

@@ -275,17 +275,17 @@ var gamePlay = {
 			player.position = 0;
 			player.selected = player.isYours = false;
 		});
-		$('#game-select .select-box').removeClass('selected').find('.player-who').hide().html('');
+		$('#player-select .player-select-box').removeClass('selected').find('.player-who').hide().html('');
 		$('.time-count').hide();
-		$('#game-select .continue-button').hide();
+		$('#player-select .continue-button').hide();
 		$('#game-title .continue-button').show();
-		$('#game-mode .continue-button').show();
-		$('#game-select .back-button').show();
+		$('#game-select .continue-button').show();
+		$('#player-select .back-button').show();
+		if ($('#player-select').is(':visible')) {
+			$('#player-select').fadeOut();
+		}
 		if ($('#game-select').is(':visible')) {
 			$('#game-select').fadeOut();
-		}
-		if ($('#game-mode').is(':visible')) {
-			$('#game-mode').fadeOut();
 		}
 		posn = 0;
 		yourGameID = -1;
@@ -375,10 +375,10 @@ var gamePlay = {
 		gamePlay._sendAjaxRequest(urls.fetchMemeMessageList, "", "GET", false, success, failure, "JSON", "application/x-www-form-urlencoded; charset=UTF-8");
 	},
 	selectAvatar: function (player, selection, isYours) {
-		var playerEle = $('.select-box[type=' + player + ']');
+		var playerEle = $('.player-select-box[type=' + player + ']');
 		count = 20;
 		if (selection) {
-			if ($('.select-box.selected').length < 4) {
+			if ($('.player-select-box.selected').length < 4) {
 				playerEle.addClass('selected');
 				playerEle.find('.player-who').show().html(isYours ? 'You' : 'Rival');
 				players[player].selected = true;
@@ -394,7 +394,7 @@ var gamePlay = {
 					players[player].isYours = false;
 			}
 		}
-		if ($('.select-box.selected').length >= 2) {
+		if ($('.player-select-box.selected').length >= 2) {
 			$('.continue-button').show();
 		} else {
 			$('.continue-button').hide();
@@ -429,7 +429,7 @@ var gamePlay = {
 	selectDefaultGamePlayer: function () {
 		$.each(players, function (id, player) {
 			if (!player.selected) {
-				$('.select-box[type=' + id + ']').trigger('click');
+				$('.player-select-box[type=' + id + ']').trigger('click');
 				return false;
 			}
 		});
@@ -438,9 +438,9 @@ var gamePlay = {
 		if (options.gameID === yourGameID) {
 			var success = function (data) {
 				$.each(data, function (i, obj) {
-					$('.select-box[type=' + obj.playerID + ']').addClass('selected');
-					$('.select-box[type=' + obj.playerID + ']').find('.player-name').addClass('text-color-' + obj.playerID);
-					$('.select-box[type=' + obj.playerID + ']').find('.player-who').html('Rival').show();
+					$('.player-select-box[type=' + obj.playerID + ']').addClass('selected');
+					$('.player-select-box[type=' + obj.playerID + ']').find('.player-name').addClass('text-color-' + obj.playerID);
+					$('.player-select-box[type=' + obj.playerID + ']').find('.player-who').html('Rival').show();
 					players[obj.playerID].selected = true;
 				});
 				gamePlay.selectDefaultGamePlayer();
@@ -495,7 +495,7 @@ var gamePlay = {
 				gamePlay.diceMove(player, dice);
 			}
 		});
-		$('.select-box').click(function () {
+		$('.player-select-box').click(function () {
 			var player = $(this).attr('type');
 			var selection = !$(this).hasClass('selected');
 			if ((yourGameID !== -1) && (selection || (!selection && players[player].isYours))) {
@@ -505,7 +505,7 @@ var gamePlay = {
 				var failure = function (data) {
 					console.log(data)
 				}
-				var playerCount = $('.select-box.selected').length;
+				var playerCount = $('.player-select-box.selected').length;
 				gamePlay._sendAjaxRequest(urls.togglePlayerInGame, {
 					gameID: yourGameID,
 					playerID: player,
@@ -519,11 +519,11 @@ var gamePlay = {
 			}
 		});
 		$(document).keyup(function (e) {
-			if ($('#game-select').is(':visible') && posn !== -1) {
+			if ($('#player-select').is(':visible') && posn !== -1) {
 				var success = function (data) {
 					posn = data.status;
 					if (posn === -1) {
-						$('.select-box.hide').removeClass('hide');
+						$('.player-select-box.hide').removeClass('hide');
 						if (yourGameID !== -1) {
 							count = 20;
 							socket.emit('unlockPlayers', {gameID: yourGameID});
@@ -541,12 +541,12 @@ var gamePlay = {
 			}
 		});
 		$(window).bind("beforeunload", function (e) {
-			if (userReload && yourGameID !== -1 && $('#game-select, #game-box').is(':visible')) {
-				var playerCount = $('.select-box.selected').length;
+			if (userReload && yourGameID !== -1 && $('#player-select, #game-box').is(':visible')) {
+				var playerCount = $('.player-select-box.selected').length;
 				$.each(players, function (playerID, player) {
 					if (player.selected && player.isYours) {
 						var success = function () {
-							socket.emit($('#game-select').is(':visible') ? 'removeSelectedRival' : 'removePlayRival', {
+							socket.emit($('#player-select').is(':visible') ? 'removeSelectedRival' : 'removePlayRival', {
 								gameID: yourGameID,
 								playerID: playerID
 							});
@@ -575,7 +575,7 @@ var gamePlay = {
 			var gamePlayType = $(this).attr('type');
 			$('#game-title').fadeOut();
 			setTimeout(function () {
-				$((gamePlayType === 'local') ? '#game-select' : '#game-mode').fadeIn();
+				$((gamePlayType === 'local') ? '#player-select' : '#game-select').fadeIn();
 				if (gamePlayType === 'global') {
 					gamePlay.searchGameList();
 				}
@@ -583,16 +583,16 @@ var gamePlay = {
 				$('.continue-button .boxes').hide();
 			}, 500);
 		});
-		$('#game-mode').on('click', '.game-row .js-joinGame', function () {
+		$('#game-select').on('click', '.game-row .js-joinGame', function () {
 			var gameID = $(this).attr('type');
 			var success = function (data) {
 				if (data.status == 0) {
-					$('#game-mode').fadeOut();
+					$('#game-select').fadeOut();
 					setTimeout(function () {
-						$('#game-select .continue-button').hide();
-						$('#game-select .back-button').hide();
+						$('#player-select .continue-button').hide();
+						$('#player-select .back-button').hide();
 						$('.time-count').show();
-						$('#game-select').fadeIn();
+						$('#player-select').fadeIn();
 					}, 500);
 					yourGameID = gameID;
 					gamePlay.setSelectionCountdown($('.time-count'));
@@ -607,8 +607,8 @@ var gamePlay = {
 			}
 			gamePlay._sendAjaxRequest(urls.joinGame, {_id: gameID}, "POST", false, success, failure, "JSON", "application/x-www-form-urlencoded; charset=UTF-8");
 		});
-		$('#game-select').on('click', '.continue-button', function () {
-			$('#game-select').fadeOut();
+		$('#player-select').on('click', '.continue-button', function () {
+			$('#player-select').fadeOut();
 			setTimeout(function () {
 				gamePlay.initGameBox();
 				$('#game-box').fadeIn();
@@ -631,11 +631,11 @@ var gamePlay = {
 		});
 		socket.on('unlockPlayers', function (data) {
 			if (data.gameID === yourGameID) {
-				$('.select-box.hide').removeClass('hide');
+				$('.player-select-box.hide').removeClass('hide');
 			}
 		});
 		socket.on('newGame', function (data) {
-			if (data.status === 0 && $('#game-mode').is(':visible')) {
+			if (data.status === 0 && $('#game-select').is(':visible')) {
 				gamePlay.searchGameList();
 			}
 		});
@@ -645,10 +645,10 @@ var gamePlay = {
 			}
 		});
 		socket.on('removeSelectedRival', function (data) {
-			if (data.gameID == yourGameID && $('#game-select').is(':visible') && players[data.playerID].selected && (!players[data.playerID].isYours)) {
-				$('.select-box[type=' + data.playerID + ']').removeClass('selected');
-				$('.select-box[type=' + data.playerID + ']').find('.player-name').removeClass('text-color-' + data.playerID);
-				$('.select-box[type=' + data.playerID + ']').find('.player-who').html('').hide();
+			if (data.gameID == yourGameID && $('#player-select').is(':visible') && players[data.playerID].selected && (!players[data.playerID].isYours)) {
+				$('.player-select-box[type=' + data.playerID + ']').removeClass('selected');
+				$('.player-select-box[type=' + data.playerID + ']').find('.player-name').removeClass('text-color-' + data.playerID);
+				$('.player-select-box[type=' + data.playerID + ']').find('.player-who').html('').hide();
 				count = 20;
 				players[data.playerID].selected = false;
 			}
@@ -695,16 +695,16 @@ var gamePlay = {
 				setTimeout(loop, 1000);
 			} else {
 				var callback = function () {
-					if (yourPlayers.length > 0 && $('.select-box.selected').length > 1) {
+					if (yourPlayers.length > 0 && $('.player-select-box.selected').length > 1) {
 						element.html('Launching the Game...');
-						$('#game-select').fadeOut();
+						$('#player-select').fadeOut();
 						setTimeout(function () {
 							gamePlay.initGameBox();
 							$('#game-box').fadeIn();
 						}, 2000);
 					} else {
 						element.html('Cancelling the Game...');
-						$('.select-box.selected').trigger('click');
+						$('.player-select-box.selected').trigger('click');
 						setTimeout(function () {
 							userReload = false;
 							gamePlay.initGameTitle();

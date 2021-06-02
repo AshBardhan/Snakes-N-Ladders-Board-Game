@@ -1,22 +1,17 @@
-extends layouts/default
+extends layouts/defaultGame
 
 block head
+	link(rel='stylesheet', href='/css/style#{fileExtn}.css')
 	title Snakes and Ladders
 	include modals/memeModal
 
 block content
-	include includes/gameTitle
-	include includes/gameMode
-	include includes/gameSelect
-	include includes/gameBox
+	.game-layout(class="{{gameLayoutBackGround}}" ng-controller='appController')
+		.back-button(ng-show="settings.isBackEnabled")
+			.button.js-goBack(ng-click="goBackHome()") Go Back
+		div(ui-view)
 
 block js
-	script(src='js/utils/jquery.min.js')
-	script(src='js/utils/bootstrap.min.js')
-	script(src='js/utils/jquery-ui.min.js')
-	script(src='js/interaction.js')
+	script(src='/js/general.js')
 	script(src='/socket.io/socket.io.js')
-	script(type='text/javascript').
-		$(document).ready(function () {
-			gamePlay.initSnakeLadderGame();
-		});
+	script(src='/js/interaction#{fileExtn}.js')

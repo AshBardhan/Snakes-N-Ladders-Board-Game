@@ -1,0 +1,9 @@
+#game-title
+	.image-box
+	.continue-button
+		.button(ng-show="!isGameEnter" ng-click="onGameEnter()") Enter The Game
+		.boxes(ng-show="isGameEnter")
+			.box.half-box
+				.button.js-gamePlay(ng-click="onGameSelect('local')") Quick Play
+			.box.half-box
+				.button.js-gamePlay(ng-click="onGameSelect('global')") Global Battle

@@ -1,0 +1,16 @@
+#player-select
+	.section-title Select Players
+		.time-count(ng-hide="!settings.yourGameID") {{ timeCountMessage }}
+	div(ng-show="!hasPlayersFetched") Loading Players....
+	#playerList(ng-show="hasPlayersFetched && settings.players.length")
+		.player-select-box(ng-repeat="player in settings.players" ng-click="selectGamePlayer($index)" ng-hide="player.isHidden" ng-class="{'selected' : player.selected, 'disabled' : isNotYourPlayer(player)}")
+			.game-player(type="{{player.id}}")
+				.player-who(ng-show="player.selected") {{ player.isYours ? 'YOUR ' : 'RIVAL ' }} CHOICE
+				.player-record
+					.rec {{ player.played > 0 ? (player.won / player.played * 100).toFixed(2) : '0.00' }} %
+					.title WINS
+				.player-avatar
+			.player-name(class="text-color-{{player.id}}") {{player.name}}
+		.continue-button(ng-show="canStartGame && !settings.yourGameID" ng-click="startGame()")
+			.button Start The Game
+	#noPlayerList(ng-show="hasPlayersFetched && !settings.players.length") No players being fetched. Please come back after some time.

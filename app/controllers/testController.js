@@ -6,7 +6,7 @@ var testSchema = require('../schemas/testSchema');
 
 exports.testSampleList = function (req, res) {
 	res.send("respond with a test resource");
-}
+};
 
 exports.showSchema = function (req, res) {
 	testSchema.playaSchema.find()
