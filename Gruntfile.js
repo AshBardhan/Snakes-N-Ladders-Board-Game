@@ -23,16 +23,6 @@ module.exports = function (grunt) {
 			}
 		},
 		copy: {
-			'dev-css': {
-				files: [
-					{
-						expand: true,
-						cwd: 'node_modules/bootstrap/dist/css/',
-						src: ['*.css', '!*.min.css'],
-						dest: 'public/css/utils'
-					}
-				]
-			},
 			'dev-js': {
 				files: [
 					{
@@ -40,23 +30,10 @@ module.exports = function (grunt) {
 						expand: true,
 						cwd: 'node_modules/',
 						src: [
-							'bootstrap/dist/js/bootstrap.js',
-							'jquery/dist/jquery.js',
-							'jquery-ui/jquery-ui.js',
 							'angular/angular.js',
 							'angular-ui-router/release/angular-ui-router.js'
 						],
 						dest: 'public/js/utils'
-					}
-				]
-			},
-			'prod-css': {
-				files: [
-					{
-						expand: true,
-						cwd: 'node_modules/bootstrap/dist/css/',
-						src: ['*.min.css'],
-						dest: 'public/css/utils'
 					}
 				]
 			},
@@ -67,9 +44,6 @@ module.exports = function (grunt) {
 						expand: true,
 						cwd: 'node_modules/',
 						src: [
-							'bootstrap/dist/js/bootstrap.min.js',
-							'jquery/dist/jquery.min.js',
-							'jquery-ui/jquery-ui.min.js',
 							'angular/angular.min.js',
 							'angular-ui-router/release/angular-ui-router.min.js'
 						],
@@ -107,6 +81,6 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
-	grunt.registerTask('build-dev', ['clean', 'less:dev', 'copy:dev-css', 'copy:dev-js', 'concat']);
-	grunt.registerTask('build-prod', ['clean', 'less:prod', 'copy:prod-css', 'copy:prod-js', 'concat', 'uglify']);
+	grunt.registerTask('build-dev', ['clean', 'less:dev', 'copy:dev-js', 'concat']);
+	grunt.registerTask('build-prod', ['clean', 'less:prod', 'copy:prod-js', 'concat', 'uglify']);
 };
