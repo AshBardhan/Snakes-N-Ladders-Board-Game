@@ -7,7 +7,8 @@
 #game-title {
 	height: 575px;
 	.image-box {
-		background: url('../images/banners/snakes-and-ladders-banner.png') no-repeat center;
+		background: url("../images/banners/snakes-and-ladders-banner.png") no-repeat
+			center;
 		background-size: contain;
 		height: 400px;
 	}
@@ -29,7 +30,7 @@
 	padding: @padding-medium;
 	margin-bottom: @margin-xxlarge;
 	.text-center;
-	input[type=text] {
+	input[type="text"] {
 		background: transparent;
 		padding: @padding-medium;
 		font-size: 30px;
@@ -181,7 +182,7 @@
 	.text-left;
 	font-size: 25px;
 	height: 30px;
-	margin: 0 @margin-base -2*@margin-xlarge;
+	margin: 0 @margin-base -2 * @margin-xlarge;
 	.text-button;
 	cursor: pointer;
 	.button {
@@ -244,52 +245,52 @@
 	position: absolute;
 	border-radius: 50%;
 	border: 3px solid;
-	&[type=p-1] {
+	&[type="p-1"] {
 		color: @p-1color;
 		.player-avatar {
-			background: url('../images/avatars/avatar-1.png') no-repeat;
+			background: url("../images/avatars/avatar-1.png") no-repeat;
 		}
 	}
-	&[type=p-2] {
+	&[type="p-2"] {
 		color: @p-2color;
 		.player-avatar {
-			background: url('../images/avatars/avatar-2.png') no-repeat;
+			background: url("../images/avatars/avatar-2.png") no-repeat;
 		}
 	}
-	&[type=p-3] {
+	&[type="p-3"] {
 		color: @p-3color;
 		.player-avatar {
-			background: url('../images/avatars/avatar-3.png') no-repeat;
+			background: url("../images/avatars/avatar-3.png") no-repeat;
 		}
 	}
-	&[type=p-4] {
+	&[type="p-4"] {
 		color: @p-4color;
 		.player-avatar {
-			background: url('../images/avatars/avatar-4.png') no-repeat;
+			background: url("../images/avatars/avatar-4.png") no-repeat;
 		}
 	}
-	&[type=p-5] {
+	&[type="p-5"] {
 		color: @p-5color;
 		.player-avatar {
-			background: url('../images/avatars/avatar-5.png') no-repeat;
+			background: url("../images/avatars/avatar-5.png") no-repeat;
 		}
 	}
-	&[type=p-6] {
+	&[type="p-6"] {
 		color: @p-6color;
 		.player-avatar {
-			background: url('../images/avatars/avatar-6.png') no-repeat;
+			background: url("../images/avatars/avatar-6.png") no-repeat;
 		}
 	}
-	&[type=p-7] {
+	&[type="p-7"] {
 		color: @p-7color;
 		.player-avatar {
-			background: url('../images/avatars/avatar-7.png') no-repeat;
+			background: url("../images/avatars/avatar-7.png") no-repeat;
 		}
 	}
-	&[type=p-8] {
+	&[type="p-8"] {
 		color: @p-8color;
 		.player-avatar {
-			background: url('../images/avatars/avatar-8.png') no-repeat;
+			background: url("../images/avatars/avatar-8.png") no-repeat;
 		}
 	}
 }
@@ -300,7 +301,7 @@
 	color: #fff;
 	border-radius: 10px;
 	font-size: 30px;
-	margin: 0 0 2*@margin-xxlarge @margin-medium;
+	margin: 0 0 2 * @margin-xxlarge @margin-medium;
 	.game-player {
 		width: 140px;
 		height: 140px;
@@ -322,7 +323,7 @@
 		border-radius: 5px;
 		background-color: @bg-color-white;
 		&.animate {
-			background: url('../images/gifs/rolling-dice.gif') no-repeat center;
+			background: url("../images/gifs/rolling-dice.gif") no-repeat center;
 			background-size: contain;
 			background-color: @bg-color-white;
 		}
@@ -349,7 +350,8 @@
 			}
 		}
 
-		&[disabled], &.disabled {
+		&[disabled],
+		&.disabled {
 			.button {
 				color: @text-color-button-disabled;
 			}
@@ -400,16 +402,16 @@
 	height: inherit;
 	background-size: 400% !important;
 	border-radius: 50%;
-	&[type=normal] {
+	&[type="normal"] {
 		background-position-x: 0% !important;
 	}
-	&[type=sad] {
+	&[type="sad"] {
 		background-position-x: 33% !important;
 	}
-	&[type=angry] {
+	&[type="angry"] {
 		background-position-x: 67% !important;
 	}
-	&[type=happy] {
+	&[type="happy"] {
 		background-position-x: 100% !important;
 	}
 }
@@ -418,7 +420,8 @@
 	.hide;
 }
 
-#noPlayerList, #noGameList {
+#noPlayerList,
+#noGameList {
 	padding: @margin-large;
 	border: @border-width-thick @border-style-base @border-color-white;
 	border-radius: 5px;
