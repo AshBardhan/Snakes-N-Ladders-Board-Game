@@ -7,7 +7,7 @@
 		"start-prod": "grunt build-prod && NODE_ENV=prod node server.js"
 	},
 	"dependencies": {
-		"angular": "~1.4.8",
+		"angular": "~1.8.3",
 		"angular-ui-router": "~0.2.15",
 		"cloudinary": "1.1.0",
 		"express": "3.5.1",
