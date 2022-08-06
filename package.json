@@ -11,7 +11,7 @@
 		"angular-ui-router": "~0.2.15",
 		"cloudinary": "1.1.0",
 		"express": "3.5.1",
-		"mongoose": "^4.3.4",
+		"mongoose": "^5.7.5",
 		"socket.io": "^1.0.6"
 	},
 	"devDependencies": {
