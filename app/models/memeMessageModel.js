@@ -1,7 +1,7 @@
 var memeMessage = function () {
 	this.data = {
 		type: null,
-		playerCount: null
+		playerCount: null,
 	};
 	this.fill = function (info) {
 		for (var prop in this.data) {

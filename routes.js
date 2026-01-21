@@ -35,4 +35,9 @@ module.exports = function (app) {
 	app.get(urls.ADMIN.SAVE_MODEL_SCHEMA, adminController.saveModelSchema);
 	app.get(urls.ADMIN.SAVE_MEME_MODEL_SCHEMA, adminController.saveMemeModelSchema);
 	app.get(urls.ADMIN.SAVE_PLAYER_MODEL_SCHEMA, adminController.savePlayerModelSchema);
+	
+	// New comprehensive database management routes
+	app.get('/admin/seed', adminController.seedDatabase);
+	app.get('/admin/reset', adminController.resetDatabase);
+	app.get('/admin/stats', adminController.getDatabaseStats);
 };

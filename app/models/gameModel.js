@@ -4,7 +4,7 @@ var game = function () {
 		dateCreated: new Date(),
 		playerCount: 0,
 		isActive: true,
-		isOccupied: false
+		isOccupied: false,
 	};
 	this.fill = function (info) {
 		for (var prop in this.data) {

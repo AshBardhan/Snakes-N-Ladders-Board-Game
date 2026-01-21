@@ -2,11 +2,8 @@ var image = function () {
 	this.data = {
 		fileName: null,
 		id: null,
-		fileType: null,
-		url: null,
-		securedUrl: null,
 		width: null,
-		height: null
+		height: null,
 	};
 	this.fill = function (info) {
 		for (var prop in this.data) {

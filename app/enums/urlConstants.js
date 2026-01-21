@@ -1,7 +1,7 @@
 var API_VERSION = {
 	v1: '/api/v1',
 	v2: '/api/v2',
-	v3: '/api/v3'
+	v3: '/api/v3',
 };
 
 exports.urls = {
@@ -12,7 +12,7 @@ exports.urls = {
 		SAVE_MODEL_SCHEMA: '/admin/save-model-schema-test',
 		SAVE_PLAYER_MODEL_SCHEMA: '/admin/player/save-model-schema-test',
 		SAVE_MEME_MODEL_SCHEMA: '/admin/meme/save-model-schema-test',
-		SHOW_MODEL: '/admin/show-model'
+		SHOW_MODEL: '/admin/show-model',
 	},
 	API: {
 		FETCH_PLAYER_LIST: API_VERSION.v1 + '/player/list',
@@ -25,11 +25,11 @@ exports.urls = {
 		FETCH_GAME_LIST: API_VERSION.v1 + '/game/list',
 		CHECK_CHEAT_CODE: API_VERSION.v1 + '/game/cheat',
 		TOGGLE_PLAYER_IN_GAME: API_VERSION.v1 + '/gamePlayer/toggle',
-		FETCH_PLAYER_IN_GAME: API_VERSION.v1 + '/gamePlayer/list'
+		FETCH_PLAYER_IN_GAME: API_VERSION.v1 + '/gamePlayer/list',
 	},
 	WEB: {
 		SNAKES_N_LADDERS_GAME: '/',
-		PARTIAL_GAME_VIEW : '/partial/:name'
+		PARTIAL_GAME_VIEW: '/partial/:name',
 	},
 	TEST: {
 		SHOW_SCHEMA: '/test/show-schema-test',
@@ -37,6 +37,6 @@ exports.urls = {
 		SHOW_MODEL_SCHEMA: '/test/show-model-schema-test',
 		SAVE_MODEL_SCHEMA: '/test/save-model-schema-test',
 		SHOW_MODEL: '/test/show-model',
-		GET_LIST: '/test/get'
-	}
+		GET_LIST: '/test/get',
+	},
 };

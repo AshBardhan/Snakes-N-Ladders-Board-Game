@@ -1,7 +1,6 @@
 module.exports = function (io) {
 	io.on('connection', function (socket) {
-		socket.on('disconnect', function () {
-		});
+		socket.on('disconnect', function () {});
 		socket.on('selection', function (dataObj) {
 			io.emit('selection', dataObj);
 		});

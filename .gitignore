@@ -12,6 +12,10 @@ public/js/interaction*.js
 public/css/
 public/js/utils/
 
+### Configuration Files ###
+.env
+.env.local
+
 ### Dependencies ###
 node_modules/
 npm-debug.log

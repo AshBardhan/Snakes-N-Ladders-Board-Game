@@ -1,14 +1,14 @@
 var mongoose = require('mongoose'),
-		Schema = mongoose.Schema;
+	Schema = mongoose.Schema;
 
 var gameSchema = new Schema({
 	name: String,
 	dateCreated: Date,
 	playerCount: Number,
 	isActive: Boolean,
-	isOccupied: Boolean
+	isOccupied: Boolean,
 });
-gameSchema.index({dateCreated: 1}, {expireAfterSeconds: 3600});
+gameSchema.index({ dateCreated: 1 }, { expireAfterSeconds: 3600 });
 
 var playerSchema = new Schema({
 	name: String,
@@ -18,35 +18,32 @@ var playerSchema = new Schema({
 	won: Number,
 	selected: Boolean,
 	isYours: Boolean,
-	isHidden: Boolean
+	isHidden: Boolean,
 });
 
 var imageSchema = new Schema({
 	fileName: String,
 	id: String,
-	fileType: String,
-	url: String,
-	securedUrl: String,
 	width: Number,
-	height: Number
+	height: Number,
 });
 
 var memeMessageSchema = new Schema({
 	type: String,
-	playerCount: Object
+	playerCount: Object,
 });
 
 var gamePlayerSchema = new Schema({
 	gameID: String,
 	playerID: String,
-	dateCreated: Date
+	dateCreated: Date,
 });
-gamePlayerSchema.index({dateCreated: 1}, {expireAfterSeconds: 3600});
+gamePlayerSchema.index({ dateCreated: 1 }, { expireAfterSeconds: 3600 });
 
 module.exports = {
-	'gameSchema': mongoose.model('game', gameSchema),
-	'imageSchema': mongoose.model('image', imageSchema),
-	'playerSchema': mongoose.model('player', playerSchema),
-	'gamePlayerSchema': mongoose.model('gamePlayer', gamePlayerSchema),
-	'memeMessageSchema': mongoose.model('memeMessage', memeMessageSchema)
+	gameSchema: mongoose.model('game', gameSchema),
+	imageSchema: mongoose.model('image', imageSchema),
+	playerSchema: mongoose.model('player', playerSchema),
+	gamePlayerSchema: mongoose.model('gamePlayer', gamePlayerSchema),
+	memeMessageSchema: mongoose.model('memeMessage', memeMessageSchema),
 };

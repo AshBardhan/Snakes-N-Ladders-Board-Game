@@ -7,7 +7,7 @@ var player = function () {
 		won: 0,
 		selected: false,
 		isYours: false,
-		isHidden: false
+		isHidden: false,
 	};
 	this.fill = function (info) {
 		for (var prop in this.data) {

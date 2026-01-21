@@ -1,9 +1,10 @@
 #game-title
-	.image-box
+	.img-box
+		img(src="/images/banners/snakes-and-ladders-banner.png" alt="Snakes and Ladders Banner")
 	.continue-button
 		.button(ng-show="!isGameEnter" ng-click="onGameEnter()") Enter The Game
 		.boxes(ng-show="isGameEnter")
 			.box.half-box
-				.button.js-gamePlay(ng-click="onGameSelect('local')") Quick Play
+				.button(ng-click="onGameSelect('local')") Quick Play
 			.box.half-box
-				.button.js-gamePlay(ng-click="onGameSelect('global')") Global Battle
+				.button(ng-click="onGameSelect('global')") Global Battle

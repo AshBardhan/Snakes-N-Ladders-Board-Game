@@ -2,12 +2,18 @@
 	width: auto;
 }
 
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
 body {
-	color: @text-color-base;
-	min-height: 300px;
-	margin: 0 !important;
-	padding: 0 !important;
-	font: 14px Impact !important;
+	margin: 0;
+	font-family: Impact, sans-serif;
+	font-size: @font-size-base;
+	height: 100vh;
+	padding: @padding-medium;
 }
 
 h1 {
@@ -155,6 +161,10 @@ img {
 
 .text-xlarge {
 	font-size: @font-size-xlarge;
+}
+
+.text-shadow {
+	text-shadow: 2px 2px @text-color-shadow;
 }
 
 .hide {
@@ -312,7 +322,7 @@ ol {
 		display: block;
 		margin: @margin-base 0;
 		&:before {
-			content: counters(item, ".") " ";
+			content: counters(item, '.') ' ';
 			counter-increment: item;
 		}
 	}
@@ -375,7 +385,10 @@ ul {
 .meme-font {
 	.text-white;
 	text-transform: uppercase;
-	text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000,
+	text-shadow:
+		-2px -2px 0 #000,
+		2px -2px 0 #000,
+		-2px 2px 0 #000,
 		2px 2px 0 #000;
 }
 
