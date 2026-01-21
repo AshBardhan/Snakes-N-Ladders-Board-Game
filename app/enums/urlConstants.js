@@ -1,10 +1,10 @@
-var API_VERSION = {
+const API_VERSION = {
 	v1: '/api/v1',
 	v2: '/api/v2',
 	v3: '/api/v3',
 };
 
-exports.urls = {
+const urls = {
 	ADMIN: {
 		SHOW_SCHEMA: '/admin/show-schema-test',
 		SAVE_SCHEMA: '/admin/save-schema-test',
@@ -40,3 +40,5 @@ exports.urls = {
 		GET_LIST: '/test/get',
 	},
 };
+
+export default urls;

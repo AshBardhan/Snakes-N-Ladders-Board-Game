@@ -1,8 +1,8 @@
-var adminSchema = require('../schemas/adminSchema'),
-	gameModel = require('../models/gameModel'),
-	gamePlayerModel = require('../models/gamePlayerModel');
+import adminSchema from '../schemas/adminSchema.js';
+import gameModel from '../models/gameModel.js';
+import gamePlayerModel from '../models/gamePlayerModel.js';
 
-exports.fetchGamePlayers = async function (query, projection, successCallback, errCallback) {
+export const fetchGamePlayers = async function (query, projection, successCallback, errCallback) {
 	try {
 		const players = await adminSchema.playerSchema
 			.find(query, projection)
@@ -15,7 +15,7 @@ exports.fetchGamePlayers = async function (query, projection, successCallback, e
 	}
 };
 
-exports.fetchMemeMessages = async function (query, projection, successCallback, errCallback) {
+export const fetchMemeMessages = async function (query, projection, successCallback, errCallback) {
 	try {
 		const memeMessages = await adminSchema.memeMessageSchema.find(query, projection).exec();
 		successCallback(memeMessages);
@@ -25,7 +25,7 @@ exports.fetchMemeMessages = async function (query, projection, successCallback, 
 	}
 };
 
-exports.fetchGameList = async function (query, projection, successCallback, errCallback) {
+export const fetchGameList = async function (query, projection, successCallback, errCallback) {
 	try {
 		const gameList = await adminSchema.gameSchema
 			.find(query, projection)
@@ -38,7 +38,7 @@ exports.fetchGameList = async function (query, projection, successCallback, errC
 	}
 };
 
-exports.addNewGame = async function (successCallback, errCallback, gameData) {
+export const addNewGame = async function (successCallback, errCallback, gameData) {
 	try {
 		const record = new adminSchema.gameSchema(gameModel(gameData).getInformation());
 		await record.save();
@@ -49,7 +49,7 @@ exports.addNewGame = async function (successCallback, errCallback, gameData) {
 	}
 };
 
-exports.updatePlayer = async function (query, incParameter, successCallback, errCallback) {
+export const updatePlayer = async function (query, incParameter, successCallback, errCallback) {
 	try {
 		await adminSchema.playerSchema.updateMany(query, { $inc: incParameter }).exec();
 		successCallback({ status: 0 });
@@ -59,7 +59,7 @@ exports.updatePlayer = async function (query, incParameter, successCallback, err
 	}
 };
 
-exports.updateGame = async function (
+export const updateGame = async function (
 	query,
 	incParameter,
 	setParameter,
@@ -77,7 +77,7 @@ exports.updateGame = async function (
 	}
 };
 
-exports.addPlayerToGame = async function (successCallback, errCallback, gamePlayerData) {
+export const addPlayerToGame = async function (successCallback, errCallback, gamePlayerData) {
 	try {
 		const record = new adminSchema.gamePlayerSchema(
 			gamePlayerModel(gamePlayerData).getInformation()
@@ -90,7 +90,7 @@ exports.addPlayerToGame = async function (successCallback, errCallback, gamePlay
 	}
 };
 
-exports.removePlayerFromGame = async function (query, successCallback, errCallback) {
+export const removePlayerFromGame = async function (query, successCallback, errCallback) {
 	try {
 		const result = await adminSchema.gamePlayerSchema.findOne(query).exec();
 		if (result !== null) {
@@ -103,7 +103,7 @@ exports.removePlayerFromGame = async function (query, successCallback, errCallba
 	}
 };
 
-exports.fetchPlayersInGame = async function (query, projection, successCallback, errCallback) {
+export const fetchPlayersInGame = async function (query, projection, successCallback, errCallback) {
 	try {
 		const gamePlayers = await adminSchema.gamePlayerSchema.find(query, projection).exec();
 		successCallback(gamePlayers);

@@ -2,9 +2,9 @@
  * MongoDB Database Connection
  * Mongoose 8.x compatible connection handler
  */
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-module.exports = function () {
+const connectDB = () => {
 	// MongoDB connection string
 	const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/snakes-ladders';
 
@@ -58,3 +58,5 @@ module.exports = function () {
 		}
 	});
 };
+
+export default connectDB;

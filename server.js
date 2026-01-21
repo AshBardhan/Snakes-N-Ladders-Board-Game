@@ -3,17 +3,25 @@
  * Express 4.x with ES6+ enhancements
  */
 
-require('dotenv').config();
+import 'dotenv/config';
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import http from 'http';
+import bodyParser from 'body-parser';
+import methodOverride from 'method-override';
+import morgan from 'morgan';
+import helmet from 'helmet';
+import compression from 'compression';
+import favicon from 'serve-favicon';
+import { Server as SocketIOServer } from 'socket.io';
+import connectDB from './app/connections/utils/dbConnection.js';
+import connectSocket from './app/connections/utils/gameSocketConnection.js';
+import routes from './routes.js';
 
-const express = require('express');
-const path = require('path');
-const http = require('http');
-const bodyParser = require('body-parser');
-const methodOverride = require('method-override');
-const morgan = require('morgan');
-const helmet = require('helmet');
-const compression = require('compression');
-const favicon = require('serve-favicon');
+// ESM __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const server = http.createServer(app);
@@ -59,10 +67,10 @@ app.use(methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Database Connection
-require('./app/connections/utils/dbConnection')();
+connectDB();
 
 // Routes
-require('./routes')(app);
+routes(app);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
@@ -95,13 +103,14 @@ server.listen(PORT, () => {
 });
 
 // Socket.IO Setup
-const io = require('socket.io')(server, {
+const io = new SocketIOServer(server, {
 	cors: {
 		origin: process.env.ALLOWED_ORIGINS?.split(',') || '*',
 		methods: ['GET', 'POST'],
 	},
 });
-require('./app/connections/utils/gameSocketConnection')(io);
+
+connectSocket(io);
 
 // Graceful Shutdown
 process.on('SIGTERM', () => {
@@ -116,4 +125,4 @@ process.on('unhandledRejection', (reason, promise) => {
 	console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
-module.exports = { app, server, io };
+export { app, server, io };

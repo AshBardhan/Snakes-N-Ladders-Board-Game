@@ -1,6 +1,10 @@
-var adminSchema = require('../schemas/adminSchema');
+import adminSchema from '../schemas/adminSchema.js';
+import playerDataJson from '../data/player.json' with { type: 'json' };
+import memeMessageDataJson from '../data/memeMessage.json' with { type: 'json' };
+import playerModel from '../models/playerModel.js';
+import memeMessageModel from '../models/memeMessageModel.js';
 
-exports.showSchema = async function (req, res) {
+const showSchema = async function (req, res) {
 	try {
 		const results = await adminSchema.playerSchema.find().setOptions({ sort: 'id' }).exec();
 		console.log(results);
@@ -14,7 +18,7 @@ exports.showSchema = async function (req, res) {
 	}
 };
 
-exports.saveSchema = async function (req, res) {
+const saveSchema = async function (req, res) {
 	try {
 		const record = new adminSchema.playerSchema({
 			name: 'Ashish',
@@ -34,19 +38,19 @@ exports.saveSchema = async function (req, res) {
 	}
 };
 
-exports.showModel = function (req, res) {
-	var dataSample = require('../data/player.json');
-	var testModel = require('../models/playerModel');
+const showModel = function (req, res) {
+	const dataSample = playerDataJson;
+	const testModel = playerModel;
 	for (var i in dataSample) {
 		console.log(testModel(dataSample[i]).getInformation());
 	}
 	res.json(dataSample);
 };
 
-exports.saveModelSchema = async function (req, res) {
+const saveModelSchema = async function (req, res) {
 	try {
-		const dataSample = require('../data/memeMessage.json');
-		const testModel = require('../models/memeMessageModel');
+		const dataSample = memeMessageDataJson;
+		const testModel = memeMessageModel;
 		for (var i in dataSample) {
 			const record = new adminSchema.memeMessageSchema(testModel(dataSample[i]).getInformation());
 			await record.save();
@@ -59,7 +63,7 @@ exports.saveModelSchema = async function (req, res) {
 	}
 };
 
-exports.showModelSchema = async function (req, res) {
+const showModelSchema = async function (req, res) {
 	try {
 		const results = await adminSchema.memeMessageSchema.find().setOptions({ sort: 'id' }).exec();
 		console.log(results);
@@ -73,10 +77,10 @@ exports.showModelSchema = async function (req, res) {
 	}
 };
 
-exports.savePlayerModelSchema = async function (req, res) {
+const savePlayerModelSchema = async function (req, res) {
 	try {
-		const dataSample = require('../data/player.json');
-		const testModel = require('../models/playerModel');
+		const dataSample = playerDataJson;
+		const testModel = playerModel;
 		for (var i in dataSample) {
 			const record = new adminSchema.playerSchema(testModel(dataSample[i]).getInformation());
 			await record.save();
@@ -89,10 +93,10 @@ exports.savePlayerModelSchema = async function (req, res) {
 	}
 };
 
-exports.saveMemeModelSchema = async function (req, res) {
+const saveMemeModelSchema = async function (req, res) {
 	try {
-		const dataSample = require('../data/memeMessage.json');
-		const testModel = require('../models/memeMessageModel');
+		const dataSample = memeMessageDataJson;
+		const testModel = memeMessageModel;
 		for (var i in dataSample) {
 			const record = new adminSchema.memeMessageSchema(testModel(dataSample[i]).getInformation());
 			await record.save();
@@ -109,7 +113,7 @@ exports.saveMemeModelSchema = async function (req, res) {
  * Complete Database Seeding
  * Seeds all initial data: players and meme messages
  */
-exports.seedDatabase = async function (req, res) {
+const seedDatabase = async function (req, res) {
 	try {
 		console.log('🌱 Starting database seed...');
 		const results = {
@@ -119,8 +123,8 @@ exports.seedDatabase = async function (req, res) {
 
 		// Seed Players
 		console.log('👥 Seeding players...');
-		const playerDataSample = require('../data/player.json');
-		const playerModel = require('../models/playerModel');
+		const playerDataSample = playerDataJson;
+		const playerModelFunc = playerModel;
 
 		for (const playerData of playerDataSample) {
 			try {
@@ -133,7 +137,7 @@ exports.seedDatabase = async function (req, res) {
 					);
 					results.players.skipped++;
 				} else {
-					const playerInfo = playerModel(playerData).getInformation();
+					const playerInfo = playerModelFunc(playerData).getInformation();
 					const record = new adminSchema.playerSchema(playerInfo);
 					await record.save();
 					console.log(`   ✅ Added player: ${playerData.name} (${playerData.id})`);
@@ -147,8 +151,8 @@ exports.seedDatabase = async function (req, res) {
 
 		// Seed Meme Messages
 		console.log('💬 Seeding meme messages...');
-		const memeMessageDataSample = require('../data/memeMessage.json');
-		const memeMessageModel = require('../models/memeMessageModel');
+		const memeMessageDataSample = memeMessageDataJson;
+		const memeMessageModelFunc = memeMessageModel;
 
 		for (const memeData of memeMessageDataSample) {
 			try {
@@ -159,7 +163,7 @@ exports.seedDatabase = async function (req, res) {
 					console.log(`   ⏭️  Meme message type '${memeData.type}' already exists, skipping`);
 					results.memeMessages.skipped++;
 				} else {
-					const memeInfo = memeMessageModel(memeData).getInformation();
+					const memeInfo = memeMessageModelFunc(memeData).getInformation();
 					const record = new adminSchema.memeMessageSchema(memeInfo);
 					await record.save();
 					console.log(`   ✅ Added meme message type: ${memeData.type}`);
@@ -218,7 +222,7 @@ exports.seedDatabase = async function (req, res) {
  * Reset Database
  * Clears all data and reseeds
  */
-exports.resetDatabase = async function (req, res) {
+const resetDatabase = async function (req, res) {
 	try {
 		console.log('🔄 Resetting database...');
 
@@ -230,7 +234,7 @@ exports.resetDatabase = async function (req, res) {
 		console.log('✅ All collections cleared');
 
 		// Re-seed the database
-		await exports.seedDatabase(req, res);
+		await seedDatabase(req, res);
 	} catch (err) {
 		console.error('❌ Database reset error:', err);
 		res.status(500).json({
@@ -244,7 +248,7 @@ exports.resetDatabase = async function (req, res) {
 /**
  * Get Database Statistics
  */
-exports.getDatabaseStats = async function (req, res) {
+const getDatabaseStats = async function (req, res) {
 	try {
 		const stats = {
 			players: {
@@ -280,4 +284,17 @@ exports.getDatabaseStats = async function (req, res) {
 			error: err.message,
 		});
 	}
+};
+
+export default {
+	showSchema,
+	saveSchema,
+	showModel,
+	saveModelSchema,
+	showModelSchema,
+	savePlayerModelSchema,
+	saveMemeModelSchema,
+	seedDatabase,
+	resetDatabase,
+	getDatabaseStats,
 };

@@ -1,4 +1,4 @@
-var player = function () {
+const player = function () {
 	this.data = {
 		name: null,
 		id: null,
@@ -21,9 +21,9 @@ var player = function () {
 	};
 };
 
-module.exports = function (info) {
-	var instance = new player();
+export default function (info) {
+	const instance = new player();
 	instance.fill(info);
 	console.log(instance);
 	return instance;
-};
+}

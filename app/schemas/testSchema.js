@@ -1,7 +1,7 @@
-var mongoose = require('mongoose'),
-	Schema = mongoose.Schema;
+import mongoose from 'mongoose';
+const Schema = mongoose.Schema;
 
-var testSchema = new Schema(
+const testSchema = new Schema(
 	{
 		firstName: String,
 		secondName: String,
@@ -9,14 +9,14 @@ var testSchema = new Schema(
 	{ collection: 'playa' }
 );
 
-var testSchema2 = new Schema({
+const testSchema2 = new Schema({
 	fileName: String,
 	id: Number,
 	width: Number,
 	height: Number,
 });
 
-module.exports = {
+export default {
 	playaSchema: mongoose.model('playa', testSchema),
 	imageSchema: mongoose.model('test_image', testSchema2),
 };

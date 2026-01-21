@@ -2,13 +2,15 @@
  * GET users listing.
  */
 
-var testSchema = require('../schemas/testSchema');
+import testSchema from '../schemas/testSchema.js';
+import testDataSample from '../data/test.json' with { type: 'json' };
+import testModel from '../models/testModel.js';
 
-exports.testSampleList = function (req, res) {
+const testSampleList = function (req, res) {
 	res.send('respond with a test resource');
 };
 
-exports.showSchema = function (req, res) {
+const showSchema = function (req, res) {
 	testSchema.playaSchema.find().exec(function (err, playas) {
 		if (err) {
 			res.status(500).json({ status: 'failure' });
@@ -22,7 +24,7 @@ exports.showSchema = function (req, res) {
 	});
 };
 
-exports.saveSchema = function (req, res) {
+const saveSchema = function (req, res) {
 	var record = new testSchema.playaSchema({
 		firstName: 'Tom',
 		secondName: 'Araya',
@@ -37,20 +39,20 @@ exports.saveSchema = function (req, res) {
 	});
 };
 
-exports.showModel = function (req, res) {
-	var dataSample = require('../data/testDataSample');
-	var testModel = require('../models/testModel');
+const showModel = function (req, res) {
+	const dataSample = testDataSample;
+	const testModelFunc = testModel;
 	for (var i in dataSample) {
-		console.log(testModel(dataSample[i]).getInformation());
+		console.log(testModelFunc(dataSample[i]).getInformation());
 	}
 	res.render('index', { title: 'Test Express2' });
 };
 
-exports.saveModelSchema = function (req, res) {
-	var dataSample = require('../data/testDataSample');
-	var testModel = require('../models/testModel');
+const saveModelSchema = function (req, res) {
+	const dataSample = testDataSample;
+	const testModelFunc = testModel;
 	for (var i in dataSample) {
-		var record = new testSchema.imageSchema(testModel(dataSample[i]).getInformation());
+		var record = new testSchema.imageSchema(testModelFunc(dataSample[i]).getInformation());
 		record.save(function (err) {
 			if (err) {
 				console.log(err);
@@ -63,7 +65,7 @@ exports.saveModelSchema = function (req, res) {
 	res.json({ status: 'success' });
 };
 
-exports.showModelSchema = function (req, res) {
+const showModelSchema = function (req, res) {
 	testSchema.imageSchema
 		.find()
 		.setOptions({ sort: 'fileName' })
@@ -78,4 +80,13 @@ exports.showModelSchema = function (req, res) {
 				});
 			}
 		});
+};
+
+export default {
+	showSchema,
+	saveSchema,
+	showModel,
+	showModelSchema,
+	saveModelSchema,
+	testSampleList,
 };

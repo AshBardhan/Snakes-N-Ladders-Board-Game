@@ -1,7 +1,7 @@
-var mongoose = require('mongoose'),
-	Schema = mongoose.Schema;
+import mongoose from 'mongoose';
+const Schema = mongoose.Schema;
 
-var gameSchema = new Schema({
+const gameSchema = new Schema({
 	name: String,
 	dateCreated: Date,
 	playerCount: Number,
@@ -10,7 +10,7 @@ var gameSchema = new Schema({
 });
 gameSchema.index({ dateCreated: 1 }, { expireAfterSeconds: 3600 });
 
-var playerSchema = new Schema({
+const playerSchema = new Schema({
 	name: String,
 	id: String,
 	position: Number,
@@ -21,26 +21,26 @@ var playerSchema = new Schema({
 	isHidden: Boolean,
 });
 
-var imageSchema = new Schema({
+const imageSchema = new Schema({
 	fileName: String,
 	id: String,
 	width: Number,
 	height: Number,
 });
 
-var memeMessageSchema = new Schema({
+const memeMessageSchema = new Schema({
 	type: String,
 	playerCount: Object,
 });
 
-var gamePlayerSchema = new Schema({
+const gamePlayerSchema = new Schema({
 	gameID: String,
 	playerID: String,
 	dateCreated: Date,
 });
 gamePlayerSchema.index({ dateCreated: 1 }, { expireAfterSeconds: 3600 });
 
-module.exports = {
+export default {
 	gameSchema: mongoose.model('game', gameSchema),
 	imageSchema: mongoose.model('image', imageSchema),
 	playerSchema: mongoose.model('player', playerSchema),

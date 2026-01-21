@@ -1,4 +1,4 @@
-var gamePlayer = function () {
+const gamePlayer = function () {
 	this.data = {
 		gameID: null,
 		playerID: null,
@@ -15,8 +15,8 @@ var gamePlayer = function () {
 	};
 };
 
-module.exports = function (info) {
-	var instance = new gamePlayer();
+export default function (info) {
+	const instance = new gamePlayer();
 	instance.fill(info);
 	return instance;
-};
+}

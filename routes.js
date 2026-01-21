@@ -1,10 +1,14 @@
 /*
- * GET home page.
+ * Application Routes
  */
 
-var urls = require('./app/enums/urlConstants').urls;
-module.exports = function (app) {
-	var gameController = require('./app/controllers/gameController');
+import urls from './app/enums/urlConstants.js';
+import gameController from './app/controllers/gameController.js';
+import testController from './app/controllers/testController.js';
+import adminController from './app/controllers/adminController.js';
+
+const routes = (app) => {
+	// Game routes
 	app.get(urls.WEB.SNAKES_N_LADDERS_GAME, gameController.showSnakeAndLaddersGame);
 	app.get(urls.WEB.PARTIAL_GAME_VIEW, gameController.getGamePartialView);
 	app.get(urls.API.FETCH_PLAYER_LIST, gameController.fetchGamePlayers);
@@ -19,7 +23,7 @@ module.exports = function (app) {
 	app.post(urls.API.TOGGLE_PLAYER_IN_GAME, gameController.togglePlayerInGame);
 	app.get(urls.API.FETCH_PLAYER_IN_GAME, gameController.fetchPlayersInGame);
 
-	var testController = require('./app/controllers/testController');
+	// Test routes
 	app.get(urls.TEST.SHOW_SCHEMA, testController.showSchema);
 	app.get(urls.TEST.SAVE_SCHEMA, testController.saveSchema);
 	app.get(urls.TEST.SHOW_MODEL, testController.showModel);
@@ -27,7 +31,7 @@ module.exports = function (app) {
 	app.get(urls.TEST.SAVE_MODEL_SCHEMA, testController.saveModelSchema);
 	app.get(urls.TEST.GET_LIST, testController.testSampleList);
 
-	var adminController = require('./app/controllers/adminController');
+	// Admin routes
 	app.get(urls.ADMIN.SHOW_SCHEMA, adminController.showSchema);
 	app.get(urls.ADMIN.SAVE_SCHEMA, adminController.saveSchema);
 	app.get(urls.ADMIN.SHOW_MODEL, adminController.showModel);
@@ -36,8 +40,10 @@ module.exports = function (app) {
 	app.get(urls.ADMIN.SAVE_MEME_MODEL_SCHEMA, adminController.saveMemeModelSchema);
 	app.get(urls.ADMIN.SAVE_PLAYER_MODEL_SCHEMA, adminController.savePlayerModelSchema);
 	
-	// New comprehensive database management routes
+	// Database management routes
 	app.get('/admin/seed', adminController.seedDatabase);
 	app.get('/admin/reset', adminController.resetDatabase);
 	app.get('/admin/stats', adminController.getDatabaseStats);
-};
+}
+
+export default routes;

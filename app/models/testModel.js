@@ -1,4 +1,4 @@
-var image = function () {
+const image = function () {
 	this.data = {
 		fileName: null,
 		id: null,
@@ -17,8 +17,8 @@ var image = function () {
 	};
 };
 
-module.exports = function (info) {
-	var instance = new image();
+export default function (info) {
+	const instance = new image();
 	instance.fill(info);
 	return instance;
-};
+}

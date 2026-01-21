@@ -1,4 +1,4 @@
-var memeMessage = function () {
+const memeMessage = function () {
 	this.data = {
 		type: null,
 		playerCount: null,
@@ -15,8 +15,8 @@ var memeMessage = function () {
 	};
 };
 
-module.exports = function (info) {
-	var instance = new memeMessage();
+export default function (info) {
+	const instance = new memeMessage();
 	instance.fill(info);
 	return instance;
-};
+}

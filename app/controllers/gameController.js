@@ -2,12 +2,11 @@
  * GET users listing.
  */
 
-var adminSchema = require('../schemas/adminSchema'),
-	gameService = require('../services/gameService'),
-	cheatCodes = require('../data/codeDataSample'),
-	env = process.env.NODE_ENV || 'dev';
+import * as gameService from '../services/gameService.js';
+import cheatCodes from '../data/code.json' with { type: 'json' };
+const env = process.env.NODE_ENV || 'dev';
 
-exports.showSnakeAndLaddersGame = function (req, res) {
+const showSnakeAndLaddersGame = function (req, res) {
 	res.render('home', { fileExtn: env === 'prod' ? '.min' : '' });
 	//adminSchema.playerSchema.find()
 	//		.setOptions({sort: 'id'})
@@ -23,12 +22,12 @@ exports.showSnakeAndLaddersGame = function (req, res) {
 	//		});
 };
 
-exports.getGamePartialView = function (req, res) {
+const getGamePartialView = function (req, res) {
 	var name = req.params.name;
 	res.render('partials/' + name);
 };
 
-exports.fetchGamePlayers = function (req, res) {
+const fetchGamePlayers = function (req, res) {
 	var success = function (players) {
 		res.json(players);
 	};
@@ -38,7 +37,7 @@ exports.fetchGamePlayers = function (req, res) {
 	gameService.fetchGamePlayers(success, failure);
 };
 
-exports.fetchMemeMessages = function (req, res) {
+const fetchMemeMessages = function (req, res) {
 	var success = function (memeMessages) {
 		res.json(memeMessages);
 	};
@@ -48,7 +47,7 @@ exports.fetchMemeMessages = function (req, res) {
 	gameService.fetchMemeMessages(success, failure);
 };
 
-exports.fetchGameList = function (req, res) {
+const fetchGameList = function (req, res) {
 	var options = { isOccupied: false };
 	var success = function (games) {
 		res.json(games);
@@ -59,7 +58,7 @@ exports.fetchGameList = function (req, res) {
 	gameService.fetchGameList(success, failure, options);
 };
 
-exports.addGameToList = function (req, res) {
+const addGameToList = function (req, res) {
 	var options = { isOccupied: false };
 	var body = req.body;
 	if (typeof body !== 'undefined') {
@@ -83,7 +82,7 @@ exports.addGameToList = function (req, res) {
 	gameService.fetchGameList(searchSuccess, failure, options);
 };
 
-exports.togglePlayerInGame = function (req, res) {
+const togglePlayerInGame = function (req, res) {
 	var options = {};
 	var body = req.body;
 	var playerInGameType, playerCount;
@@ -118,7 +117,7 @@ exports.togglePlayerInGame = function (req, res) {
 	else gameService.removePlayerFromGame(options, successPlayerToggle, failure);
 };
 
-exports.fetchPlayersInGame = function (req, res) {
+const fetchPlayersInGame = function (req, res) {
 	var gameID = req.query.gameID;
 	var success = function (result) {
 		res.json(result);
@@ -129,7 +128,7 @@ exports.fetchPlayersInGame = function (req, res) {
 	gameService.fetchPlayersInGame({ gameID: gameID }, success, failure);
 };
 
-exports.updateGameOccupied = function (req, res) {
+const updateGameOccupied = function (req, res) {
 	var gameID = req.query.gameID;
 	var success = function (result) {
 		res.json(result);
@@ -140,7 +139,7 @@ exports.updateGameOccupied = function (req, res) {
 	gameService.updateGame({ _id: gameID }, {}, { isOccupied: true }, success, failure);
 };
 
-exports.updatePlayerMatch = function (req, res) {
+const updatePlayerMatch = function (req, res) {
 	var players = decodeURIComponent(req.query.players).split(',');
 	var success = function (result) {
 		res.json(result);
@@ -154,7 +153,7 @@ exports.updatePlayerMatch = function (req, res) {
 	}
 };
 
-exports.updatePlayerWin = function (req, res) {
+const updatePlayerWin = function (req, res) {
 	var playerID = req.query.player;
 	var success = function (result) {
 		res.json(result);
@@ -165,7 +164,7 @@ exports.updatePlayerWin = function (req, res) {
 	gameService.updatePlayerWin({ id: playerID }, success, failure);
 };
 
-exports.joinGame = function (req, res) {
+const joinGame = function (req, res) {
 	var options = { isOccupied: false };
 	var body = req.body;
 	if (typeof body !== 'undefined') {
@@ -195,7 +194,7 @@ exports.joinGame = function (req, res) {
 	gameService.fetchGameList(searchSuccess, failure, options);
 };
 
-exports.checkCheatCode = function (req, res) {
+const checkCheatCode = function (req, res) {
 	var charCode = req.body.charCode;
 	var posn = Number(req.body.posn);
 	if (cheatCodes.unlockPlayersCheat.charCodeAt(posn) - 32 == charCode) {
@@ -207,4 +206,20 @@ exports.checkCheatCode = function (req, res) {
 		posn = 0;
 	}
 	res.json({ status: posn });
+};
+
+export default {
+	showSnakeAndLaddersGame,
+	getGamePartialView,
+	fetchGamePlayers,
+	fetchMemeMessages,
+	fetchGameList,
+	addGameToList,
+	togglePlayerInGame,
+	fetchPlayersInGame,
+	updateGameOccupied,
+	updatePlayerMatch,
+	updatePlayerWin,
+	joinGame,
+	checkCheatCode,
 };

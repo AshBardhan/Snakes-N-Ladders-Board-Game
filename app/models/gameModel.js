@@ -1,4 +1,4 @@
-var game = function () {
+const game = function () {
 	this.data = {
 		name: null,
 		dateCreated: new Date(),
@@ -18,8 +18,8 @@ var game = function () {
 	};
 };
 
-module.exports = function (info) {
-	var instance = new game();
+export default function (info) {
+	const instance = new game();
 	instance.fill(info);
 	return instance;
-};
+}
