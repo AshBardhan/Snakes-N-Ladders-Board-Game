@@ -9,7 +9,7 @@ block content
 	.game-layout(class="{{gameLayoutBackGround}}" ng-controller='appController')
 		.back-button(ng-show="settings.isBackEnabled")
 			.button(ng-click="goBackHome()") Go Back
-		div(ui-view)
+		div(ng-view)
 
 block js
 	script(src='/js/general.js')

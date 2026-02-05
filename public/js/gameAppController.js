@@ -29,8 +29,8 @@ angular
 	])
 	.controller('appController', [
 		'$scope',
-		'$state',
-		function ($scope, $state) {
+		'$location',
+		function ($scope, $location) {
 			$scope.settings = {
 				isBackEnabled: false,
 				yourGameID: undefined,
@@ -41,18 +41,18 @@ angular
 			$scope.gameLayoutBackGround = 'bkgrnd-game-' + Math.floor(Math.random() * 6 + 1);
 
 			$scope.goBackHome = function () {
-				var fromStateName = $state.current.name,
-					toStateName = 'home';
+				var fromPath = $location.path(),
+					toPath = '/';
 
 				delete $scope.settings.yourGameID;
-				$state.go('home');
+				$location.path('/');
 			};
 		},
 	])
 	.controller('gameTitleController', [
 		'$scope',
-		'$state',
-		function ($scope, $state) {
+		'$location',
+		function ($scope, $location) {
 			$scope.isGameEnter = false;
 			$scope.settings.isBackEnabled = false;
 
@@ -61,7 +61,7 @@ angular
 			};
 
 			$scope.onGameSelect = function (playMode) {
-				$state.go(playMode === 'local' ? 'player-select' : 'game-select');
+				$location.path(playMode === 'local' ? '/player-select' : '/game-select');
 			};
 		},
 	])
@@ -74,8 +74,8 @@ angular
 	.controller('gameSelectController', [
 		'$scope',
 		'$http',
-		'$state',
-		function ($scope, $http, $state) {
+		'$location',
+		function ($scope, $http, $location) {
 			$scope.settings.isBackEnabled = true;
 			$scope.hasGamesFetched = false;
 			$scope.isGameLoading = false;
@@ -127,9 +127,7 @@ angular
 
 			$scope.joinGame = function (gameId) {
 				var gameID = gameId;
-				$state.go('player-select', {
-					gameID: gameID,
-				});
+				$location.path('/player-select/' + gameID);
 			};
 
 			$scope.searchGameList();
@@ -138,13 +136,14 @@ angular
 	.controller('gamePlayerSelectController', [
 		'$scope',
 		'$http',
-		'$state',
+		'$location',
+		'$routeParams',
 		'socket',
 		'$timeout',
-		function ($scope, $http, $state, socket, $timeout) {
+		function ($scope, $http, $location, $routeParams, socket, $timeout) {
 			$scope.settings.isBackEnabled = true;
 			$scope.settings.selectedPlayerCount = 0;
-			$scope.settings.yourGameID = $state.params.gameID;
+			$scope.settings.yourGameID = $routeParams.gameID;
 			$scope.canStartGame = false;
 			$scope.timeCountMessage = '';
 
@@ -221,7 +220,7 @@ angular
 			});
 
 			$scope.startGame = function () {
-				$state.go('play-game');
+				$location.path('/play-game');
 			};
 
 			$scope.getSelectedPlayersCount = function () {
@@ -277,11 +276,11 @@ angular
 	])
 	.controller('gamePlayController', [
 		'$scope',
-		'$state',
+		'$location',
 		'$timeout',
 		'$interval',
 		'socket',
-		function ($scope, $state, $timeout, $interval, socket) {
+		function ($scope, $location, $timeout, $interval, socket) {
 			$scope.settings.isBackEnabled = false;
 			$scope.isDiceRolling = false;
 			$scope.isPlayerMoving = false;
@@ -309,7 +308,7 @@ angular
 				$scope.settings.players.length === 0 ||
 				$scope.settings.selectedPlayerCount < $scope.settings.minimumSelectedPlayers
 			) {
-				$state.go('home');
+				$location.path('/');
 			}
 
 			$scope.setPlayerPosition = function (index) {

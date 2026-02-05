@@ -4,14 +4,13 @@
  */
 'use strict';
 
-const app = angular.module('gameApp', ['gameAppController', 'ui.router']);
+const app = angular.module('gameApp', ['gameAppController', 'ngRoute']);
 
 // Application Configuration
 app.config([
-	'$stateProvider',
-	'$urlRouterProvider',
+	'$routeProvider',
 	'$locationProvider',
-	function ($stateProvider, $urlRouterProvider, $locationProvider) {
+	function ($routeProvider, $locationProvider) {
 		// Enable HTML5 mode for clean URLs (fallback to hashbang for compatibility)
 		$locationProvider.html5Mode({
 			enabled: false,
@@ -19,75 +18,57 @@ app.config([
 		});
 
 		// Route Definitions
-		$stateProvider
-			.state('home', {
-				url: '/',
-				name: 'home',
+		$routeProvider
+			.when('/', {
 				templateUrl: 'partial/title',
 				controller: 'gameTitleController',
-				onEnter: function () {
-					console.log('Entering Home State');
-				},
 			})
-			.state('about', {
-				url: '/about',
-				name: 'about',
+			.when('/about', {
 				templateUrl: 'partial/about',
 				controller: 'gameAboutController',
 			})
-			.state('game-select', {
-				name: 'game-select',
+			.when('/game-select', {
 				templateUrl: 'partial/game-select',
 				controller: 'gameSelectController',
-				onEnter: function () {
-					console.log('Entering Game Selection');
-				},
 			})
-			.state('player-select', {
-				name: 'player-select',
-				params: {
-					gameID: null,
-				},
+			.when('/player-select', {
 				templateUrl: 'partial/player-select',
 				controller: 'gamePlayerSelectController',
-				onEnter: function () {
-					console.log('Entering Player Selection');
-				},
 			})
-			.state('play-game', {
-				name: 'play-game',
+			.when('/player-select/:gameID', {
+				templateUrl: 'partial/player-select',
+				controller: 'gamePlayerSelectController',
+			})
+			.when('/play-game', {
 				templateUrl: 'partial/play-game',
 				controller: 'gamePlayController',
-				onEnter: function () {
-					console.log('Game Started');
-				},
+			})
+			.otherwise({
+				redirectTo: '/',
 			});
-
-		// Default route
-		$urlRouterProvider.otherwise('/');
 	},
 ]);
 
 // Global Error Handler
 app.run([
 	'$rootScope',
-	'$state',
-	function ($rootScope, $state) {
-		// State change error handling
+	'$location',
+	function ($rootScope, $location) {
+		// Route change error handling
 		$rootScope.$on(
-			'$stateChangeError',
-			function (event, toState, toParams, fromState, fromParams, error) {
-				console.error('State change error:', error);
+			'$routeChangeError',
+			function (event, current, previous, rejection) {
+				console.error('Route change error:', rejection);
 				alert('Navigation error. Redirecting to home.');
-				$state.go('home');
+				$location.path('/');
 			}
 		);
 
-		// State change success logging
+		// Route change success logging
 		$rootScope.$on(
-			'$stateChangeSuccess',
-			function (event, toState, toParams, fromState, fromParams) {
-				console.log('State changed successfully to:', toState.name);
+			'$routeChangeSuccess',
+			function (event, current, previous) {
+				console.log('Route changed successfully to:', $location.path());
 			}
 		);
 	},

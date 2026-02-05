@@ -59,7 +59,7 @@ module.exports = function (grunt) {
 						cwd: 'node_modules/',
 						src: [
 							'angular/angular.js',
-							'angular-ui-router/release/angular-ui-router.js'
+							'angular-route/angular-route.js'
 						],
 						dest: 'public/js/utils'
 					}
@@ -73,7 +73,7 @@ module.exports = function (grunt) {
 						cwd: 'node_modules/',
 						src: [
 							'angular/angular.min.js',
-							'angular-ui-router/release/angular-ui-router.min.js'
+							'angular-route/angular-route.min.js'
 						],
 						dest: 'public/js/utils'
 					}
