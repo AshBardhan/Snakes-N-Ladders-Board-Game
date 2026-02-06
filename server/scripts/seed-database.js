@@ -8,13 +8,13 @@ import mongoose from 'mongoose';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import adminSchema from '../app/schemas/adminSchema.js';
+import adminSchema from '../src/schemas/adminSchema.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const playerDataSample = JSON.parse(readFileSync(path.join(__dirname, '../app/data/player.json'), 'utf-8'));
-const memeMessageDataSample = JSON.parse(readFileSync(path.join(__dirname, '../app/data/memeMessage.json'), 'utf-8'));
+const playerDataSample = JSON.parse(readFileSync(path.join(__dirname, '../src/data/player.json'), 'utf-8'));
+const memeMessageDataSample = JSON.parse(readFileSync(path.join(__dirname, '../src/data/memeMessage.json'), 'utf-8'));
 
 const seedDatabase = async () => {
 	try {

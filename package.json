@@ -8,11 +8,11 @@
 		"npm": ">=9.0.0"
 	},
 	"scripts": {
-		"dev": "grunt build-dev && concurrently \"NODE_ENV=dev nodemon server.js\" \"grunt watch\"",
+		"dev": "grunt build-dev && concurrently \"cd server && NODE_ENV=dev nodemon server.js\" \"grunt watch\"",
 		"build": "grunt build-prod",
-		"start": "node server.js",
+		"start": "cd server && node server.js",
 		"format": "prettier --write '**/*.{js,json,md}'",
-		"seed": "node scripts/seed-database.js"
+		"seed": "cd server && node scripts/seed-database.js"
 	},
 	"dependencies": {
 		"angular": "^1.8.3",

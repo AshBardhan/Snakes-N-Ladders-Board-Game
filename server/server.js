@@ -15,9 +15,9 @@ import helmet from 'helmet';
 import compression from 'compression';
 import favicon from 'serve-favicon';
 import { Server as SocketIOServer } from 'socket.io';
-import connectDB from './app/connections/utils/dbConnection.js';
-import connectSocket from './app/connections/utils/gameSocketConnection.js';
-import routes from './routes.js';
+import connectDB from './src/config/database.js';
+import connectSocket from './src/socket/socket.handlers.js';
+import routes from './src/routes/index.js';
 
 // ESM __dirname equivalent
 const __filename = fileURLToPath(import.meta.url);
@@ -53,7 +53,7 @@ if (NODE_ENV === 'dev') {
 
 // Favicon
 try {
-	app.use(favicon(path.join(__dirname, 'public', 'images', 'icons', 'favicon.ico')));
+	app.use(favicon(path.join(__dirname, '../public', 'images', 'icons', 'favicon.ico')));
 } catch (err) {
 	console.warn('Favicon not found, skipping...');
 }
@@ -64,7 +64,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride());
 
 // Static Files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Database Connection
 connectDB();

@@ -1,4 +1,4 @@
-import * as gameConnection from '../connections/gameConnection.js';
+import * as gameConnection from '../socket/gameConnection.js';
 
 export const fetchGamePlayers = function (successCallback, failureCallback) {
 	gameConnection.fetchGamePlayers({}, { _id: 0, __v: 0 }, successCallback, failureCallback);
