@@ -20,28 +20,27 @@ app.config([
 		// Route Definitions
 		$routeProvider
 			.when('/', {
-				templateUrl: 'partial/title',
-				controller: 'gameTitleController',
+				template: '<game-title settings="settings"></game-title>',
 			})
 			.when('/about', {
-				templateUrl: 'partial/about',
-				controller: 'gameAboutController',
+				template: '<game-about settings="settings"></game-about>',
 			})
 			.when('/game-select', {
-				templateUrl: 'partial/game-select',
-				controller: 'gameSelectController',
+				template: '<game-select settings="settings"></game-select>',
 			})
 			.when('/player-select', {
-				templateUrl: 'partial/player-select',
-				controller: 'gamePlayerSelectController',
+				template: '<player-select settings="settings" go-back-home="goBackHome()"></player-select>',
 			})
 			.when('/player-select/:gameID', {
-				templateUrl: 'partial/player-select',
-				controller: 'gamePlayerSelectController',
+				template: '<player-select settings="settings" game-id="$resolve.gameID" go-back-home="goBackHome()"></player-select>',
+				resolve: {
+					gameID: ['$route', function($route) {
+						return $route.current.params.gameID;
+					}]
+				}
 			})
 			.when('/play-game', {
-				templateUrl: 'partial/play-game',
-				controller: 'gamePlayController',
+				template: '<play-game settings="settings" go-back-home="goBackHome()"></play-game>',
 			})
 			.otherwise({
 				redirectTo: '/',

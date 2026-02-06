@@ -43,7 +43,8 @@ module.exports = function (grunt) {
 			js: {
 				src: [
 					'public/js/gameApp.js',
-					'public/js/gameAppController.js'
+					'public/js/gameAppController.js',
+					'public/js/components/*.component.js'
 				],
 				dest: 'public/js/interaction.js'
 			}
@@ -112,7 +113,7 @@ module.exports = function (grunt) {
 				spawn: false
 			},
 			js: {
-				files: ['public/js/*.js', '!public/js/interaction*.js'],
+				files: ['public/js/**/*.js', '!public/js/interaction*.js'],
 				tasks: ['concat:js', 'uglify:js'],
 				options: {
 					event: ['changed', 'added']
