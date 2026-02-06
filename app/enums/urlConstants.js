@@ -29,7 +29,6 @@ const urls = {
 	},
 	WEB: {
 		SNAKES_N_LADDERS_GAME: '/',
-		PARTIAL_GAME_VIEW: '/partial/:name',
 	},
 	TEST: {
 		SHOW_SCHEMA: '/test/show-schema-test',

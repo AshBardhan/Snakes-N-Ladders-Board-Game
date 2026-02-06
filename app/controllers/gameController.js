@@ -22,11 +22,6 @@ const showSnakeAndLaddersGame = function (req, res) {
 	//		});
 };
 
-const getGamePartialView = function (req, res) {
-	var name = req.params.name;
-	res.render('partials/' + name);
-};
-
 const fetchGamePlayers = function (req, res) {
 	var success = function (players) {
 		res.json(players);
@@ -210,7 +205,6 @@ const checkCheatCode = function (req, res) {
 
 export default {
 	showSnakeAndLaddersGame,
-	getGamePartialView,
 	fetchGamePlayers,
 	fetchMemeMessages,
 	fetchGameList,
