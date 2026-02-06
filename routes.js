@@ -2,14 +2,21 @@
  * Application Routes
  */
 
+import path from 'path';
+import { fileURLToPath } from 'url';
 import urls from './app/enums/urlConstants.js';
 import gameController from './app/controllers/gameController.js';
 import testController from './app/controllers/testController.js';
 import adminController from './app/controllers/adminController.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const routes = (app) => {
 	// Game routes
-	app.get(urls.WEB.SNAKES_N_LADDERS_GAME, gameController.showSnakeAndLaddersGame);
+	app.get(urls.WEB.SNAKES_N_LADDERS_GAME, (_req, res) => {
+			res.sendFile(path.join(__dirname, 'public', 'index.html'));
+	});
 	app.get(urls.API.FETCH_PLAYER_LIST, gameController.fetchGamePlayers);
 	app.get(urls.API.FETCH_MEME_MESSAGE_LIST, gameController.fetchMemeMessages);
 	app.get(urls.API.UPDATE_PLAYER_PLAYED, gameController.updatePlayerMatch);

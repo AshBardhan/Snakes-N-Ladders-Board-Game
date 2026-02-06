@@ -1,26 +1,10 @@
 /*
- * GET users listing.
+ * Game Controller
+ * Handles game-related routes and logic
  */
 
 import * as gameService from '../services/gameService.js';
 import cheatCodes from '../data/code.json' with { type: 'json' };
-const env = process.env.NODE_ENV || 'dev';
-
-const showSnakeAndLaddersGame = function (req, res) {
-	res.render('home', { fileExtn: env === 'prod' ? '.min' : '' });
-	//adminSchema.playerSchema.find()
-	//		.setOptions({sort: 'id'})
-	//		.exec(function (err, players) {
-	//			if (err) {
-	//				res.status(500).json({status: 'failure'});
-	//			} else {
-	//				res.render('home', {
-	//					players: players,
-	//					fileExtn: env === 'prod' ? '.min' : ''
-	//				});
-	//			}
-	//		});
-};
 
 const fetchGamePlayers = function (req, res) {
 	var success = function (players) {
@@ -204,7 +188,6 @@ const checkCheatCode = function (req, res) {
 };
 
 export default {
-	showSnakeAndLaddersGame,
 	fetchGamePlayers,
 	fetchMemeMessages,
 	fetchGameList,
