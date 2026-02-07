@@ -8,18 +8,18 @@ module.exports = function (grunt) {
 	require('time-grunt')(grunt);
 
 	grunt.initConfig({
-		pkg: grunt.file.readJSON('package.json'),
+		pkg: grunt.file.readJSON('../package.json'),
 
 		// LESS Compilation
 		less: {
 			dev: {
 				options: {
 					sourceMap: true,
-					sourceMapFilename: 'public/css/style.css.map',
+					sourceMapFilename: 'dist/css/style.css.map',
 					sourceMapURL: 'style.css.map'
 				},
-				src: ['public/less/style.less'],
-				dest: 'public/css/style.css'
+				src: ['src/styles/less/style.less'],
+				dest: 'dist/css/style.css'
 			},
 			prod: {
 				options: {
@@ -27,8 +27,8 @@ module.exports = function (grunt) {
 					cleancss: true,
 					optimization: 2
 				},
-				src: ['public/less/style.less'],
-				dest: 'public/css/style.min.css'
+				src: ['src/styles/less/style.less'],
+				dest: 'dist/css/style.min.css'
 			}
 		},
 
@@ -42,27 +42,29 @@ module.exports = function (grunt) {
 			},
 			js: {
 				src: [
-					'public/js/gameApp.js',
-					'public/js/gameAppController.js',
-					'public/js/components/*.component.js'
+					'src/app/general.js',
+					'src/app/gameApp.js',
+					'src/app/gameAppController.js',
+					'src/app/components/*.component.js'
 				],
-				dest: 'public/js/interaction.js'
+				dest: 'dist/js/index.js'
 			}
 		},
 
-		// Copy Angular Dependencies
+		// Copy Dependencies
 		copy: {
 			'dev-js': {
 				files: [
 					{
 						flatten: true,
 						expand: true,
-						cwd: 'node_modules/',
+						cwd: '../node_modules/',
 						src: [
 							'angular/angular.js',
-							'angular-route/angular-route.js'
+							'angular-route/angular-route.js',
+							'socket.io/client-dist/socket.io.js'
 						],
-						dest: 'public/js/utils'
+						dest: 'dist/js/utils'
 					}
 				]
 			},
@@ -71,12 +73,33 @@ module.exports = function (grunt) {
 					{
 						flatten: true,
 						expand: true,
-						cwd: 'node_modules/',
+						cwd: '../node_modules/',
 						src: [
 							'angular/angular.min.js',
-							'angular-route/angular-route.min.js'
+							'angular-route/angular-route.min.js',
+							'socket.io/client-dist/socket.io.min.js'
 						],
-						dest: 'public/js/utils'
+						dest: 'dist/js/utils',
+						rename: function(dest, src) {
+							// Remove .min from filename so HTML can reference .js for both dev and prod
+							return dest + '/' + src.replace('.min.js', '.js');
+						}
+					}
+				]
+			},
+			assets: {
+				files: [
+					{
+						expand: true,
+						cwd: 'src/assets/',
+						src: ['**/*'],
+						dest: 'dist/'
+					},
+					{
+						expand: true,
+						cwd: 'src/',
+						src: ['index.html'],
+						dest: 'dist/'
 					}
 				]
 			}
@@ -84,9 +107,9 @@ module.exports = function (grunt) {
 
 		// Clean Build Artifacts
 		clean: {
-			css: ['public/css/'],
-			js: ['public/js/utils/', 'public/js/interaction*.js'],
-			all: ['public/css/', 'public/js/utils/', 'public/js/interaction*.js']
+			css: ['dist/css/'],
+			js: ['dist/js/'],
+			all: ['dist/']
 		},
 
 		// JavaScript Minification
@@ -101,8 +124,8 @@ module.exports = function (grunt) {
 				mangle: true
 			},
 			js: {
-				src: ['public/js/interaction.js'],
-				dest: 'public/js/interaction.min.js'
+				src: ['dist/js/index.js'],
+				dest: 'dist/js/index.min.js'
 			}
 		},
 
@@ -113,14 +136,14 @@ module.exports = function (grunt) {
 				spawn: false
 			},
 			js: {
-				files: ['public/js/**/*.js', '!public/js/interaction*.js'],
+				files: ['src/app/**/*.js'],
 				tasks: ['concat:js', 'uglify:js'],
 				options: {
 					event: ['changed', 'added']
 				}
 			},
 			css: {
-				files: ['public/less/**/*.less'],
+				files: ['src/styles/less/**/*.less'],
 				tasks: ['less:dev'],
 				options: {
 					event: ['changed', 'added']
@@ -139,8 +162,8 @@ module.exports = function (grunt) {
 
 	// Custom Tasks
 	grunt.registerTask('default', ['build-dev']);
-	grunt.registerTask('build-dev', ['clean:all', 'less:dev', 'copy:dev-js', 'concat']);
-	grunt.registerTask('build-prod', ['clean:all', 'less:prod', 'copy:prod-js', 'concat', 'uglify']);
+	grunt.registerTask('build-dev', ['clean:all', 'less:dev', 'copy:dev-js', 'copy:assets', 'concat']);
+	grunt.registerTask('build-prod', ['clean:all', 'less:prod', 'copy:prod-js', 'copy:assets', 'concat', 'uglify']);
 	
 	// Helper Tasks
 	grunt.registerTask('styles', ['less:dev']);

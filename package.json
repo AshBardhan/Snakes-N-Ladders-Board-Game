@@ -8,8 +8,8 @@
 		"npm": ">=9.0.0"
 	},
 	"scripts": {
-		"dev": "grunt build-dev && concurrently \"cd server && NODE_ENV=dev nodemon server.js\" \"grunt watch\"",
-		"build": "grunt build-prod",
+		"dev": "cd client && grunt build-dev && cd .. && concurrently \"cd server && NODE_ENV=dev nodemon server.js\" \"cd client && grunt watch\"",
+		"build": "cd client && grunt build-prod",
 		"start": "cd server && node server.js",
 		"format": "prettier --write '**/*.{js,json,md}'",
 		"seed": "cd server && node scripts/seed-database.js"

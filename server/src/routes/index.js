@@ -15,7 +15,7 @@ const __dirname = path.dirname(__filename);
 const routes = (app) => {
 	// Game routes
 	app.get(urls.WEB.SNAKES_N_LADDERS_GAME, (_req, res) => {
-			res.sendFile(path.join(__dirname, '../../../public', 'index.html'));
+			res.sendFile(path.join(__dirname, '../../../client/dist', 'index.html'));
 	});
 	app.get(urls.API.FETCH_PLAYER_LIST, gameController.fetchGamePlayers);
 	app.get(urls.API.FETCH_MEME_MESSAGE_LIST, gameController.fetchMemeMessages);

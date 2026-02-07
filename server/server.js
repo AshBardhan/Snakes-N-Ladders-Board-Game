@@ -53,7 +53,7 @@ if (NODE_ENV === 'dev') {
 
 // Favicon
 try {
-	app.use(favicon(path.join(__dirname, '../public', 'images', 'icons', 'favicon.ico')));
+	app.use(favicon(path.join(__dirname, '../client/dist', 'images', 'icons', 'favicon.ico')));
 } catch (err) {
 	console.warn('Favicon not found, skipping...');
 }
@@ -64,7 +64,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride());
 
 // Static Files
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // Database Connection
 connectDB();

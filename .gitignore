@@ -8,9 +8,7 @@
 *.iml
 
 ### Build Related ###
-public/js/interaction*.js
-public/css/
-public/js/utils/
+dist/
 
 ### Configuration Files ###
 .env
