@@ -43,8 +43,8 @@ module.exports = function (grunt) {
 			js: {
 				src: [
 					'src/app/general.js',
-					'src/app/gameApp.js',
-					'src/app/gameAppController.js',
+					'src/app/game-app.config.js',
+					'src/app/game-app.js',
 					'src/app/components/*.component.js'
 				],
 				dest: 'dist/js/index.js'

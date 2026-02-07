@@ -28,7 +28,7 @@ angular.module('gameApp').component('gameAbout', {
 					Test your luck in "Quick Play" or set up an online "Global Battle" challenging others.
 					You can compete with up to 4 players in a single game.
 					<br><br>
-					For the nerds, this game has been developed in HTML5, CSS3 and JavaScript under NodeJS Express Framework.
+					For the nerds, this game has been developed in MEAN stack.
 					<br><br>
 					And for the rest, this game has been created with some "SWAG" and "LULZ".
 				</div>
