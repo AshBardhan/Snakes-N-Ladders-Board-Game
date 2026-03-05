@@ -16,16 +16,6 @@ const fetchGamePlayers = function (req, res) {
 	gameService.fetchGamePlayers(success, failure);
 };
 
-const fetchMemeMessages = function (req, res) {
-	var success = function (memeMessages) {
-		res.json(memeMessages);
-	};
-	var failure = function () {
-		res.status(500).json({ status: 'failure' });
-	};
-	gameService.fetchMemeMessages(success, failure);
-};
-
 const fetchGameList = function (req, res) {
 	var options = { isOccupied: false };
 	var success = function (games) {
@@ -189,7 +179,6 @@ const checkCheatCode = function (req, res) {
 
 export default {
 	fetchGamePlayers,
-	fetchMemeMessages,
 	fetchGameList,
 	addGameToList,
 	togglePlayerInGame,

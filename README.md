@@ -14,6 +14,7 @@ A multiplayer web-based **Snakes & Ladders** board game built with Node.js, Expr
 ## Quick Start
 
 ### Prerequisites
+
 - **Node.js** >= 18.0.0
 - **MongoDB** running locally or [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) account
 - **npm** >= 9.0.0
@@ -21,28 +22,29 @@ A multiplayer web-based **Snakes & Ladders** board game built with Node.js, Expr
 ### Installation
 
 1. **Clone the Repository**
+
    ```bash
    git clone <repository-url>
    cd Snakes-N-Ladders-Board-Game
    ```
 
 2. **Install Dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set Up MongoDB**
-   
    **Option A: Local MongoDB**
    - Ensure MongoDB is installed and running on your machine
    - Default connection: `mongodb://localhost:27017/snakes-ladders`
-   
    **Option B: MongoDB Atlas**
    - Create a free cluster at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
    - Get your connection string
    - Update `MONGODB_URI` in `.env` file
 
 4. **Configure Environment Variables**
+
    ```bash
    # Copy the example environment file
    cp .env.example .env
@@ -54,18 +56,21 @@ A multiplayer web-based **Snakes & Ladders** board game built with Node.js, Expr
    ```
 
 5. **Seed the Database**
+
    ```bash
    # Populate the database with initial game data (avatars, players, etc.)
    npm run seed
    ```
 
 6. **Build Assets**
+
    ```bash
    # Compile LESS to CSS and bundle JavaScript
    npm run build
    ```
 
 7. **Start the Application**
+
    ```bash
    # Development mode with auto-reload and file watching
    npm run dev
@@ -75,7 +80,6 @@ A multiplayer web-based **Snakes & Ladders** board game built with Node.js, Expr
    ```
 
 8. **Access the Game**
-   
    Open your browser to [http://localhost:3000](http://localhost:3000)
 
 ## Available Scripts
@@ -98,13 +102,12 @@ After configuring your environment and ensuring MongoDB is running, seed the dat
 npm run seed
 ```
 
-This will populate the database with:
-- **8 Players** (6 visible + 2 hidden players unlockable with cheat code)
-- **Meme Messages** for different game scenarios (battle, result, winner, loser)
+This will populate the database with **8 Players** (6 visible + 2 hidden players unlockable with cheat code)
 
 ### What Gets Seeded
 
 **Visible Players (6):**
+
 - Smiley (p-1)
 - Minion (p-2)
 - Troll Kid (p-3)
@@ -113,6 +116,7 @@ This will populate the database with:
 - RaGa (p-6)
 
 **Hidden Players (2):**
+
 - AshBee (p-7) - Unlock with cheat code: `bardhanmania`
 - Ashish (p-8) - Unlock with cheat code: `bardhanmania`
 
@@ -127,6 +131,7 @@ While the server is running, you can use these endpoints:
 | `/admin/stats` | GET | Get database statistics |
 
 **Example:**
+
 ```bash
 # Seed via API
 curl http://localhost:3000/admin/seed
@@ -138,25 +143,27 @@ curl http://localhost:3000/admin/stats
 ### Verify Database
 
 **Using MongoDB Shell:**
+
 ```bash
 mongosh mongodb://localhost:27017/snakes-ladders
 
 # Count documents
 db.players.countDocuments()        # Should return 8
-db.mememessages.countDocuments()   # Should return 4
 
 # View all players
 db.players.find().pretty()
 ```
 
 **Using MongoDB Compass:**
+
 1. Connect to `mongodb://localhost:27017`
 2. Select `snakes-ladders` database
-3. Browse collections: `players`, `mememessages`, `games`
+3. Browse collections: `players`, `games`
 
 ### Troubleshooting
 
 **Database connection timeout:**
+
 ```bash
 # Check if MongoDB is running
 sudo systemctl status mongod
@@ -166,12 +173,14 @@ sudo systemctl start mongod
 ```
 
 **Duplicate key errors:**
+
 ```bash
 # Reset database (clears all data and reseeds)
 curl http://localhost:3000/admin/reset
 ```
 
 **Connection refused:**
+
 - Verify MongoDB is running
 - Check `MONGODB_URI` in `.env` file
 - For MongoDB Atlas, ensure your IP is whitelisted
@@ -179,18 +188,21 @@ curl http://localhost:3000/admin/reset
 ## Technology Stack
 
 ### Backend
+
 - **Express 4.x** - Web framework
 - **MongoDB + Mongoose** - Database
 - **Socket.IO 4.x** - Real-time communication
 - **Pug** - Template engine
 
 ### Frontend
+
 - **AngularJS 1.8.3** - Frontend framework
 - **Angular UI Router** - Routing
 - **LESS** - CSS preprocessor
 - **Vanilla JavaScript (ES6+)** - Game logic
 
 ### Build Tools
+
 - **Grunt** - Task runner
 - **Uglify** - JavaScript minification
 - **LESS Compiler** - CSS compilation
@@ -198,7 +210,8 @@ curl http://localhost:3000/admin/reset
 ## Development
 
 ### Project Structure
-```
+
+```text
 ├── app/                    # Backend application code
 │   ├── connections/       # Database and Socket.IO connections
 │   ├── controllers/       # Route controllers
@@ -218,6 +231,7 @@ curl http://localhost:3000/admin/reset
 ### Building for Production
 
 The build process:
+
 1. Compiles LESS to minified CSS
 2. Concatenates JavaScript files
 3. Minifies JavaScript with UglifyJS
@@ -228,11 +242,13 @@ Run `npm run build` to create production-ready assets.
 ## Game Modes
 
 ### Quick Play
+
 - Play locally with friends on the same device
 - No account required
 - Instant start
 
 ### Global Battle
+
 - Play online with players worldwide
 - Create or join game rooms
 - Real-time multiplayer via Socket.IO

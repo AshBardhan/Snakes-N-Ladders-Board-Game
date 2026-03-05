@@ -15,16 +15,6 @@ export const fetchGamePlayers = async function (query, projection, successCallba
 	}
 };
 
-export const fetchMemeMessages = async function (query, projection, successCallback, errCallback) {
-	try {
-		const memeMessages = await adminSchema.memeMessageSchema.find(query, projection).exec();
-		successCallback(memeMessages);
-	} catch (err) {
-		console.error('Error fetching meme messages:', err);
-		errCallback();
-	}
-};
-
 export const fetchGameList = async function (query, projection, successCallback, errCallback) {
 	try {
 		const gameList = await adminSchema.gameSchema

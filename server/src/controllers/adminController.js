@@ -1,8 +1,6 @@
 import adminSchema from '../schemas/adminSchema.js';
 import playerDataJson from '../data/player.json' with { type: 'json' };
-import memeMessageDataJson from '../data/memeMessage.json' with { type: 'json' };
 import playerModel from '../models/playerModel.js';
-import memeMessageModel from '../models/memeMessageModel.js';
 
 const showSchema = async function (req, res) {
 	try {
@@ -47,36 +45,6 @@ const showModel = function (req, res) {
 	res.json(dataSample);
 };
 
-const saveModelSchema = async function (req, res) {
-	try {
-		const dataSample = memeMessageDataJson;
-		const testModel = memeMessageModel;
-		for (var i in dataSample) {
-			const record = new adminSchema.memeMessageSchema(testModel(dataSample[i]).getInformation());
-			await record.save();
-			console.log('success');
-		}
-		res.json({ status: 'success' });
-	} catch (err) {
-		console.log(err);
-		res.status(500).json({ status: 'failure' });
-	}
-};
-
-const showModelSchema = async function (req, res) {
-	try {
-		const results = await adminSchema.memeMessageSchema.find().setOptions({ sort: 'id' }).exec();
-		console.log(results);
-		res.render('admin/index', {
-			title: 'results',
-			results: results,
-		});
-	} catch (err) {
-		console.error('Error in showModelSchema:', err);
-		res.status(500).json({ status: 'failure' });
-	}
-};
-
 const savePlayerModelSchema = async function (req, res) {
 	try {
 		const dataSample = playerDataJson;
@@ -93,32 +61,15 @@ const savePlayerModelSchema = async function (req, res) {
 	}
 };
 
-const saveMemeModelSchema = async function (req, res) {
-	try {
-		const dataSample = memeMessageDataJson;
-		const testModel = memeMessageModel;
-		for (var i in dataSample) {
-			const record = new adminSchema.memeMessageSchema(testModel(dataSample[i]).getInformation());
-			await record.save();
-			console.log('success');
-		}
-		res.json({ status: 'success' });
-	} catch (err) {
-		console.log(err);
-		res.status(500).json({ status: 'failure' });
-	}
-};
-
 /**
  * Complete Database Seeding
- * Seeds all initial data: players and meme messages
+ * Seeds all initial data: players
  */
 const seedDatabase = async function (req, res) {
 	try {
 		console.log('🌱 Starting database seed...');
 		const results = {
 			players: { inserted: 0, skipped: 0, errors: [] },
-			memeMessages: { inserted: 0, skipped: 0, errors: [] },
 		};
 
 		// Seed Players
@@ -149,43 +100,13 @@ const seedDatabase = async function (req, res) {
 			}
 		}
 
-		// Seed Meme Messages
-		console.log('💬 Seeding meme messages...');
-		const memeMessageDataSample = memeMessageDataJson;
-		const memeMessageModelFunc = memeMessageModel;
-
-		for (const memeData of memeMessageDataSample) {
-			try {
-				// Check if meme message type already exists
-				const existingMeme = await adminSchema.memeMessageSchema.findOne({ type: memeData.type });
-
-				if (existingMeme) {
-					console.log(`   ⏭️  Meme message type '${memeData.type}' already exists, skipping`);
-					results.memeMessages.skipped++;
-				} else {
-					const memeInfo = memeMessageModelFunc(memeData).getInformation();
-					const record = new adminSchema.memeMessageSchema(memeInfo);
-					await record.save();
-					console.log(`   ✅ Added meme message type: ${memeData.type}`);
-					results.memeMessages.inserted++;
-				}
-			} catch (err) {
-				console.error(`   ❌ Error adding meme message ${memeData.type}:`, err.message);
-				results.memeMessages.errors.push({ type: memeData.type, error: err.message });
-			}
-		}
-
 		// Get final counts
 		const playerCount = await adminSchema.playerSchema.countDocuments();
 		const visiblePlayers = await adminSchema.playerSchema.countDocuments({ isHidden: false });
 		const hiddenPlayers = await adminSchema.playerSchema.countDocuments({ isHidden: true });
-		const memeCount = await adminSchema.memeMessageSchema.countDocuments();
 
 		console.log('\n✨ Database seeding completed!');
-		console.log(
-			`   Players: ${playerCount} total (${visiblePlayers} visible, ${hiddenPlayers} hidden)`
-		);
-		console.log(`   Meme Messages: ${memeCount} types`);
+		console.log(`Players: ${playerCount} total (${visiblePlayers} visible, ${hiddenPlayers} hidden)`);
 
 		res.json({
 			status: 'success',
@@ -198,12 +119,6 @@ const seedDatabase = async function (req, res) {
 					inserted: results.players.inserted,
 					skipped: results.players.skipped,
 					errors: results.players.errors.length,
-				},
-				memeMessages: {
-					total: memeCount,
-					inserted: results.memeMessages.inserted,
-					skipped: results.memeMessages.skipped,
-					errors: results.memeMessages.errors.length,
 				},
 			},
 			details: results,
@@ -228,7 +143,6 @@ const resetDatabase = async function (req, res) {
 
 		// Clear all collections
 		await adminSchema.playerSchema.deleteMany({});
-		await adminSchema.memeMessageSchema.deleteMany({});
 		await adminSchema.gameSchema.deleteMany({});
 		await adminSchema.gamePlayerSchema.deleteMany({});
 		console.log('✅ All collections cleared');
@@ -264,10 +178,6 @@ const getDatabaseStats = async function (req, res) {
 				active: await adminSchema.gameSchema.countDocuments({ isOccupied: true }),
 				waiting: await adminSchema.gameSchema.countDocuments({ isOccupied: false }),
 			},
-			memeMessages: {
-				total: await adminSchema.memeMessageSchema.countDocuments(),
-				types: await adminSchema.memeMessageSchema.find({}, { type: 1, _id: 0 }),
-			},
 			gamePlayers: {
 				total: await adminSchema.gamePlayerSchema.countDocuments(),
 			},
@@ -290,10 +200,7 @@ export default {
 	showSchema,
 	saveSchema,
 	showModel,
-	saveModelSchema,
-	showModelSchema,
 	savePlayerModelSchema,
-	saveMemeModelSchema,
 	seedDatabase,
 	resetDatabase,
 	getDatabaseStats,

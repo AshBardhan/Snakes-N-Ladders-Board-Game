@@ -18,7 +18,6 @@ const routes = (app) => {
 			res.sendFile(path.join(__dirname, '../../../client/dist', 'index.html'));
 	});
 	app.get(urls.API.FETCH_PLAYER_LIST, gameController.fetchGamePlayers);
-	app.get(urls.API.FETCH_MEME_MESSAGE_LIST, gameController.fetchMemeMessages);
 	app.get(urls.API.UPDATE_PLAYER_PLAYED, gameController.updatePlayerMatch);
 	app.get(urls.API.UPDATE_PLAYER_WON, gameController.updatePlayerWin);
 	app.get(urls.API.FETCH_GAME_LIST, gameController.fetchGameList);
@@ -41,9 +40,6 @@ const routes = (app) => {
 	app.get(urls.ADMIN.SHOW_SCHEMA, adminController.showSchema);
 	app.get(urls.ADMIN.SAVE_SCHEMA, adminController.saveSchema);
 	app.get(urls.ADMIN.SHOW_MODEL, adminController.showModel);
-	app.get(urls.ADMIN.SHOW_MODEL_SCHEMA, adminController.showModelSchema);
-	app.get(urls.ADMIN.SAVE_MODEL_SCHEMA, adminController.saveModelSchema);
-	app.get(urls.ADMIN.SAVE_MEME_MODEL_SCHEMA, adminController.saveMemeModelSchema);
 	app.get(urls.ADMIN.SAVE_PLAYER_MODEL_SCHEMA, adminController.savePlayerModelSchema);
 	
 	// Database management routes

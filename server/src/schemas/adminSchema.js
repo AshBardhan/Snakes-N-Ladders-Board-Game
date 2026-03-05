@@ -28,11 +28,6 @@ const imageSchema = new Schema({
 	height: Number,
 });
 
-const memeMessageSchema = new Schema({
-	type: String,
-	playerCount: Object,
-});
-
 const gamePlayerSchema = new Schema({
 	gameID: String,
 	playerID: String,
@@ -45,5 +40,4 @@ export default {
 	imageSchema: mongoose.model('image', imageSchema),
 	playerSchema: mongoose.model('player', playerSchema),
 	gamePlayerSchema: mongoose.model('gamePlayer', gamePlayerSchema),
-	memeMessageSchema: mongoose.model('memeMessage', memeMessageSchema),
 };
