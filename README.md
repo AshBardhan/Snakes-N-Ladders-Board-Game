@@ -212,20 +212,41 @@ curl http://localhost:3000/admin/reset
 ### Project Structure
 
 ```text
-├── app/                    # Backend application code
-│   ├── connections/       # Database and Socket.IO connections
-│   ├── controllers/       # Route controllers
-│   ├── models/           # Data models
-│   ├── schemas/          # Mongoose schemas
-│   └── services/         # Business logic
-├── public/                # Static assets
-│   ├── css/              # Compiled stylesheets
-│   ├── js/               # JavaScript files
-│   ├── less/             # LESS source files
-│   └── images/           # Game assets
-├── views/                 # Pug templates
-├── server.js             # Application entry point
-├── Gruntfile.js          # Build configuration
+├── client/                     # Frontend application
+│   ├── Gruntfile.cjs          # Client build configuration
+│   ├── src/                   # Client source files
+│   │   ├── index.html         # Main HTML template
+│   │   ├── app/               # AngularJS application
+│   │   │   ├── game-app.js    # Main app module
+│   │   │   ├── game-app.config.js  # App configuration
+│   │   │   ├── general.js     # General utilities
+│   │   │   └── components/    # Angular components
+│   │   ├── assets/            # Static assets
+│   │   │   ├── fonts/         # Font files
+│   │   │   └── images/        # Game images (avatars, boards, etc.)
+│   │   └── styles/            # Stylesheets (in LESS)
+│   └── dist/                  # Built client files (generated)
+├── server/                     # Backend application
+│   ├── server.js              # Application entry point
+│   ├── scripts/               # Utility scripts
+│   │   └── seed-database.js   # Database seeding script
+│   ├── src/                   # Server source code
+│   │   ├── config/            # Configuration files
+│   │   │   └── database.js    # MongoDB connection
+│   │   ├── controllers/       # Route controllers
+│   │   ├── models/            # Data models
+│   │   ├── schemas/           # Mongoose schemas
+│   │   ├── services/          # Business logic
+│   │   ├── routes/            # API routes
+│   │   ├── socket/            # Socket.IO handlers
+│   │   ├── enums/             # Constants and enums
+│   │   └── data/              # JSON data files
+│   └── views/                 # Pug templates
+│       ├── layouts/           # Layout templates
+│       ├── admin/             # Admin views
+│       └── test/              # Test views
+├── package.json               # Project dependencies
+└── README.md                  # Project documentation
 ```
 
 ### Building for Production
