@@ -18,7 +18,7 @@ module.exports = function (grunt) {
 					sourceMapFilename: 'dist/css/style.css.map',
 					sourceMapURL: 'style.css.map'
 				},
-				src: ['src/styles/less/style.less'],
+				src: ['src/styles/style.less'],
 				dest: 'dist/css/style.css'
 			},
 			prod: {
@@ -27,7 +27,7 @@ module.exports = function (grunt) {
 					cleancss: true,
 					optimization: 2
 				},
-				src: ['src/styles/less/style.less'],
+				src: ['src/styles/style.less'],
 				dest: 'dist/css/style.min.css'
 			}
 		},
@@ -143,7 +143,7 @@ module.exports = function (grunt) {
 				}
 			},
 			css: {
-				files: ['src/styles/less/**/*.less'],
+				files: ['src/styles/**/*.less'],
 				tasks: ['less:dev'],
 				options: {
 					event: ['changed', 'added']
