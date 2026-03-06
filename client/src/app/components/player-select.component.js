@@ -103,8 +103,8 @@ angular.module('gameApp').component('playerSelect', {
 			});
 
 			ctrl.startGame = function () {
-			$location.path(ctrl.gameID ? `/game/${ctrl.gameID}/play` : '/game/play');
-		};
+				$location.path(ctrl.gameID ? `/game/${ctrl.gameID}/play` : '/game/play');
+			};
 
 			ctrl.getSelectedPlayersCount = function () {
 				var count = {
@@ -128,7 +128,7 @@ angular.module('gameApp').component('playerSelect', {
 			ctrl.setGameSelectCountdown = function () {
 				ctrl.count = 10;
 				(function loop() {
-					ctrl.timeCountMessage = 'Time Left : ' + ctrl.count + ' seconds';
+					ctrl.timeCountMessage = `Time Left : ${ctrl.count} seconds`;
 					if (ctrl.count > 0) {
 						ctrl.count -= 1;
 						$timeout(loop, 1000);

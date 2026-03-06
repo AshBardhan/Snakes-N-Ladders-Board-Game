@@ -37,7 +37,7 @@ angular
 				minimumSelectedPlayers: 2,
 				maximumSelectedPlayers: 4,
 			};
-			$scope.gameLayoutBackGround = 'bkgrnd-game-' + Math.floor(Math.random() * 6 + 1);
+			$scope.gameLayoutBackGround = `bkgrnd-game-${Math.floor(Math.random() * 6 + 1)}`;
 
 			$scope.goBackHome = function () {
 				$location.path('/');

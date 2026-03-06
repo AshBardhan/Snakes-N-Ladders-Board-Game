@@ -58,7 +58,7 @@ angular.module('gameApp').component('playGame', {
 				socket.on('dice', function (data) {
 					if (data.gameID === ctrl.gameID && !ctrl.competitors[data.index].isYours) {
 						ctrl.dice = data.dice;
-						console.log('got dice -> ' + ctrl.dice);
+						console.log(`got dice -> ${ctrl.dice}`);
 						ctrl.diceMove();
 					}
 				});
@@ -73,8 +73,8 @@ angular.module('gameApp').component('playGame', {
 					positionX = 9 - positionX;
 				}
 				return {
-					left: 58 * positionX + 25 + 'px',
-					bottom: 56 * positionY + 35 + 'px',
+					left: `${58 * positionX + 25}px`,
+					bottom: `${56 * positionY + 35}px`,
 				};
 			};
 
@@ -147,7 +147,7 @@ angular.module('gameApp').component('playGame', {
 
 			ctrl.showWinner = function (index) {
 				ctrl.competitors.forEach(function (obj, i) {
-					obj.message = (obj.isYours ? 'You' : 'Rival') + ' ' + (i === index ? 'Won' : 'Lost');
+					obj.message = `${obj.isYours ? 'You' : 'Rival'} ${i === index ? 'Won' : 'Lost'}`;
 				});
 				$timeout(function () {
 					if (ctrl.goBackHome) {
@@ -159,13 +159,13 @@ angular.module('gameApp').component('playGame', {
 			ctrl.movePlayer = function () {
 				var index = ctrl.currentPlayer,
 					source = ctrl.competitors[index].position;
-				console.log('player posn -> ' + source + ' dice -> ' + ctrl.dice);
+				console.log(`player posn -> ${source} dice -> ${ctrl.dice}`);
 				if (source + ctrl.dice <= 99) {
 					$interval(
 						function () {
 							ctrl.isPlayerMoving = true;
 							++ctrl.competitors[index].position;
-							console.log('moving to posn ->' + ctrl.competitors[index].position);
+							console.log(`moving to posn -> ${ctrl.competitors[index].position}`);
 						},
 						300,
 						ctrl.dice
@@ -173,10 +173,10 @@ angular.module('gameApp').component('playGame', {
 						ctrl.ladderHit(index);
 						ctrl.snakeBite(index);
 						console.log(
-							'checking winner posn ->' + ctrl.competitors[index].position + 'player -> ' + index
+							`checking winner posn -> ${ctrl.competitors[index].position} player -> ${index}`
 						);
 						if (ctrl.competitors[index].position === 99) {
-							console.log('winner player -> ' + index);
+							console.log(`winner player -> ${index}`);
 							ctrl.showWinner(index);
 							ctrl.currentPlayer = index;
 							ctrl.count = -1;
@@ -189,7 +189,7 @@ angular.module('gameApp').component('playGame', {
 				if (ctrl.dice !== 6) {
 					ctrl.currentPlayer = (ctrl.currentPlayer + 1) % ctrl.competitors.length;
 				}
-				console.log('turn to player -> ' + ctrl.currentPlayer);
+				console.log(`turn to player -> ${ctrl.currentPlayer}`);
 				ctrl.setGamePlayCountdown();
 			};
 
@@ -228,7 +228,7 @@ angular.module('gameApp').component('playGame', {
 			ctrl.initializeCompetitors = function () {
 				ctrl.competitors.forEach(function (obj, i) {
 					obj.position = 0;
-					obj.message = (obj.isYours ? 'Your' : 'Rival') + ' Turn';
+					obj.message = `${obj.isYours ? 'Your' : 'Rival'} Turn`;
 				});
 			};
 
