@@ -32,14 +32,12 @@ app.config([
 				template: '<player-select settings="settings" go-back-home="goBackHome()"></player-select>',
 			})
 			.when('/player-select/:gameID', {
-				template: '<player-select settings="settings" game-id="$resolve.gameID" go-back-home="goBackHome()"></player-select>',
-				resolve: {
-					gameID: ['$route', function($route) {
-						return $route.current.params.gameID;
-					}]
-				}
+				template: '<player-select settings="settings" go-back-home="goBackHome()"></player-select>',
 			})
 			.when('/play-game', {
+				template: '<play-game settings="settings" go-back-home="goBackHome()"></play-game>',
+			})
+			.when('/play-game/:gameID', {
 				template: '<play-game settings="settings" go-back-home="goBackHome()"></play-game>',
 			})
 			.otherwise({
@@ -54,21 +52,15 @@ app.run([
 	'$location',
 	function ($rootScope, $location) {
 		// Route change error handling
-		$rootScope.$on(
-			'$routeChangeError',
-			function (event, current, previous, rejection) {
-				console.error('Route change error:', rejection);
-				alert('Navigation error. Redirecting to home.');
-				$location.path('/');
-			}
-		);
+		$rootScope.$on('$routeChangeError', function (event, current, previous, rejection) {
+			console.error('Route change error:', rejection);
+			alert('Navigation error. Redirecting to home.');
+			$location.path('/');
+		});
 
 		// Route change success logging
-		$rootScope.$on(
-			'$routeChangeSuccess',
-			function (event, current, previous) {
-				console.log('Route changed successfully to:', $location.path());
-			}
-		);
+		$rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+			console.log('Route changed successfully to:', $location.path());
+		});
 	},
 ]);

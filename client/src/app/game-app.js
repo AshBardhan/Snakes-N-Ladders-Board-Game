@@ -33,7 +33,6 @@ angular
 		function ($scope, $location) {
 			$scope.settings = {
 				isBackEnabled: false,
-				yourGameID: undefined,
 				players: [],
 				minimumSelectedPlayers: 2,
 				maximumSelectedPlayers: 4,
@@ -41,7 +40,6 @@ angular
 			$scope.gameLayoutBackGround = 'bkgrnd-game-' + Math.floor(Math.random() * 6 + 1);
 
 			$scope.goBackHome = function () {
-				delete $scope.settings.yourGameID;
 				$location.path('/');
 			};
 		},

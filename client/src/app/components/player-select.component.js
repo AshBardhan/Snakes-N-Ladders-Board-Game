@@ -9,15 +9,18 @@ angular.module('gameApp').component('playerSelect', {
 		'$http',
 		'$location',
 		'$timeout',
+		'$routeParams',
 		'socket',
-		function PlayerSelectController($http, $location, $timeout, socket) {
+		function PlayerSelectController($http, $location, $timeout, $routeParams, socket) {
 			var ctrl = this;
 
 			ctrl.$onInit = function () {
+				// Get gameID from route params (0 if not present)
+				ctrl.gameID = $routeParams.gameID || 0;
+
 				if (ctrl.settings) {
 					ctrl.settings.isBackEnabled = true;
 					ctrl.settings.selectedPlayerCount = 0;
-					ctrl.settings.yourGameID = ctrl.gameID;
 				}
 				ctrl.canStartGame = false;
 				ctrl.timeCountMessage = '';
@@ -40,7 +43,7 @@ angular.module('gameApp').component('playerSelect', {
 					ctrl.resetPlayers();
 				}
 
-				if (ctrl.settings.yourGameID) {
+				if (ctrl.gameID) {
 					ctrl.setGameSelectCountdown();
 				}
 			};
@@ -54,7 +57,7 @@ angular.module('gameApp').component('playerSelect', {
 			};
 
 			ctrl.isNotYourPlayer = function (player) {
-				return player.isYours === false && ctrl.settings.yourGameID;
+				return player.isYours === false && ctrl.gameID;
 			};
 
 			ctrl.checkCanStartGame = function () {
@@ -81,10 +84,14 @@ angular.module('gameApp').component('playerSelect', {
 			ctrl.selectGamePlayer = function (index) {
 				var selection = !ctrl.settings.players[index].selected;
 				ctrl.setGamePlayer(index, selection, true);
-				if (ctrl.settings.yourGameID) {
+
+				console.log('Selected Player Index:', index, 'Selection:', selection);
+				console.log('Current Game ID:', ctrl.gameID);
+
+				if (ctrl.gameID) {
 					socket.emit('selection', {
 						index: index,
-						gameID: ctrl.settings.yourGameID,
+						gameID: ctrl.gameID,
 						selection: selection,
 					});
 				}
@@ -92,7 +99,7 @@ angular.module('gameApp').component('playerSelect', {
 
 			socket.on('selection', function (data) {
 				if (
-					data.gameID === ctrl.settings.yourGameID &&
+					data.gameID === ctrl.gameID &&
 					ctrl.settings.players[data.index].selected !== data.selection
 				) {
 					ctrl.setGamePlayer(data.index, data.selection, false);
@@ -100,7 +107,7 @@ angular.module('gameApp').component('playerSelect', {
 			});
 
 			ctrl.startGame = function () {
-				$location.path('/play-game');
+				$location.path('/play-game' + (ctrl.gameID ? '/' + ctrl.gameID : ''));
 			};
 
 			ctrl.getSelectedPlayersCount = function () {
@@ -142,9 +149,7 @@ angular.module('gameApp').component('playerSelect', {
 						} else {
 							ctrl.timeCountMessage = 'Cancelling the game...';
 							$timeout(function () {
-								if (ctrl.goBackHome) {
-									ctrl.goBackHome();
-								}
+								ctrl.goBackHome();
 							}, 1000);
 						}
 					}
@@ -154,14 +159,13 @@ angular.module('gameApp').component('playerSelect', {
 	],
 	bindings: {
 		settings: '=',
-		gameID: '<',
 		goBackHome: '&',
 	},
 	template: `
 			<div id="player-select">
 				<div class="section-title">
 					Select Players
-					<div class="time-count" ng-hide="!$ctrl.settings.yourGameID">{{ $ctrl.timeCountMessage }}</div>
+					<div class="time-count" ng-hide="!$ctrl.gameID">{{ $ctrl.timeCountMessage }}</div>
 				</div>
 				<div ng-show="!$ctrl.hasPlayersFetched">Loading Players....</div>
 				<div id="playerList" ng-show="$ctrl.hasPlayersFetched && $ctrl.settings.players.length">
@@ -180,7 +184,7 @@ angular.module('gameApp').component('playerSelect', {
 						</div>
 					<div class="player-name" ng-class="'text-color-' + player.id">{{player.name}}</div>
 					</div>
-					<div class="continue-button" ng-show="$ctrl.canStartGame && !$ctrl.settings.yourGameID" ng-click="$ctrl.startGame()">
+					<div class="continue-button" ng-show="$ctrl.canStartGame && !$ctrl.gameID" ng-click="$ctrl.startGame()">
 						<div class="button">Start The Game</div>
 					</div>
 				</div>

@@ -9,11 +9,14 @@ angular.module('gameApp').component('playGame', {
 		'$location',
 		'$timeout',
 		'$interval',
+		'$routeParams',
 		'socket',
-		function PlayGameController($location, $timeout, $interval, socket) {
+		function PlayGameController($location, $timeout, $interval, $routeParams, socket) {
 			var ctrl = this;
 
 			ctrl.$onInit = function () {
+				ctrl.gameID = $routeParams.gameID || 0;
+
 				if (ctrl.settings) {
 					ctrl.settings.isBackEnabled = false;
 				}
@@ -53,7 +56,7 @@ angular.module('gameApp').component('playGame', {
 				ctrl.setGamePlayCountdown();
 
 				socket.on('dice', function (data) {
-					if (data.gameID === ctrl.settings.yourGameID && !ctrl.competitors[data.index].isYours) {
+					if (data.gameID === ctrl.gameID && !ctrl.competitors[data.index].isYours) {
 						ctrl.dice = data.dice;
 						console.log('got dice -> ' + ctrl.dice);
 						ctrl.diceMove();
@@ -205,11 +208,11 @@ angular.module('gameApp').component('playGame', {
 			ctrl.rollDice = function () {
 				ctrl.dice = Math.floor(Math.random() * 6 + 1);
 				ctrl.diceMove();
-				if (ctrl.settings.yourGameID) {
+				if (ctrl.gameID) {
 					socket.emit('dice', {
 						index: ctrl.currentPlayer,
 						dice: ctrl.dice,
-						gameID: ctrl.settings.yourGameID,
+						gameID: ctrl.gameID,
 					});
 				}
 			};
