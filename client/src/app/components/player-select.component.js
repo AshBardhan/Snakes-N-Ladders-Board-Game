@@ -10,8 +10,9 @@ angular.module('gameApp').component('playerSelect', {
 		'$location',
 		'$timeout',
 		'$routeParams',
+		'$document',
 		'socket',
-		function PlayerSelectController($http, $location, $timeout, $routeParams, socket) {
+		function PlayerSelectController($http, $location, $timeout, $routeParams, $document, socket) {
 			var ctrl = this;
 
 			ctrl.$onInit = function () {
@@ -24,6 +25,9 @@ angular.module('gameApp').component('playerSelect', {
 				}
 				ctrl.canStartGame = false;
 				ctrl.timeCountMessage = '';
+
+				ctrl.cheatPosition = 0;
+				ctrl.hiddenPlayersUnlocked = false;
 
 				if (!ctrl.settings.players.length) {
 					ctrl.hasPlayersFetched = false;
@@ -46,6 +50,49 @@ angular.module('gameApp').component('playerSelect', {
 				if (ctrl.gameID) {
 					ctrl.setGameSelectCountdown();
 				}
+
+				// Setup cheat code keypress listener
+				ctrl.keypressHandler = function (event) {
+					if (!ctrl.hiddenPlayersUnlocked) {
+						ctrl.handleCheatCode(event.which || event.keyCode);
+					}
+				};
+
+				$document.on('keypress', ctrl.keypressHandler);
+			};
+
+			// Remove keypress listener when component is destroyed
+			ctrl.$onDestroy = function () {
+				$document.off('keypress', ctrl.keypressHandler);
+			};
+
+			ctrl.handleCheatCode = function (charCode) {
+				$http
+					.post(urls.checkCheatCode, {
+						charCode: charCode,
+						posn: ctrl.cheatPosition,
+					})
+					.then(
+						function (response) {
+							ctrl.cheatPosition = response.data.status;
+							if (ctrl.cheatPosition === -1) {
+								ctrl.unlockHiddenPlayers();
+								ctrl.cheatPosition = 0;
+							}
+						},
+						function (error) {
+							console.error('Cheat code check failed:', error);
+						}
+					);
+			};
+
+			ctrl.unlockHiddenPlayers = function () {
+				ctrl.settings.players.forEach(function (player) {
+					if (player.isHidden) {
+						delete player.isHidden;
+					}
+				});
+				ctrl.hiddenPlayersUnlocked = true;
 			};
 
 			ctrl.resetPlayers = function () {

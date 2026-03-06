@@ -166,7 +166,7 @@ const joinGame = function (req, res) {
 const checkCheatCode = function (req, res) {
 	var charCode = req.body.charCode;
 	var posn = Number(req.body.posn);
-	if (cheatCodes.unlockPlayersCheat.charCodeAt(posn) - 32 == charCode) {
+	if (cheatCodes.unlockPlayersCheat.charCodeAt(posn) == charCode) {
 		posn += 1;
 		if (posn === cheatCodes.unlockPlayersCheat.length) {
 			posn = -1;
