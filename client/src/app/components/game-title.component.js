@@ -22,7 +22,7 @@ angular.module('gameApp').component('gameTitle', {
 			};
 
 			ctrl.onGameSelect = function (playMode) {
-				$location.path(playMode === 'local' ? '/player-select' : '/game-select');
+				$location.path(playMode === 'local' ? '/game/setup' : '/game/join');
 			};
 		},
 	],

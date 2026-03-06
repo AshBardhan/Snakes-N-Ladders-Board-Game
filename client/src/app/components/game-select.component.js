@@ -67,7 +67,7 @@ angular.module('gameApp').component('gameSelect', {
 			};
 
 			ctrl.joinGame = function (gameId) {
-				$location.path('/player-select/' + gameId);
+				$location.path(`/game/${gameId}/setup`);
 			};
 		},
 	],

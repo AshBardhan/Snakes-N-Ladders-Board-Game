@@ -84,10 +84,6 @@ angular.module('gameApp').component('playerSelect', {
 			ctrl.selectGamePlayer = function (index) {
 				var selection = !ctrl.settings.players[index].selected;
 				ctrl.setGamePlayer(index, selection, true);
-
-				console.log('Selected Player Index:', index, 'Selection:', selection);
-				console.log('Current Game ID:', ctrl.gameID);
-
 				if (ctrl.gameID) {
 					socket.emit('selection', {
 						index: index,
@@ -107,8 +103,8 @@ angular.module('gameApp').component('playerSelect', {
 			});
 
 			ctrl.startGame = function () {
-				$location.path('/play-game' + (ctrl.gameID ? '/' + ctrl.gameID : ''));
-			};
+			$location.path(ctrl.gameID ? `/game/${ctrl.gameID}/play` : '/game/play');
+		};
 
 			ctrl.getSelectedPlayersCount = function () {
 				var count = {

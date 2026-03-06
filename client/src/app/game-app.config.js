@@ -25,19 +25,13 @@ app.config([
 			.when('/about', {
 				template: '<game-about settings="settings"></game-about>',
 			})
-			.when('/game-select', {
+			.when('/game/join', {
 				template: '<game-select settings="settings"></game-select>',
 			})
-			.when('/player-select', {
+			.when('/game/:gameID?/setup', {
 				template: '<player-select settings="settings" go-back-home="goBackHome()"></player-select>',
 			})
-			.when('/player-select/:gameID', {
-				template: '<player-select settings="settings" go-back-home="goBackHome()"></player-select>',
-			})
-			.when('/play-game', {
-				template: '<play-game settings="settings" go-back-home="goBackHome()"></play-game>',
-			})
-			.when('/play-game/:gameID', {
+			.when('/game/:gameID?/play', {
 				template: '<play-game settings="settings" go-back-home="goBackHome()"></play-game>',
 			})
 			.otherwise({
