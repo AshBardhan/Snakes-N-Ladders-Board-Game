@@ -29,10 +29,6 @@
 		font-size: 50px;
 	}
 
-	.player-message {
-		top: 30px;
-	}
-
 	#player-select .continue-button {
 		height: 80px;
 	}
@@ -50,54 +46,56 @@
 	}
 
 	#game-box .box.half-box:first-child {
-		width: inherit;
 		.dice-box {
-			.display-block;
-			margin-bottom: @margin-medium;
-			.dice-show {
-				margin: 0 auto;
-			}
+			display: flex;
 		}
 	}
 
 	.mini-score-box {
-		.display-block;
-		margin-top: @margin-xxlarge;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 20px 10px;
+		margin: @margin-large 0;
+
 		.mini-score-board {
-			.display-inline;
-			border-radius: 10px;
+			border-radius: 4px;
 			position: relative;
-			padding: @padding-base @padding-medium;
-			width: 245px;
-			margin: @margin-xxlarge 0;
-			font-size: 15px;
+			padding: 0 @padding-medium;
+			font-size: 12px;
 			.text-white;
+
 			&:nth-child(odd) {
-				margin-left: @margin-large;
-				margin-right: @margin-base;
-				.text-right;
+				.score-sheet {
+					flex-direction: row;
+					margin-left: 30px;
+				}
 				.game-player {
 					left: 5px;
 				}
 				.player-message {
-					left: 70px;
+					left: 40px;
 				}
 			}
+
 			&:nth-child(even) {
-				margin-right: @margin-large;
-				margin-left: @margin-base;
-				.text-left;
+				.score-sheet {
+					flex-direction: row-reverse;
+					margin-right: 30px;
+				}
 				.game-player {
 					right: 5px;
 				}
 				.player-message {
-					right: 70px;
+					right: 40px;
 				}
 			}
+
 			.game-player {
-				width: 60px;
-				height: 60px;
-				top: -20px;
+				width: 30px;
+				height: 30px;
+				top: 50%;
+				transform: translateY(-50%);
+
 				.player-avatar {
 					background-position-y: 60% !important;
 				}

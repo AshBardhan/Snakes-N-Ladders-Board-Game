@@ -238,7 +238,9 @@
 
 .player-message {
 	position: absolute;
-	top: 65px;
+	bottom: 0;
+	transform: translateY(100%);
+	font-size: 80%;
 	.text-shadow;
 }
 
@@ -298,88 +300,123 @@
 }
 
 .score-board {
-	padding: @padding-large;
+	display: flex;
+	align-items: center;
+	padding: 0 @padding-large;
 	position: relative;
 	color: #fff;
-	border-radius: 10px;
+	border-radius: 8px;
 	font-size: 30px;
-	margin: 0 0 2 * @margin-xxlarge @margin-medium;
+	height: 60px;
+
 	.game-player {
-		width: 140px;
-		height: 140px;
-		border: 6px solid;
-		top: -45px;
+		width: 120px;
+		height: 120px;
+		border: 5px solid;
+		top: 50%;
+		transform: translateY(-50%);
+
 		.player-avatar {
 			background-position-y: 60% !important;
 		}
 	}
 }
 
+.score-sheet {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 100%;
+
+	span:last-child {
+		font-size: 150%;
+	}
+}
+
 .dice-box {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 5px;
 	height: 130px;
-	.dice-show {
-		width: 100px;
-		height: 70px;
-		margin: @margin-medium auto;
-		border: 2px solid;
-		border-radius: 5px;
+}
+
+.dice-show {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100px;
+	height: 70px;
+	border: 2px solid;
+	border-radius: 5px;
+	background-color: @bg-color-white;
+
+	&.animate {
+		background: url('../images/gifs/rolling-dice.gif') no-repeat center;
+		background-size: contain;
 		background-color: @bg-color-white;
-		&.animate {
-			background: url('../images/gifs/rolling-dice.gif') no-repeat center;
-			background-size: contain;
-			background-color: @bg-color-white;
-		}
-		.message {
-			font-size: 40px;
-			line-height: 50px;
-			padding: @padding-medium;
-			.text-white;
-			.text-center;
+	}
+
+	.message {
+		font-size: 40px;
+		.text-white;
+	}
+}
+
+.dice-button {
+	font-size: 40px;
+	.text-button;
+	.text-center;
+	.button {
+		.display-inline;
+		cursor: pointer;
+	}
+
+	&:not([disabled]) {
+		.button:hover {
+			.zoom-text;
 		}
 	}
-	.dice-button {
-		font-size: 40px;
-		.text-button;
-		.text-center;
+
+	&[disabled],
+	&.disabled {
 		.button {
-			.display-inline;
-			cursor: pointer;
-		}
-
-		&:not([disabled]) {
-			.button:hover {
-				.zoom-text;
-			}
-		}
-
-		&[disabled],
-		&.disabled {
-			.button {
-				color: @text-color-button-disabled;
-			}
+			color: @text-color-button-disabled;
 		}
 	}
 }
 
 .score-box {
 	margin-top: @margin-large;
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+
 	.score-board {
 		&:nth-of-type(odd) {
-			.text-right;
+			.score-sheet {
+				flex-direction: row;
+				margin-left: 130px;
+			}
 			.game-player {
 				left: 5px;
 			}
 			.player-message {
-				left: 155px;
+				left: 145px;
 			}
 		}
 		&:nth-of-type(even) {
-			.text-left;
+			.score-sheet {
+				flex-direction: row-reverse;
+				margin-right: 130px;
+			}
 			.game-player {
 				right: 5px;
 			}
 			.player-message {
-				right: 155px;
+				right: 145px;
 			}
 		}
 	}

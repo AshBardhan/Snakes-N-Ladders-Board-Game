@@ -24,6 +24,7 @@ angular.module('gameApp').component('playGame', {
 				ctrl.isDiceRolling = false;
 				ctrl.isPlayerMoving = false;
 				ctrl.currentPlayer = 0;
+				ctrl.previousPlayer = -1;
 				ctrl.interactedPlayer = -1;
 				ctrl.isLadderHit = false;
 				ctrl.isSnakeBite = false;
@@ -232,6 +233,16 @@ angular.module('gameApp').component('playGame', {
 				});
 			};
 
+			ctrl.getDiceClass = function () {
+				if (ctrl.isDiceRolling) {
+					return 'animate';
+				}
+				if (ctrl.previousPlayer !== -1 && ctrl.competitors[ctrl.previousPlayer]) {
+					return 'bkgrnd-' + ctrl.competitors[ctrl.previousPlayer].id;
+				}
+				return '';
+			};
+
 			ctrl.setGamePlayCountdown = function () {
 				ctrl.count = 10;
 				(function loop() {
@@ -258,20 +269,23 @@ angular.module('gameApp').component('playGame', {
 				<div class="boxes">
 					<div class="box half-box">
 						<div class="dice-box">
-							<div class="dice-show" ng-class="{'animate': $ctrl.isDiceRolling}">
-							<div class="message" ng-hide="$ctrl.isDiceRolling" ng-class="'bkgrnd-' + $ctrl.competitors[$ctrl.previousPlayer].id">{{ $ctrl.dice || '' }}</div>
+							<div class="dice-show" ng-class="$ctrl.getDiceClass()">
+								<div class="message" ng-hide="$ctrl.isDiceRolling">{{ $ctrl.dice || '' }}</div>
 							</div>
 							<div class="dice-button" ng-click="$ctrl.isPlayerMoving || $ctrl.isDiceRolling || $ctrl.rollDice()" ng-disabled="$ctrl.isPlayerMoving || $ctrl.isDiceRolling" ng-class="{'disabled': !$ctrl.competitors[$ctrl.currentPlayer].isYours || $ctrl.isPlayerWinner($ctrl.currentPlayer)}">
 								<div class="button">Roll Dice</div>
 							</div>
 						</div>
 						<div class="mini-score-box">
-						<div class="mini-score-board" ng-repeat="player in $ctrl.competitors" ng-class="'bkgrnd-' + player.id" type="{{ player.id }}">
-							{{ player.name }}
-							<div class="game-player" type="{{ player.id }}">
-								<div class="player-avatar" type="{{ $ctrl.playerEmotion($index) }}"></div>
-							</div>
-							<div class="player-message" ng-class="'text-color-' + player.id" ng-show="$ctrl.currentPlayer === $index || $ctrl.isPlayerWinner($ctrl.currentPlayer)">{{ player.message }}</div>
+							<div class="mini-score-board" ng-repeat="player in $ctrl.competitors" ng-class="'bkgrnd-' + player.id" type="{{ player.id }}">
+								<div class="score-sheet">
+									<span>{{ player.name }}</span>
+									<span>{{ player.position + 1 }}</span>
+								</div>
+								<div class="game-player" type="{{ player.id }}">
+									<div class="player-avatar" type="{{ $ctrl.playerEmotion($index) }}"></div>
+								</div>
+								<div class="player-message" ng-class="'text-color-' + player.id" ng-show="$ctrl.currentPlayer === $index || $ctrl.isPlayerWinner($ctrl.currentPlayer)">{{ player.message }}</div>
 							</div>
 						</div>
 						<div class="game-board">
@@ -283,20 +297,23 @@ angular.module('gameApp').component('playGame', {
 					</div>
 					<div class="game-score box half-box">
 						<div class="dice-box">
-							<div class="dice-show" ng-class="{'animate': $ctrl.isDiceRolling}">
-							<div class="message" ng-hide="$ctrl.isDiceRolling" ng-class="'bkgrnd-' + $ctrl.competitors[$ctrl.previousPlayer].id">{{ $ctrl.dice || '' }}</div>
+							<div class="dice-show" ng-class="$ctrl.getDiceClass()">
+								<div class="message" ng-hide="$ctrl.isDiceRolling">{{ $ctrl.dice || '' }}</div>
 							</div>
 							<div class="dice-button" ng-click="$ctrl.isPlayerMoving || $ctrl.isDiceRolling || $ctrl.rollDice()" ng-disabled="$ctrl.isPlayerMoving || $ctrl.isDiceRolling" ng-class="{'disabled': !$ctrl.competitors[$ctrl.currentPlayer].isYours || $ctrl.isPlayerWinner($ctrl.currentPlayer)}">
 								<div class="button">Roll Dice</div>
 							</div>
 						</div>
 						<div class="score-box">
-						<div class="score-board" ng-repeat="player in $ctrl.competitors" ng-class="'bkgrnd-' + player.id" type="{{ player.id }}">
-							{{ player.name }}
-							<div class="game-player" type="{{ player.id }}">
-								<div class="player-avatar" type="{{ $ctrl.playerEmotion($index) }}"></div>
-							</div>
-							<div class="player-message" ng-class="'text-color-' + player.id" ng-show="$ctrl.currentPlayer === $index || $ctrl.isPlayerWinner($ctrl.currentPlayer)">{{ player.message }}</div>
+							<div class="score-board" ng-repeat="player in $ctrl.competitors" ng-class="'bkgrnd-' + player.id" type="{{ player.id }}">
+								<div class="score-sheet">
+									<span>{{ player.name }}</span>
+									<span>{{ player.position + 1 }}</span>
+								</div>
+								<div class="game-player" type="{{ player.id }}">
+									<div class="player-avatar" type="{{ $ctrl.playerEmotion($index) }}"></div>
+								</div>
+								<div class="player-message" ng-class="'text-color-' + player.id" ng-show="$ctrl.currentPlayer === $index || $ctrl.isPlayerWinner($ctrl.currentPlayer)">{{ player.message }}</div>
 							</div>
 						</div>
 					</div>
