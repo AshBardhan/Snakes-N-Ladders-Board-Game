@@ -4,7 +4,7 @@
 	}
 
 	.game-select-box {
-		margin-bottom: @margin-large;
+		margin-bottom: @spacing-large;
 		input[type='text'] {
 			font-size: 20px;
 			width: 350px;
@@ -25,7 +25,7 @@
 	}
 
 	.continue-button {
-		margin: @margin-xxlarge 0;
+		margin: @spacing-xxlarge 0;
 		font-size: 50px;
 	}
 
@@ -46,6 +46,7 @@
 	}
 
 	#game-box .box.half-box:first-child {
+		width: 100%;
 		.dice-box {
 			display: flex;
 		}
@@ -55,12 +56,12 @@
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
 		gap: 20px 10px;
-		margin: @margin-large 0;
+		margin: @spacing-large 0;
 
 		.mini-score-board {
 			border-radius: 4px;
 			position: relative;
-			padding: 0 @padding-medium;
+			padding: 0 @spacing-medium;
 			font-size: 12px;
 			.text-white;
 

@@ -13,12 +13,12 @@ body {
 	font-family: Impact, sans-serif;
 	font-size: @font-size-base;
 	height: 100vh;
-	padding: @padding-medium;
+	padding: @spacing-medium;
 }
 
 h1 {
 	font-size: @font-size-xlarge;
-	margin-bottom: @margin-base;
+	margin-bottom: @spacing-base;
 	font-weight: 400;
 }
 
@@ -172,7 +172,7 @@ img {
 }
 
 .row {
-	margin: @margin-medium 0;
+	margin: @spacing-medium 0;
 }
 
 .err-txt {
@@ -191,8 +191,8 @@ img {
 
 .description {
 	text-align: @text-center;
-	margin-top: @margin-medium;
-	margin-bottom: @margin-medium;
+	margin-top: @spacing-medium;
+	margin-bottom: @spacing-medium;
 	line-height: @line-height-small;
 	&.jstfy {
 		text-align: @text-justify;
@@ -201,7 +201,7 @@ img {
 		text-align: @text-left;
 	}
 	a {
-		margin: 0 @margin-base;
+		margin: 0 @spacing-base;
 	}
 }
 
@@ -316,11 +316,11 @@ img {
 ol {
 	font-size: @font-size-small;
 	counter-reset: item;
-	padding-left: @padding-medium;
+	padding-left: @spacing-medium;
 	font-weight: @font-bold;
 	> li {
 		display: block;
-		margin: @margin-base 0;
+		margin: @spacing-base 0;
 		&:before {
 			content: counters(item, '.') ' ';
 			counter-increment: item;
@@ -335,7 +335,7 @@ ol {
 ul {
 	font-weight: @font-normal;
 	&.feature {
-		padding-left: @padding-xlarge;
+		padding-left: @spacing-xlarge;
 	}
 	&.alpha {
 		list-style-type: lower-alpha;
@@ -343,11 +343,6 @@ ul {
 	&.roman {
 		list-style-type: lower-roman;
 	}
-}
-
-//Padding Rules
-.pad0 {
-	padding: 0;
 }
 
 .text-color-p-1 {
