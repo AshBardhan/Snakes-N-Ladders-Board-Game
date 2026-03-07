@@ -28,6 +28,7 @@ angular.module('gameApp').component('playGame', {
 				ctrl.interactedPlayer = -1;
 				ctrl.isLadderHit = false;
 				ctrl.isSnakeBite = false;
+				ctrl.countdownTimeout = null;
 				ctrl.competitors = [];
 				ctrl.snakes = [
 					[31, 32, 27, 13, 14, 5],
@@ -54,7 +55,7 @@ angular.module('gameApp').component('playGame', {
 
 				ctrl.findCompetitors();
 				ctrl.initializeCompetitors();
-				ctrl.setGamePlayCountdown();
+				ctrl.setCountdown();
 
 				socket.on('dice', function (data) {
 					if (data.gameID === ctrl.gameID && !ctrl.competitors[data.index].isYours) {
@@ -191,19 +192,38 @@ angular.module('gameApp').component('playGame', {
 					ctrl.currentPlayer = (ctrl.currentPlayer + 1) % ctrl.competitors.length;
 				}
 				console.log(`turn to player -> ${ctrl.currentPlayer}`);
-				ctrl.setGamePlayCountdown();
+				ctrl.setCountdown();
+			};
+
+			ctrl.cancelCountdown = function () {
+				if (ctrl.countdownTimeout) {
+					$timeout.cancel(ctrl.countdownTimeout);
+					ctrl.countdownTimeout = null;
+				}
+				ctrl.count = -1;
 			};
 
 			ctrl.diceMove = function () {
 				ctrl.previousPlayer = ctrl.currentPlayer;
 				ctrl.isDiceRolling = true;
-				ctrl.count = -1;
+				ctrl.cancelCountdown();
 				$timeout(function () {
 					ctrl.isDiceRolling = false;
 					ctrl.movePlayer();
 				}, 2000).then(function () {
 					ctrl.switchDicePlayer();
 				});
+			};
+
+			ctrl.isDiceDisabled = function () {
+				return ctrl.isPlayerMoving || ctrl.isDiceRolling;
+			};
+
+			ctrl.handleDiceClick = function () {
+				if (ctrl.isDiceDisabled()) {
+					return;
+				}
+				ctrl.rollDice();
 			};
 
 			ctrl.rollDice = function () {
@@ -243,12 +263,15 @@ angular.module('gameApp').component('playGame', {
 				return '';
 			};
 
-			ctrl.setGamePlayCountdown = function () {
+			ctrl.setCountdown = function () {
+				// Cancel any existing countdown before starting new one
+				ctrl.cancelCountdown();
+
 				ctrl.count = 10;
 				(function loop() {
 					if (ctrl.count > 0) {
 						ctrl.count -= 1;
-						$timeout(loop, 1000);
+						ctrl.countdownTimeout = $timeout(loop, 1000);
 					} else if (ctrl.count === 0) {
 						if (ctrl.competitors[ctrl.currentPlayer].isYours) {
 							ctrl.rollDice();
@@ -272,12 +295,15 @@ angular.module('gameApp').component('playGame', {
 							<div class="dice-show" ng-class="$ctrl.getDiceClass()">
 								<div class="message" ng-hide="$ctrl.isDiceRolling">{{ $ctrl.dice || '' }}</div>
 							</div>
-							<div class="dice-button" ng-click="$ctrl.isPlayerMoving || $ctrl.isDiceRolling || $ctrl.rollDice()" ng-disabled="$ctrl.isPlayerMoving || $ctrl.isDiceRolling" ng-class="{'disabled': !$ctrl.competitors[$ctrl.currentPlayer].isYours || $ctrl.isPlayerWinner($ctrl.currentPlayer)}">
+							<div class="dice-button" ng-click="$ctrl.handleDiceClick()"
+								ng-disabled="$ctrl.isDiceDisabled()"
+								ng-class="{'disabled': !$ctrl.competitors[$ctrl.currentPlayer].isYours || $ctrl.isPlayerWinner($ctrl.currentPlayer)}">
 								<div class="button">Roll Dice</div>
 							</div>
 						</div>
 						<div class="mini-score-box">
-							<div class="mini-score-board" ng-repeat="player in $ctrl.competitors" ng-class="'bkgrnd-' + player.id" type="{{ player.id }}">
+							<div class="mini-score-board" ng-repeat="player in $ctrl.competitors"
+								ng-class="'bkgrnd-' + player.id" type="{{ player.id }}">
 								<div class="score-sheet">
 									<span>{{ player.name }}</span>
 									<span>{{ player.position + 1 }}</span>
@@ -285,12 +311,16 @@ angular.module('gameApp').component('playGame', {
 								<div class="game-player" type="{{ player.id }}">
 									<div class="player-avatar" type="{{ $ctrl.playerEmotion($index) }}"></div>
 								</div>
-								<div class="player-message" ng-class="'text-color-' + player.id" ng-show="$ctrl.currentPlayer === $index || $ctrl.isPlayerWinner($ctrl.currentPlayer)">{{ player.message }}</div>
+								<div class="player-message" ng-class="'text-color-' + player.id"
+									ng-show="$ctrl.currentPlayer === $index || $ctrl.isPlayerWinner($ctrl.currentPlayer)">
+									{{ player.message }}
+								</div>
 							</div>
 						</div>
 						<div class="game-board">
 							<img src="../images/boards/snakes-and-ladders-board.jpg">
-							<div class="game-player" ng-repeat="player in $ctrl.competitors" type="{{ player.id }}" ng-style="$ctrl.setPlayerPosition($index)">
+							<div class="game-player" ng-repeat="player in $ctrl.competitors"
+								type="{{ player.id }}" ng-style="$ctrl.setPlayerPosition($index)">
 								<div class="player-avatar" type="{{ $ctrl.playerEmotion($index) }}"></div>
 							</div>
 						</div>
@@ -300,12 +330,15 @@ angular.module('gameApp').component('playGame', {
 							<div class="dice-show" ng-class="$ctrl.getDiceClass()">
 								<div class="message" ng-hide="$ctrl.isDiceRolling">{{ $ctrl.dice || '' }}</div>
 							</div>
-							<div class="dice-button" ng-click="$ctrl.isPlayerMoving || $ctrl.isDiceRolling || $ctrl.rollDice()" ng-disabled="$ctrl.isPlayerMoving || $ctrl.isDiceRolling" ng-class="{'disabled': !$ctrl.competitors[$ctrl.currentPlayer].isYours || $ctrl.isPlayerWinner($ctrl.currentPlayer)}">
+							<div class="dice-button" ng-click="$ctrl.handleDiceClick()"
+								ng-disabled="$ctrl.isDiceDisabled()"
+								ng-class="{'disabled': !$ctrl.competitors[$ctrl.currentPlayer].isYours || $ctrl.isPlayerWinner($ctrl.currentPlayer)}">
 								<div class="button">Roll Dice</div>
 							</div>
 						</div>
 						<div class="score-box">
-							<div class="score-board" ng-repeat="player in $ctrl.competitors" ng-class="'bkgrnd-' + player.id" type="{{ player.id }}">
+							<div class="score-board" ng-repeat="player in $ctrl.competitors"
+								ng-class="'bkgrnd-' + player.id" type="{{ player.id }}">
 								<div class="score-sheet">
 									<span>{{ player.name }}</span>
 									<span>{{ player.position + 1 }}</span>
@@ -313,7 +346,10 @@ angular.module('gameApp').component('playGame', {
 								<div class="game-player" type="{{ player.id }}">
 									<div class="player-avatar" type="{{ $ctrl.playerEmotion($index) }}"></div>
 								</div>
-								<div class="player-message" ng-class="'text-color-' + player.id" ng-show="$ctrl.currentPlayer === $index || $ctrl.isPlayerWinner($ctrl.currentPlayer)">{{ player.message }}</div>
+								<div class="player-message" ng-class="'text-color-' + player.id"
+									ng-show="$ctrl.currentPlayer === $index || $ctrl.isPlayerWinner($ctrl.currentPlayer)">
+									{{ player.message }}
+								</div>
 							</div>
 						</div>
 					</div>
