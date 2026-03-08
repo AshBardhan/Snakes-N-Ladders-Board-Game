@@ -218,7 +218,9 @@ angular.module('gameApp').component('playerSelect', {
 						ng-hide="player.isHidden" 
 						ng-class="{'selected': player.selected, 'disabled': $ctrl.isNotYourPlayer(player)}">
 						<div class="game-player" type="{{player.id}}">
-							<div class="player-who" ng-show="player.selected">{{ player.isYours ? 'YOUR ' : 'RIVAL ' }} CHOICE</div>
+							<div class="player-who" ng-show="player.selected">
+								{{ player.isYours ? 'YOUR ' : 'RIVAL ' }} CHOICE
+							</div>
 							<div class="player-record">
 								<div class="rec">{{ player.played > 0 ? (player.won / player.played * 100).toFixed(2) : '0.00' }} %</div>
 								<div class="title">WINS</div>
