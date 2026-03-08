@@ -36,70 +36,88 @@
 	.section-title {
 		font-size: 60px !important;
 	}
+}
 
-	.continue-button .box.half-box {
-		font-size: 40px;
+/* New Responsive Layout - Mobile/Tablet (below 1280px) */
+@media screen and (max-width: 1024px) {
+	.game-container-new {
+		flex-direction: column;
+		gap: 40px;
+		padding: @spacing-large;
 	}
 
-	#game-box .box.half-box:last-child {
-		display: none;
+	.game-board-section {
+		order: 2;
+		max-width: 500px;
 	}
 
-	#game-box .box.half-box:first-child {
-		width: 100%;
-		.dice-box {
-			display: flex;
+	.score-board-section {
+		order: 1;
+		max-width: 500px;
+		gap: @spacing-medium;
+	}
+
+	.dice-box {
+		height: 100px;
+	}
+
+	.dice-show {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 80px;
+		height: 50px;
+
+		.message {
+			font-size: 30px;
+			.text-white;
 		}
 	}
 
-	.mini-score-box {
-		display: grid;
+	.dice-button {
+		font-size: 24px;
+	}
+
+	.score-box {
 		grid-template-columns: repeat(2, 1fr);
 		gap: 20px 10px;
-		margin: @spacing-large 0;
+	}
 
-		.mini-score-board {
-			border-radius: 4px;
-			position: relative;
-			padding: 0 @spacing-medium;
-			font-size: 12px;
-			.text-white;
+	.score-board {
+		height: 20px;
+		font-size: 12px;
+		border-radius: 4px;
+		padding: 0 10px;
 
-			&:nth-child(odd) {
-				.score-sheet {
-					flex-direction: row;
-					margin-left: 30px;
-				}
-				.game-player {
-					left: 5px;
-				}
-				.player-message {
-					left: 40px;
-				}
+		.game-player {
+			width: 30px;
+			height: 30px;
+			border-width: 3px;
+		}
+
+		&:nth-of-type(odd) {
+			.score-sheet {
+				flex-direction: row;
+				margin-left: 30px;
 			}
-
-			&:nth-child(even) {
-				.score-sheet {
-					flex-direction: row-reverse;
-					margin-right: 30px;
-				}
-				.game-player {
-					right: 5px;
-				}
-				.player-message {
-					right: 40px;
-				}
-			}
-
 			.game-player {
-				width: 30px;
-				height: 30px;
-				top: 50%;
-				transform: translateY(-50%);
+				left: 2px;
+			}
+			.player-message {
+				left: 40px;
+			}
+		}
 
-				.player-avatar {
-					background-position-y: 60% !important;
-				}
+		&:nth-of-type(even) {
+			.score-sheet {
+				flex-direction: row-reverse;
+				margin-right: 30px;
+			}
+			.game-player {
+				right: 2px;
+			}
+			.player-message {
+				right: 40px;
 			}
 		}
 	}

@@ -289,34 +289,8 @@ angular.module('gameApp').component('playGame', {
 	},
 	template: `
 			<div id="game-box">
-				<div class="boxes">
-					<div class="box half-box">
-						<div class="dice-box">
-							<div class="dice-show" ng-class="$ctrl.getDiceClass()">
-								<div class="message" ng-hide="$ctrl.isDiceRolling">{{ $ctrl.dice || '' }}</div>
-							</div>
-							<div class="dice-button" ng-click="$ctrl.handleDiceClick()"
-								ng-disabled="$ctrl.isDiceDisabled()"
-								ng-class="{'disabled': !$ctrl.competitors[$ctrl.currentPlayer].isYours || $ctrl.isPlayerWinner($ctrl.currentPlayer)}">
-								<div class="button">Roll Dice</div>
-							</div>
-						</div>
-						<div class="mini-score-box">
-							<div class="mini-score-board" ng-repeat="player in $ctrl.competitors"
-								ng-class="'bkgrnd-' + player.id" type="{{ player.id }}">
-								<div class="score-sheet">
-									<span>{{ player.name }}</span>
-									<span>{{ player.position + 1 }}</span>
-								</div>
-								<div class="game-player" type="{{ player.id }}">
-									<div class="player-avatar" type="{{ $ctrl.playerEmotion($index) }}"></div>
-								</div>
-								<div class="player-message" ng-class="'text-color-' + player.id"
-									ng-show="$ctrl.currentPlayer === $index || $ctrl.isPlayerWinner($ctrl.currentPlayer)">
-									{{ player.message }}
-								</div>
-							</div>
-						</div>
+				<div class="game-container-new">
+					<div class="game-board-section">
 						<div class="game-board">
 							<img src="../images/boards/snakes-and-ladders-board.jpg">
 							<div class="game-player" ng-repeat="player in $ctrl.competitors"
@@ -325,7 +299,7 @@ angular.module('gameApp').component('playGame', {
 							</div>
 						</div>
 					</div>
-					<div class="game-score box half-box">
+					<div class="score-board-section">
 						<div class="dice-box">
 							<div class="dice-show" ng-class="$ctrl.getDiceClass()">
 								<div class="message" ng-hide="$ctrl.isDiceRolling">{{ $ctrl.dice || '' }}</div>
