@@ -38,22 +38,37 @@
 	}
 }
 
-/* New Responsive Layout - Mobile/Tablet (below 1280px) */
-@media screen and (max-width: 1024px) {
+/* New Responsive Layout - Mobile/Tablet (upto 1000px) */
+@media screen and (max-width: 1000px) {
 	.game-container {
 		flex-direction: column;
-		gap: 40px;
+		max-width: 720px;
+		gap: 30px;
 		padding: @spacing-large;
 	}
 
-	.game-board-section {
+	.game-section--board {
 		order: 2;
-		max-width: 500px;
 	}
 
-	.score-board-section {
+	.game-section--score {
 		order: 1;
-		max-width: 500px;
+	}
+
+	.score-box {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 40px 30px;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.game-container {
+		max-width: 480px;
+		gap: 20px;
+		padding: @spacing-medium;
+	}
+
+	.game-section--score {
 		gap: @spacing-medium;
 	}
 
@@ -62,15 +77,11 @@
 	}
 
 	.dice-show {
-		display: flex;
-		justify-content: center;
-		align-items: center;
 		width: 80px;
 		height: 50px;
 
 		.message {
 			font-size: 30px;
-			.text-white;
 		}
 	}
 
@@ -79,7 +90,6 @@
 	}
 
 	.score-box {
-		grid-template-columns: repeat(2, 1fr);
 		gap: 20px 10px;
 	}
 

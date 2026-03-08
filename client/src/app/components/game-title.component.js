@@ -30,7 +30,8 @@ angular.module('gameApp').component('gameTitle', {
 		settings: '=',
 	},
 	template: `
-			<div id="game-title">
+		<div class="game-container">
+			<div class="game-section">
 				<div class="img-box">
 					<img src="/images/banners/snakes-and-ladders-banner.png" alt="Snakes and Ladders Banner">
 				</div>
@@ -46,5 +47,6 @@ angular.module('gameApp').component('gameTitle', {
 					</div>
 				</div>
 			</div>
-		`,
+		</div>
+	`,
 });

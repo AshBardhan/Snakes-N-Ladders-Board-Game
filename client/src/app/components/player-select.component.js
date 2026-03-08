@@ -205,11 +205,12 @@ angular.module('gameApp').component('playerSelect', {
 		goBackHome: '&',
 	},
 	template: `
-			<div id="player-select">
-				<div class="section-title">
+		<div class="game-container">
+			<div class="game-section">
+				<h2 class="section-title">
 					Select Players
 					<div class="time-count" ng-hide="!$ctrl.gameID">{{ $ctrl.timeCountMessage }}</div>
-				</div>
+				</h2>
 				<div ng-show="!$ctrl.hasPlayersFetched">Loading Players....</div>
 				<div id="playerList" ng-show="$ctrl.hasPlayersFetched && $ctrl.settings.players.length">
 					<div class="player-select-box" 
@@ -227,7 +228,7 @@ angular.module('gameApp').component('playerSelect', {
 							</div>
 							<div class="player-avatar"></div>
 						</div>
-					<div class="player-name" ng-class="'text-color-' + player.id">{{player.name}}</div>
+						<div class="player-name" ng-class="'text-color-' + player.id">{{player.name}}</div>
 					</div>
 					<div class="continue-button" ng-show="$ctrl.canStartGame && !$ctrl.gameID" ng-click="$ctrl.startGame()">
 						<div class="button">Start The Game</div>
@@ -237,5 +238,6 @@ angular.module('gameApp').component('playerSelect', {
 					No players being fetched. Please come back after some time.
 				</div>
 			</div>
-		`,
+		</div>
+	`,
 });

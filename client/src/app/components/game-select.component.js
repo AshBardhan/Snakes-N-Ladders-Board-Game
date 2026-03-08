@@ -75,9 +75,10 @@ angular.module('gameApp').component('gameSelect', {
 		settings: '=',
 	},
 	template: `
-			<div id="game-select">
+		<div class="game-container">
+			<div class="game-section">
 				<div class="game-select-box">
-					<div class="section-title">Create Battle</div>
+					<h2 class="section-title">Create Battle</h2>
 					<div class="create-game-box">
 						<input type="text" ng-model="$ctrl.gameName" name="gameName" placeholder="Enter an unique name" maxlength="20" ng-class="{'loading': $ctrl.isGameLoading}">
 						<div class="continue-button display-inline">
@@ -87,7 +88,7 @@ angular.module('gameApp').component('gameSelect', {
 					</div>
 				</div>
 				<div class="game-select-box">
-					<div class="section-title">Join Battle</div>
+					<h2 class="section-title">Join Battle</h2>
 					<div class="join-game-box">
 						<div class="continue-button text-right"></div>
 						<table id="gameList" ng-show="$ctrl.hasGamesFetched && $ctrl.games.length">
@@ -107,5 +108,6 @@ angular.module('gameApp').component('gameSelect', {
 					</div>
 				</div>
 			</div>
-		`,
+		</div>
+	`,
 });
