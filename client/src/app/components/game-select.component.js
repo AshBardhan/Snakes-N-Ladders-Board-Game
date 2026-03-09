@@ -79,7 +79,7 @@ angular.module('gameApp').component('gameSelect', {
 			<div class="game-section game-section--select">
 				<div>
 					<h2 class="section-title">New Battle</h2>
-					<div class="form-box">
+					<form class="form-box" ng-submit="$ctrl.onSubmitButton()">
 						<div class="input-wrapper">
 							<input type="text" ng-model="$ctrl.gameName" name="gameName" placeholder="Enter an unique name"
 								maxlength="20" ng-class="{'loading': $ctrl.isGameLoading}" />
@@ -87,13 +87,11 @@ angular.module('gameApp').component('gameSelect', {
 								{{ $ctrl.alertMessage }}
 							</div>
 						</div>
-						<button type="button" class="button" ng-click="$ctrl.onSubmitButton()">
-							Create
-						</button>
-					</div>	
+						<button type="submit" class="button">Create</button>
+					</form>	
 				</div>
 				<div>
-					<h2 class="section-title">Battles</h2>
+					<h2 class="section-title">Battle List</h2>
 					<div class="loader-block" ng-show="!$ctrl.hasGamesFetched">
 						Loading Battles...
 					</div>

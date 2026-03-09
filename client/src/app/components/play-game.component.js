@@ -294,7 +294,7 @@ angular.module('gameApp').component('playGame', {
 					<img src="../images/boards/snakes-and-ladders-board.jpg">
 					<div class="game-player" ng-repeat="player in $ctrl.competitors"
 						type="{{ player.id }}" ng-style="$ctrl.setPlayerPosition($index)">
-						<div class="player-avatar" type="{{ $ctrl.playerEmotion($index) }}"></div>
+						<div class="player-avatar" type="{{player.id}}" mood="{{ $ctrl.playerEmotion($index) }}"></div>
 					</div>
 				</div>
 			</div>
@@ -303,11 +303,11 @@ angular.module('gameApp').component('playGame', {
 					<div class="dice-show" ng-class="$ctrl.getDiceClass()">
 						<div class="message" ng-hide="$ctrl.isDiceRolling">{{ $ctrl.dice || '' }}</div>
 					</div>
-					<div class="dice-button" ng-click="$ctrl.handleDiceClick()"
+					<button type="button" class="button" ng-click="$ctrl.handleDiceClick()"
 						ng-disabled="$ctrl.isDiceDisabled()"
 						ng-class="{'disabled': !$ctrl.competitors[$ctrl.currentPlayer].isYours || $ctrl.isPlayerWinner($ctrl.currentPlayer)}">
-						<div class="button">Roll Dice</div>
-					</div>
+						Roll Dice
+					</button>
 				</div>
 				<div class="score-box">
 					<div class="score-board" ng-repeat="player in $ctrl.competitors"
@@ -317,7 +317,7 @@ angular.module('gameApp').component('playGame', {
 							<span>{{ player.position + 1 }}</span>
 						</div>
 						<div class="game-player" type="{{ player.id }}">
-							<div class="player-avatar" type="{{ $ctrl.playerEmotion($index) }}"></div>
+							<div class="player-avatar"  type="{{player.id}}" mood="{{ $ctrl.playerEmotion($index) }}"></div>
 						</div>
 						<div class="player-message" ng-class="'text-color-' + player.id"
 							ng-show="$ctrl.currentPlayer === $index || $ctrl.isPlayerWinner($ctrl.currentPlayer)">
