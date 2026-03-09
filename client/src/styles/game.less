@@ -6,23 +6,45 @@
 	height: 100%;
 }
 
-#game-title {
-	.text-center;
-
-	.img-box {
-		height: 400px;
-	}
-
-	img {
-		width: 100%;
-		max-width: 800px;
-	}
-}
-
 .section-title {
 	margin: @spacing-xxlarge 0;
 	font-size: 75px;
 	.text-center;
+}
+
+.hero-image {
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+.hero-cta {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: @spacing-xxlarge;
+}
+
+.button {
+	display: inline-flex;
+	align-items: center;
+	font-size: 40px;
+	font-family: inherit;
+	outline: none;
+	background-color: transparent;
+	border: none;
+	color: @text-color-button;
+	text-shadow: 2px 2px 5px @text-color-button-shadow;
+	cursor: pointer;
+
+	&:not([disabled]):hover {
+		.zoom-text;
+	}
+
+	&[disabled],
+	&.disabled {
+		color: @text-color-button-disabled;
+	}
 }
 
 .time-count {
@@ -71,11 +93,6 @@
 	.create-game-box .continue-button {
 		width: 150px;
 	}
-	.continue-button {
-		font-size: 45px;
-		margin: 0 0 0 @spacing-large;
-		vertical-align: @text-middle;
-	}
 	&:last-child {
 		border-top: @border-width-thick @border-style-base @border-color-white;
 	}
@@ -91,9 +108,6 @@
 				height: 70px;
 				&:first-child {
 					.text-left;
-				}
-				.continue-button {
-					.text-right;
 				}
 			}
 			&:last-child {
@@ -173,40 +187,10 @@
 	}
 }
 
-.continue-button {
-	height: 100px;
-}
-
 .back-button {
 	position: absolute;
-	font-size: 25px;
 	top: 20px;
 	left: 20px;
-	.text-button;
-	cursor: pointer;
-	.button {
-		.display-inline;
-		&:hover {
-			.zoom-text;
-		}
-	}
-}
-
-.continue-button {
-	.text-center;
-	.text-button;
-	margin: @spacing-xlarge*2 0;
-	font-size: 75px;
-	.button {
-		.display-inline;
-		cursor: pointer;
-		&:hover {
-			.zoom-text;
-		}
-	}
-	.box {
-		font-size: 60px;
-	}
 }
 
 .player-message {
@@ -318,6 +302,12 @@
 
 .game-section {
 	flex: 1;
+}
+
+.game-section--hero {
+	display: flex;
+	flex-direction: column;
+	gap: @spacing-xlarge;
 }
 
 .game-section--board {
@@ -438,29 +428,6 @@
 	.message {
 		font-size: 40px;
 		.text-white;
-	}
-}
-
-.dice-button {
-	font-size: 40px;
-	.text-button;
-	.text-center;
-	.button {
-		.display-inline;
-		cursor: pointer;
-	}
-
-	&:not([disabled]) {
-		.button:hover {
-			.zoom-text;
-		}
-	}
-
-	&[disabled],
-	&.disabled {
-		.button {
-			color: @text-color-button-disabled;
-		}
 	}
 }
 

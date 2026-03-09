@@ -1,20 +1,10 @@
 @media screen and (max-width: @mobile-width) {
-	#game-title {
-		height: 525px;
-	}
-
 	.game-select-box {
 		margin-bottom: @spacing-large;
 		input[type='text'] {
 			font-size: 20px;
 			width: 350px;
 			background-size: 32px;
-		}
-		.create-game-box .continue-button {
-			width: 100px;
-		}
-		.continue-button {
-			font-size: 30px;
 		}
 		table {
 			width: 85%;
@@ -23,23 +13,26 @@
 			}
 		}
 	}
+}
 
-	.continue-button {
-		margin: @spacing-xxlarge 0;
-		font-size: 50px;
+/* New Responsive Layout - Mobile/Tablet (upto 960px) */
+@media screen and (max-width: 960px) {
+	.button {
+		font-size: 30px;
 	}
 
-	#player-select .continue-button {
-		height: 80px;
+	.hero-image {
+		max-width: 600px;
+	}
+
+	.hero-cta {
+		gap: @spacing-large;
 	}
 
 	.section-title {
-		font-size: 60px !important;
+		font-size: 60px;
 	}
-}
 
-/* New Responsive Layout - Mobile/Tablet (upto 1000px) */
-@media screen and (max-width: 1000px) {
 	.game-container {
 		flex-direction: column;
 		max-width: 720px;

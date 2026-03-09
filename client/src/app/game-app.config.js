@@ -20,7 +20,7 @@ app.config([
 		// Route Definitions
 		$routeProvider
 			.when('/', {
-				template: '<game-title settings="settings"></game-title>',
+				template: '<game-hero settings="settings"></game-hero>',
 			})
 			.when('/about', {
 				template: '<game-about settings="settings"></game-about>',
