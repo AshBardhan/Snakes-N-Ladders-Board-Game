@@ -206,36 +206,43 @@ angular.module('gameApp').component('playerSelect', {
 	},
 	template: `
 		<div class="game-container">
-			<div class="game-section">
-				<h2 class="section-title">
-					Select Players
-					<div class="time-count" ng-hide="!$ctrl.gameID">{{ $ctrl.timeCountMessage }}</div>
-				</h2>
-				<div ng-show="!$ctrl.hasPlayersFetched">Loading Players....</div>
-				<div id="playerList" ng-show="$ctrl.hasPlayersFetched && $ctrl.settings.players.length">
-					<div class="player-select-box" 
+			<div class="game-section game-section--setup">
+				<div>
+					<h2 class="section-title">Select Players</h2>
+					<h3 class="section-sub-heading" ng-hide="!$ctrl.gameID">{{ $ctrl.timeCountMessage }}</h3>
+				</div>
+				<div class="loader-block" ng-show="!$ctrl.hasPlayersFetched">
+					Loading Players....
+				</div>
+				<div class="player-select-container" ng-show="$ctrl.hasPlayersFetched && $ctrl.settings.players.length">
+					<div class="player-select-item" 
 						ng-repeat="player in $ctrl.settings.players" 
-						ng-click="$ctrl.selectGamePlayer($index)" 
 						ng-hide="player.isHidden" 
 						ng-class="{'selected': player.selected, 'disabled': $ctrl.isNotYourPlayer(player)}">
-						<div class="game-player" type="{{player.id}}">
+						<div class="game-player" type="{{player.id}}" ng-click="$ctrl.selectGamePlayer($index)" 
+							ng-class="{'selected': player.selected, 'disabled': $ctrl.isNotYourPlayer(player)}">
 							<div class="player-who" ng-show="player.selected">
 								{{ player.isYours ? 'YOUR ' : 'RIVAL ' }} CHOICE
 							</div>
 							<div class="player-record">
-								<div class="rec">{{ player.played > 0 ? (player.won / player.played * 100).toFixed(2) : '0.00' }} %</div>
-								<div class="title">WINS</div>
+								<div class="player-record-value">
+									{{ player.played > 0 ? (player.won / player.played * 100).toFixed(2) : '0' }}%
+								</div>
+								<div class="player-record-key">WINS</div>
 							</div>
-							<div class="player-avatar"></div>
+							<div class="player-avatar" type="{{player.id}}"></div>
 						</div>
 						<div class="player-name" ng-class="'text-color-' + player.id">{{player.name}}</div>
 					</div>
-					<div class="continue-button" ng-show="$ctrl.canStartGame && !$ctrl.gameID" ng-click="$ctrl.startGame()">
-						<div class="button">Start The Game</div>
-					</div>
 				</div>
-				<div id="noPlayerList" ng-show="$ctrl.hasPlayersFetched && !$ctrl.settings.players.length">
-					No players being fetched. Please come back after some time.
+				<button type="button" class="button" ng-click="$ctrl.startGame()"
+					ng-disabled="!$ctrl.canStartGame || $ctrl.gameID"
+					ng-show="$ctrl.hasPlayersFetched && $ctrl.settings.players.length">
+					Start The Game
+				</button>
+				<div class="zero-state-block" ng-show="$ctrl.hasPlayersFetched && !$ctrl.settings.players.length">
+					<h3 class="section-sub-heading">No players being fetched</h3>
+					<p>Please come back after some time.</p>
 				</div>
 			</div>
 		</div>

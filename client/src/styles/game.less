@@ -147,84 +147,10 @@ td {
 	}
 }
 
-.time-count {
-	.text-center;
-	font-size: 30px;
-	.text-button;
-}
-
-.player-select-box {
-	.display-inline;
-	height: 320px;
-	width: 250px;
-	cursor: pointer;
-	&.hide {
-		display: none;
-	}
-	&:hover {
-		.game-player {
-			.player-avatar {
-				opacity: 0.1;
-			}
-			.player-record {
-				visibility: visible;
-				opacity: 1;
-			}
-		}
-	}
-	&.selected {
-		.player-avatar {
-			.bkground-lighter;
-			opacity: 0.1;
-		}
-	}
-	.game-player {
-		margin: 20px auto;
-		position: static;
-		width: 200px;
-		height: 200px;
-		border: 6px solid;
-		.bkground-white;
-		.player-avatar {
-			background-position-y: 60% !important;
-		}
-		.player-who {
-			position: absolute;
-			padding: 40px 0;
-			.text-center;
-			width: inherit;
-			font-size: 50px;
-		}
-		.player-record {
-			visibility: hidden;
-			opacity: 0;
-			.display-transition;
-			position: absolute;
-			width: inherit;
-			.text-center;
-			.bkground-white;
-			border-radius: inherit;
-			padding: @spacing-xxlarge*2 0;
-			.title {
-				font-size: 30px;
-			}
-			.rec {
-				font-size: 50px;
-			}
-		}
-	}
-	.player-name {
-		.text-white;
-		.text-shadow;
-		margin: @spacing-large 0;
-		font-size: 30px;
-	}
-}
-
 .back-button {
 	position: absolute;
-	top: 20px;
-	left: 20px;
+	top: 40px;
+	left: 40px;
 }
 
 .player-message {
@@ -236,78 +162,120 @@ td {
 }
 
 .game-player {
-	box-sizing: content-box;
-	position: absolute;
+	position: relative;
+	width: 120px;
+	height: 120px;
 	border-radius: 50%;
-	border: 3px solid;
+	border: 5px solid;
+	overflow: hidden;
 	&[type='p-1'] {
 		color: @p-1color;
-		.player-avatar {
-			background: url('../images/avatars/avatar-1.png') no-repeat;
-		}
 	}
 	&[type='p-2'] {
 		color: @p-2color;
-		.player-avatar {
-			background: url('../images/avatars/avatar-2.png') no-repeat;
-		}
 	}
 	&[type='p-3'] {
 		color: @p-3color;
-		.player-avatar {
-			background: url('../images/avatars/avatar-3.png') no-repeat;
-		}
 	}
 	&[type='p-4'] {
 		color: @p-4color;
-		.player-avatar {
-			background: url('../images/avatars/avatar-4.png') no-repeat;
-		}
 	}
 	&[type='p-5'] {
 		color: @p-5color;
-		.player-avatar {
-			background: url('../images/avatars/avatar-5.png') no-repeat;
-		}
 	}
 	&[type='p-6'] {
 		color: @p-6color;
-		.player-avatar {
-			background: url('../images/avatars/avatar-6.png') no-repeat;
-		}
 	}
 	&[type='p-7'] {
 		color: @p-7color;
-		.player-avatar {
-			background: url('../images/avatars/avatar-7.png') no-repeat;
-		}
 	}
 	&[type='p-8'] {
 		color: @p-8color;
-		.player-avatar {
-			background: url('../images/avatars/avatar-8.png') no-repeat;
-		}
 	}
 }
 
+.player-who {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	font-size: 30px;
+	background: #fff;
+	opacity: 0.75;
+}
+
+.player-record {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+	line-height: 1;
+	visibility: hidden;
+	opacity: 0;
+	.display-transition;
+	.bkground-white;
+}
+
+.player-record-key {
+	font-size: 20px;
+}
+
+.player-record-value {
+	font-size: 32px;
+}
+
+.player-name {
+	.text-white;
+	.text-shadow;
+}
+
 .player-avatar {
-	height: inherit;
+	height: 100%;
 	background-color: #fff;
 	background-size: 400% !important;
 	background-position-y: 60% !important;
+	background-repeat: no-repeat;
 	border-radius: 50%;
 
-	&[type='normal'] {
+	&[mood='normal'] {
 		background-position-x: 0% !important;
 	}
-	&[type='sad'] {
+	&[mood='sad'] {
 		background-position-x: 33% !important;
 	}
-	&[type='angry'] {
+	&[mood='angry'] {
 		background-position-x: 67% !important;
 	}
-	&[type='happy'] {
+	&[mood='happy'] {
 		background-position-x: 100% !important;
+	}
+	&[type='p-1'] {
+		background-image: url('../images/avatars/avatar-1.png');
+	}
+	&[type='p-2'] {
+		background-image: url('../images/avatars/avatar-2.png');
+	}
+	&[type='p-3'] {
+		background-image: url('../images/avatars/avatar-3.png');
+	}
+	&[type='p-4'] {
+		background-image: url('../images/avatars/avatar-4.png');
+	}
+	&[type='p-5'] {
+		background-image: url('../images/avatars/avatar-5.png');
+	}
+	&[type='p-6'] {
+		background-image: url('../images/avatars/avatar-6.png');
+	}
+	&[type='p-7'] {
+		background-image: url('../images/avatars/avatar-7.png');
+	}
+	&[type='p-8'] {
+		background-image: url('../images/avatars/avatar-8.png');
 	}
 }
 
@@ -361,10 +329,51 @@ td {
 	gap: 20px;
 }
 
+.game-section--setup {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: @spacing-xlarge;
+}
+
 .game-section--board {
 	display: flex;
 	flex-direction: column;
 	gap: @spacing-medium;
+}
+
+.player-select-container {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: @spacing-xlarge;
+}
+
+.player-select-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: @spacing-base;
+
+	.game-player {
+		cursor: pointer;
+
+		&:hover {
+			.player-avatar {
+				opacity: 0.1;
+			}
+			.player-record {
+				visibility: visible;
+				opacity: 1;
+			}
+		}
+		&.selected {
+			.player-avatar {
+				.bkground-lighter;
+				opacity: 0.1;
+			}
+		}
+	}
 }
 
 .game-board {
