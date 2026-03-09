@@ -76,35 +76,48 @@ angular.module('gameApp').component('gameSelect', {
 	},
 	template: `
 		<div class="game-container">
-			<div class="game-section">
-				<div class="game-select-box">
-					<h2 class="section-title">Create Battle</h2>
-					<div class="create-game-box">
-						<input type="text" ng-model="$ctrl.gameName" name="gameName" placeholder="Enter an unique name" maxlength="20" ng-class="{'loading': $ctrl.isGameLoading}">
-						<div class="continue-button display-inline">
-							<div class="button" ng-click="$ctrl.onSubmitButton()">Submit</div>
+			<div class="game-section game-section--select">
+				<div>
+					<h2 class="section-title">New Battle</h2>
+					<div class="form-box">
+						<div class="input-wrapper">
+							<input type="text" ng-model="$ctrl.gameName" name="gameName" placeholder="Enter an unique name"
+								maxlength="20" ng-class="{'loading': $ctrl.isGameLoading}" />
+							<div class="alert-msg" ng-show="$ctrl.alertMessage.length">
+								{{ $ctrl.alertMessage }}
+							</div>
 						</div>
-						<div class="alert-msg" ng-show="$ctrl.alertMessage.length">{{ $ctrl.alertMessage }}</div>
-					</div>
+						<button type="button" class="button" ng-click="$ctrl.onSubmitButton()">
+							Create
+						</button>
+					</div>	
 				</div>
-				<div class="game-select-box">
-					<h2 class="section-title">Join Battle</h2>
-					<div class="join-game-box">
-						<div class="continue-button text-right"></div>
-						<table id="gameList" ng-show="$ctrl.hasGamesFetched && $ctrl.games.length">
+				<div>
+					<h2 class="section-title">Battles</h2>
+					<div class="loader-block" ng-show="!$ctrl.hasGamesFetched">
+						Loading Battles...
+					</div>
+					<div class="table-wrapper" ng-show="$ctrl.hasGamesFetched && $ctrl.games.length">
+						<table>
+							<colgroup>
+								<col style="width: 50%">
+								<col style="width: 20%">
+								<col style="width: 30%">
+							</colgroup>
 							<tr class="game-row" ng-repeat="game in $ctrl.games">
 								<td>{{ game.name }}</td>
-								<td>{{ game.playerCount }}/4 playing</td>
+								<td>{{ game.playerCount }}/4</td>
 								<td>
-									<div class="continue-button">
-										<div class="button" ng-click="$ctrl.joinGame(game._id)">Join</div>
-									</div>
+									<button type="button" class="button button--small" ng-click="$ctrl.joinGame(game._id)">
+										Join
+									</button>
 								</td>
 							</tr>
 						</table>
-						<div id="noGameList" ng-show="!$ctrl.hasGamesFetched || !$ctrl.games.length">
-							No game currently available. Please create a new game or come back after some time.
-						</div>
+					</div>
+					<div class="zero-state-block" ng-show="$ctrl.hasGamesFetched && !$ctrl.games.length">
+						<h3 class="section-sub-heading">No game currently available.</h3>
+						<p>Please create a new game or come back after some time.</p>
 					</div>
 				</div>
 			</div>
