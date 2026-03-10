@@ -1,7 +1,3 @@
-@-ms-viewport {
-	width: auto;
-}
-
 *,
 *::before,
 *::after {
@@ -77,11 +73,6 @@ img {
 	color: @text-color-error;
 }
 
-.text-button {
-	color: @text-color-button;
-	text-shadow: 2px 2px 5px @text-color-button-shadow;
-}
-
 //Text alignment
 .text-center {
 	text-align: center;
@@ -95,15 +86,6 @@ img {
 	text-align: right;
 }
 
-// display property
-.display-inline {
-	display: inline-block;
-}
-
-.display-block {
-	display: block;
-}
-
 //text weight
 .text-bold {
 	font-weight: bold;
@@ -115,81 +97,35 @@ img {
 
 //font size
 .text-xsmall {
-	font-size: @font-size-xsmall;
+	font-size: 0.75em;
 }
 
 .text-small {
-	font-size: @font-size-small;
+	font-size: 0.875em;
 }
 
 .text-base {
-	font-size: @font-size-base;
+	font-size: 1em;
 }
 
 .text-medium {
-	font-size: @font-size-medium;
+	font-size: 1.125em;
 }
 
 .text-large {
-	font-size: @font-size-large;
+	font-size: 1.25em;
 }
 
 .text-xlarge {
-	font-size: @font-size-xlarge;
+	font-size: 1.5em;
+}
+
+.text-xxlarge {
+	font-size: 2em;
 }
 
 .text-shadow {
 	text-shadow: 2px 2px @text-color-shadow;
-}
-
-.hide {
-	display: none;
-}
-
-.row {
-	margin: @spacing-medium 0;
-}
-
-.err-txt {
-	color: @text-color-error;
-	font-size: @font-size-small;
-	white-space: nowrap;
-}
-
-.err-brdr {
-	border: @border-width-base @border-style-base @border-color-error !important;
-}
-
-.brdr-bottom-base {
-	border-bottom: @border-width-base @border-color-light @border-style-base;
-}
-
-.description {
-	text-align: @text-center;
-	margin-top: @spacing-medium;
-	margin-bottom: @spacing-medium;
-	line-height: @line-height-small;
-	&.jstfy {
-		text-align: @text-justify;
-	}
-	&.lft {
-		text-align: @text-left;
-	}
-	a {
-		margin: 0 @spacing-base;
-	}
-}
-
-.block-center {
-	margin: 0 auto;
-}
-
-.main-content {
-	min-height: 600px;
-	> .content {
-		width: @max-width;
-		margin: 0 auto;
-	}
 }
 
 //background color
@@ -267,39 +203,6 @@ img {
 
 .bkground-white {
 	background-color: @bg-color-white;
-}
-
-//Nested Ordered List Style
-ol {
-	font-size: @font-size-small;
-	counter-reset: item;
-	padding-left: @spacing-medium;
-	font-weight: @font-bold;
-	> li {
-		display: block;
-		margin: @spacing-base 0;
-		&:before {
-			content: counters(item, '.') ' ';
-			counter-increment: item;
-		}
-	}
-	&.sub-norm {
-		font-weight: @font-normal;
-	}
-}
-
-//Unordered List Style
-ul {
-	font-weight: @font-normal;
-	&.feature {
-		padding-left: @spacing-xlarge;
-	}
-	&.alpha {
-		list-style-type: lower-alpha;
-	}
-	&.roman {
-		list-style-type: lower-roman;
-	}
 }
 
 .text-color-p-1 {
