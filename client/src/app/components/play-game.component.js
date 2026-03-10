@@ -10,9 +10,21 @@ angular.module('gameApp').component('playGame', {
 		'$timeout',
 		'$interval',
 		'$routeParams',
+		'$window',
+		'$document',
 		'socket',
-		function PlayGameController($location, $timeout, $interval, $routeParams, socket) {
+		function PlayGameController($location, $timeout, $interval, $routeParams, $window, $document, socket) {
 			var ctrl = this;
+
+			// Board dimensions for responsive positioning
+			ctrl.boardWidth = 0;
+			ctrl.boardHeight = 0;
+			ctrl.cellWidth = 0;
+			ctrl.cellHeight = 0;
+			ctrl.borderOffsetX = 0;
+			ctrl.borderOffsetY = 0;
+			ctrl.borderOffsetRatio = 0.025; // 2.5% border on each side
+			ctrl.isBoardLoading = true; // Hide players until board image loads
 
 			ctrl.$onInit = function () {
 				ctrl.gameID = $routeParams.gameID || 0;
@@ -55,7 +67,25 @@ angular.module('gameApp').component('playGame', {
 
 				ctrl.findCompetitors();
 				ctrl.initializeCompetitors();
-				ctrl.setCountdown();
+
+				// Wait for board image to load before calculating dimensions
+				var boardImg = $document[0].querySelector('.game-board img');
+				if (boardImg) {
+					if (boardImg.complete) {
+						ctrl.updateBoardDimensions();
+						ctrl.isBoardLoading = false;
+					} else {
+						angular.element(boardImg).on('load', function () {
+							$timeout(function () {
+								ctrl.updateBoardDimensions();
+								ctrl.isBoardLoading = false;
+							}, 0);
+						});
+					}
+				}
+
+				// Add window resize listener
+				angular.element($window).on('resize', ctrl.handleResize);
 
 				socket.on('dice', function (data) {
 					if (data.gameID === ctrl.gameID && !ctrl.competitors[data.index].isYours) {
@@ -66,6 +96,36 @@ angular.module('gameApp').component('playGame', {
 				});
 			};
 
+			ctrl.$onDestroy = function () {
+				angular.element($window).off('resize', ctrl.handleResize);
+				var boardImg = $document[0].querySelector('.game-board img');
+				if (boardImg) {
+					angular.element(boardImg).off('load');
+				}
+			};
+
+			ctrl.updateBoardDimensions = function () {
+				var boardElement = $document[0].querySelector('.game-board');
+				if (boardElement) {
+					var imageWidth = boardElement.offsetWidth;
+					var imageHeight = boardElement.offsetHeight;
+					var borderWidth = imageWidth * ctrl.borderOffsetRatio;
+					var borderHeight = imageHeight * ctrl.borderOffsetRatio;
+					ctrl.boardWidth = imageWidth - 2 * borderWidth;
+					ctrl.boardHeight = imageHeight - 2 * borderHeight;
+					ctrl.borderOffsetX = borderWidth;
+					ctrl.borderOffsetY = borderHeight;
+					ctrl.cellWidth = ctrl.boardWidth / 10;
+					ctrl.cellHeight = ctrl.boardHeight / 10;
+				}
+			};
+
+			ctrl.handleResize = function () {
+				$timeout(function () {
+					ctrl.updateBoardDimensions();
+				}, 0);
+			};
+
 			ctrl.setPlayerPosition = function (index) {
 				var position = ctrl.competitors[index].position,
 					positionY = parseInt(position / 10),
@@ -74,9 +134,16 @@ angular.module('gameApp').component('playGame', {
 				if (positionY % 2 !== 0) {
 					positionX = 9 - positionX;
 				}
+
+				var translateX = positionX * ctrl.cellWidth;
+				var translateY = -positionY * ctrl.cellHeight;
+				var offsetX = (ctrl.borderOffsetX || 0) + ctrl.cellWidth / 2;
+				var offsetY = (ctrl.borderOffsetY || 0) + ctrl.cellHeight / 2;
+
 				return {
-					left: `${58 * positionX + 25}px`,
-					bottom: `${56 * positionY + 35}px`,
+					left: offsetX + 'px',
+					bottom: offsetY + 'px',
+					transform: 'translate(' + translateX + 'px, ' + translateY + 'px)',
 				};
 			};
 
@@ -290,9 +357,9 @@ angular.module('gameApp').component('playGame', {
 	template: `
 		<div class="game-container">
 			<div class="game-section game-section--board">
-				<div class="game-board">
+				<div class="game-board" ng-class="{'loading': $ctrl.isBoardLoading}">
 					<img src="../images/boards/snakes-and-ladders-board.jpg">
-					<div class="game-player" ng-repeat="player in $ctrl.competitors"
+					<div class="game-player" ng-repeat="player in $ctrl.competitors" ng-if="!$ctrl.isBoardLoading"
 						type="{{ player.id }}" ng-style="$ctrl.setPlayerPosition($index)">
 						<div class="player-avatar" type="{{player.id}}" mood="{{ $ctrl.playerEmotion($index) }}"></div>
 					</div>
